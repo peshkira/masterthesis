@@ -1,32 +1,39 @@
+Content Profiling for Digital Preservation
+
 Abstract
 
 1 Introduction
-1.1 Introduction
+1.1 Introduction (change name)
 1.2 Motivation
 1.3 Problem Statement
 1.4 Aim of the Work
 1.5 Methodological Approach
 1.6 Structure of the Work
 
-2 Related Work
-2.1
-2.2
-2.3 …
+2 Related Work (Digital Preservation & Preservation Planning)
+2.1 … Preservation
+	what is missing, why does pp not work without cp
+2.2 … Analyzing Collections
+2.3 … Tools
+2.4 … QA is missing (open issue)
+2.5 … Observations
 
 3 Collection and Content Profiling
 3.1 Preservation planning
 	overview (what is it, steps, Plato, etc..)
 	the big picture
+	representative set (critical)
 3.2 Collection and Content Profiling
-	what is it,
-	what is needed
-	tools
-	why is it important
+	goals
+	what it is (c3) 
+	jhove (identify, characterize, validate)
+	why is it important (iteration)
+	specification… (representation)
 	...
 3.3 Representative Sets
 3.4 Continuous Profiling (reference the other DA)
 
-4 Use Case - C3PO
+4 C3PO (rename)
 4.1 C3PO in perspective
 	overview, part of scape
 4.2 Architecture
@@ -38,8 +45,14 @@ Abstract
 	continuous profiling
 	input to simulator
 
-5 Summary
-5.1 Summary
-5.2 Next Steps
+5 Use Case (govdoc or webarchive)
+5.1 …
+5.2 … 
 
-6 References
+6 Summary
+6.1 Summary & Contributions
+6.2 Open issues & Next Steps
+
+7 References
+
+tool name: computing clever collection profile 
