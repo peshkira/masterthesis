@@ -1,7 +1,38 @@
 \section{Preservation}
-%what is missing
-%why does pp not work without cp
-%try to invert the big picture and state that cp is the actual thing and pp just does not work without it
+Currently, more and more information is produced in digital form and more and more information has only a digital copy. This has enourmous implications for national and state archives, libraries, scientific institutions and business enterprieses but also the small companies and even private people as they often face data corruption and access problems in the long-term.
+In general, digital preservation (or DP for short) copes with two main problems; preserving content (bit streams) for longer periods of time and ensuring these contents are accessible and understandable in the future. When talking about ``the future'' or ``longer periods of time'' we mean ``as long the content is needed''.
+Of course this view is over simplified and there are many more challenges in digital preservation. From the fundamental technical problems through organizational and social challenges to practical and financial ones.
+
+A good example to picture the problem and challenges in DP is presented in \cite{Lorie:2001:LTP:379437.379726} and in \cite{Rauber:2009:dpchallenges}. Imagine a file created today on a specific physical machine. This file is nothing more than a series of bits shaped in a specific format. In order to access this file in the long term, not only the bits and bytes have to be preserved but also the way of interpreting them (the format specification). This would also require to preserve the programms that can open, render and manipulate the file, which in turn will require the preservation of the dependency libraries and software packages as well as the operating system and the whole environment in which these programms or programm versions run. Failing to preserve only one single part of this chain and the file would be lost (even if the physical bit stream is still in tact).
+
+An overview of the EU DP projects and activities is presented in this report \cite{strodl:2011:dpreport}. Starting in the mid nineties scientists started to recognize that these problems could lead to disasters and thus the need of digital preservation and its importance. By the beginning of the new millenium there were the first initiatives and projects in the EU that started focusing on research topics related to DP aiming the establishment of a community, identification of target groups and transfer of expertise (ERPANET, DELOS, DPE). The first scientific research was focused on topics such as standards, system concepts, selection and appraisal policies and fromat identification. Afterwards more technical and practical approaches were undertaken to research the preservation of simple digital objects such as office documents and images (PLANETS, CASPAR). All this helped the establishment of a solid community and a body of expertise.
+
+Present initiatives include more fundamental research that tries to focus on more complex and interactive objects than simple and documents and data structures. Projects such as LiWA attempt to solve issues related to Web Archiving whereas projects such as TIMBUS and WF4Ever focus on the preservation of business processes and scientific workflows.
+Other projects such as SCAPE build upon the solid framework established in the past and aim to improve the state of the art of DP by developning infrastructure and tools for scalable preservation actions and integrating them with automated policy based preservation planning and preservation watch systems and workflows.
+%what does the future hold
+\subsection{Most Common Approaches}
+% the tools at hand, why are these important, trade offs
+Through the years many tools and procedures were developed in order to preserve digital content. In the literature there are often different names for the same concepts. Here we present the most prominent ones. \newline
+
+\textbf{Bit-Stream Preservation}
+is the concept of copying the bits to a different medium with a different (physical) location. There are many different media, which can store digital data. Some are more stable than others, some are more popular than others. No matter on what type of medium you choose to store your data, CDs, DVDs, HardDrives, etc. it is not guaranteed that the data stream is safe. Through physical damage, bit rot or other disasters, there is a high chance that your digital storage media will fail to reproduce your bit stream. Thus on this lower level your only option would be to copy the streams to a different medium from time to time. This is strategy is often referred to as \textit{refreshing} \cite{Lee:2002:SOTADP}.
+
+However, refreshing the data does not guarantee that it will be accessible in a later point in time as new media are also error prone. Therefore, approaches like LOCKSS (Lots Of Copies Keep Stuff Safe) make use of the distribution of many independent copies. Developed at the Stanford University the LOCKSS approach was implemented in a librarian software system that deploys many low cost copies of persistent web-caches and enables the detection and repairment of damages based on voting in opinion polls \cite{reich2001lpw, Maniatis:2003:PPR:1165389.945451}.
+%eventually say other projects that use LOCKSS (ExLibris, JISC, Hoppla, etc.)
+Following a LOCKSS approach, however, only minimizes the risk of losing data. If there is no effort spent in management of the copies, then it is fairly easy to lose track of the copies. For a software tool this might seem irrelevant but for a private user this is a real issue. Furthermore, even if enough well-managed copies were stored and the data stream was preserved, there is always the issue of software obscolescense and thus failure in the access and interpretation of the stream. \newline
+
+\textbf{Logical Preservation} tries to cope exactly with this problem. In order to preserve not only the bit stream but also to ensure that it can be interpreted in the long-term a conversion or migration approach is used. New operating systems, new software tools or new versions are sometimes incompatible or unable to render and manipulate older formats. To cope with technology changes digital preservation often uses a conversion strategy where the data is migrated to a newer format, that is usually considered to be more stable.
+Logical Preservation is often applied within digital preservation systems and repositories, however it is not to be taken lightly, as it has a lot of trade offs, which have to be considered.
+One downside to migration are the storage costs. Often the target format has a bigger footprint than the original. 
+\newline
+
+\textbf{Emulation}
+
+\subsection{Preservation Planning}
+%what it is
+%what is missing - CP
+	%why does pp not work without cp
+	%try to invert the big picture and state that cp is the actual thing and pp just does not work 	without it
 \section{Analyzing Collections}
 % what is important here
 % meta data, distributions, aggregations, scalability, etc.
