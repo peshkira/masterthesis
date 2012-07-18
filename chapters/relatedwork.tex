@@ -73,7 +73,9 @@ A collection here is defined as a set of digital objects that was created by som
 
 Obviously, to create and analyze such a collection the meta data for each object has to be examined. Meta data is a descriptive information, usually stored within a file, that provides further information about the content and format of the file.
 
-Identification vs. Characterization
+Furthermore, analysis of such a huge content often is done in a manual fashion, which can be a very time-consuming and cumbersome task. It is obvious if there would be tools at hand, such as identification and characterization, data aggregation, filtering, collection splitting, etc., which will automate the process to a certain degree, that this task will be handled much faster and potentially much more efficient. \newline
+
+\textbf{Identification vs. Characterization}
 
 Based on different properties/characteristics a collection can be dubbed homogeneous or heterogeneous. Usually to a user a homogeneous collection would be a set of files that consists only or mostly of objects having the same format. This however, is an oversimplification, which has enourmous side implications for preservation planning.
 
@@ -83,9 +85,7 @@ In a next step, however, characterization is conducted and now there are many mo
 Regarding these characteristics the same collection can be considered to be heterogeneous.
 Obviously, all of this is very important to preservation planning, since different preservation actions produce different results exactly because of such differences.
 
-Thus the question remains, how to identify such important properties that define the homgenity of a collection? Following this train of thought, obviously the format is a very important characteristic, however, it does not cover all cases (as in the example) and many others are important.
-
-
+Thus the question remains, how to identify such important properties that define the homgenity of a collection? Following this train of thought, obviously the format is a very important characteristic, however, it does not cover all cases (as in the example) and many others are important. \newline
 
 % what is important here
 % what is identification, what is characterization.
@@ -94,39 +94,71 @@ Thus the question remains, how to identify such important properties that define
 % some properties are obviously more important than others.
 % is the format ultimate significant property...
 
-\section{Identification \& Characterization Tools}
-There are numerous software projects and tools that are related DP and focus on the field of identification and characterization. In this section we observer some of the most prominent ones. A recent report (created as part of the SCAPE project) summarizes an evaluation framework and the results of the tests of several identification and characterization tools \cite{Knijff:2011it}. It provides a rather good overview of the current state of the art of such tools but concentrates mostly on their identification capabilities. In the report six tools (DROID 6.0, Fido 0.9, Unix File Tool, FITS 0.5 and JHOVE2) were evaluated against 22 criteria among which, the tool interface, its license type, platform dependencies, accuracy of reported results, documentation, etc.
+\textbf{Statistical Data and Aggregation}
+
+As collections in DP are often just too large for a human being to comprehend, obviously the meta data provided by identification and characterization has to be aggregated in some fashion. Furthermore, different statistical information will ease the understanding and stratification of the content into different homogeneous parts. Often simple statistics, such as min, max, avg, sd, etc. provide meaningul information about the current content one has to deal with. Moreover, histogramms and distributions of mimetypes, formats, format version and other properties help to create the bigger picture of the content that is to be preserved. \newline
+
+\textbf{Filtering, Splitting and Representatives}
+
+Once the bigger picture gets clearer the collection can be divided into different (more) homogeneous parts, which will ease the decisions that have to be made regarding their future with respect to DP and PP.
+Another important part would be finding representative sets within the homogeneous content, which forms a better suited common ground for the experimentation phase of the preservation planning process. Finding these small subsets within homogeneous collections is potentially much easier than in heterogeneous context. This problem will be furtherly investigated in later parts of this thesis.
+
+\section{Tools and Meta Data}
+There are numerous software projects and tools that are related to DP and focus on the field of identification and characterization. In this section we observe some of the most prominent ones. A recent report (created as part of the SCAPE project) summarizes an evaluation framework and the results of the tests of several identification and characterization tools \cite{Knijff:2011it}. It provides a rather good overview of the current state of the art of such tools but concentrates mostly on their identification capabilities. In the report six tools (DROID 6.0, Fido 0.9, Unix File Tool, FITS 0.5 and JHOVE2) were evaluated against 22 criteria among which, the tool interface, its license type, platform dependencies, accuracy of reported results, documentation, etc.
 
 Here we summarize the strengths and weaknesses of these and some other tools briefly.
 
-DROID 6.0
+\begin{itemize}
+\item \textbf{DROID 6.0}\newline
+Droid is an identification tool produced by the National Archives, which uses the PRONOM registry and its format signatures and/or file extensions. It provides information about the mimetype, format and format version of a file as long it is in the DROID signature file, which contains the 'magic numbers' of the PRONOM registry. It also outputs a PRONOM Unique Identifier or puid, which can be used to trace the format back into the registry.
+Unfortunately, the registry is not open and its maintanence is slow. However, the tool is very useful and widely used within the DP community.
 
-Apache TIKA
+\item \textbf{Apache TIKA}\newline
+Tika is an open source project from The Apache Software Foundation that is able to extract metadata from files with various formats. It is a stable tool able to identify files by analysing their bitstream and allows the deeper characterization of some of these files.  
 
-FIDO 0.9 
+\item \textbf{FIDO 0.9}\newline
 
-UNIX File Tool
+\item \textbf{UNIX File Tool}\newline
 
-FITS
+\item \textbf{FITS} \newline
+The File Information Tool Set is developed by the Harvard University Library. It wraps common identification and characterization tools as the ones described here and tries to consolidate them and provide a normalized output. By providing basic provenance information for each extracted record it combines the consolidation result and provides a very basic confidence status for the extracted value of each property. This prooves to be helpful for cases where there are uncertainties. The framework is designed to be extended, so that other tools can be also added. The tool seems very helpful, although there are some unstabilities and problematic cases.
 
-JHOVE
+\item \textbf{JHOVE}\newline
+JHOVE is one of the most well-known identification and characterization tools used by the DP community. It is also developed by the Harvard University Library and is able to extract meta data from various formats based on different modules. Probably one of the most valuable features of JHOVE is the ability the check a file for wellformedness and validity against the format specification.
 
-JHOVE 2
+\item \textbf{JHOVE 2}\newline
+JHOVE 2 is a successor project for the JHOVE tool and also provides an extensible architecture for characterization tools and modules. It is developed as an open source tool by the California Digital Library, Portico and Stanford Univeristy. Currently it produces helpful output only for a few types of documents as the different modules are not yet developed.
 
-...
+\end{itemize}
 
+Although this list is not complete, and there are many other tools that are able to extract meta data as well it shows that the current state of the art is able to provide enough meta data that could be used as input for various preservation activities. The tools have their downsides in terms of format coverage and/or performance, but still provide very valuable information.
+Currently there are only a few tools however, that are able to analyze collections. PRONOM ROAR, for example, is able to create a format profile within a repository interface with the help of DROID.
+Various repositories provide basic information as the formats and size of objects, however no further stratification is possible, although the characterization data is present.
 
 % what is present.
 % explain that the tools for different types of contents are there, but no tool does
 % collection profiling
 % scape evaluation of characterisation...
 
-\section{Quality Assurance Gap}
+
+\section{Quality Assurance}
+One of the biggest downsides of all identification and characterization tools is the lack of quality assurance processes. Often there is no way to validate if an extracted measurement value is really representing the truth. This is a huge problem, as it is hard to make assumptions about validity without having a ground truth.
+Some tools such as FITS try to tackle this problem on a very basic level by stating a confidence level in the form of an enumeration (OK, SINGLE\_RESULT, PARTIAL, CONFLICT). It is not perfect, but it provides the user with warnings about potential treats.
+A big problem here is the consolidation. Often tools provide the same measurement for a specific property but the output format is different. This makes it hard for an automatic consolidator to decide if the values are equal or not. Thus the problem of quality assurance depends on external information provided by other processes or even by manual verification. 
+Obviously, this is a hard, tedious and long running process and thus it is (partially) neglected.
+Nonetheless, it is an essential precondition in order to assure correct input data for the analysis.
 % despite the tools there is a big gap
 % tools extract some measures, but there is almost no way, to assure that
 % a measurement is correct
+% often tools extract the same information and represent it in different way, thus providing a conflict - verification is hard...
+% JHove validation, verification
 
 \section{Observations}
+In order to prepare a preservation action plan some prerequisites have to be met. There has to be organizational policies about the management of the content at hand. There has to be a set of objects to preserve that violates these policies. An identification and deep characteriztion process should extract valuable meta data and store it within a repository or in a way, so that it can be accessed. Then the meta data has to be analyzed and aggregated in order to gain insight into the content that is to be preserved. This analysis should allow the stratification of the content into smaller homogeneous partitions. Based on these partitions representative significantly small subsets of objects have to be found. These objects are then used in the preservation planning process for experiments. Depending on the results of the eperiments the planning process produces several preservation alternatives and recommends an action to the planner. This action should be then executed and monitored by a preservation monitor, which act as an agent to provide feedback and close the loop.
+
+From this simplified process a couple of components are missing. A preservation monitor, that scans relevant properties of the world and evaluates their values for changes, eventually notifying users or other agents of interesting events. Such a monitor is currently developed within the SCAPE Project. %TODO cite
+Another crucial part that is missing is a tool able to profile a massive content set and stratify it into smaller homogeneous and managable partitions. If there was such a tool it would provide two main benefits. First easier analysis and content stratification and thus better foundation for planning experiments with reduced bias and second input to a preservation monitor that will be able to create a global profile of content, which would be of great benefit to the DP community.
+
 % summarize, what is going on,
 % what is missing
 % what is the problem of the current state of the art
