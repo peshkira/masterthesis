@@ -124,10 +124,12 @@ All this makes the distribution and maintainability of the application much easi
 
 \section{Representative Sets}
 
-\section{Comparison \& Evaluation}
-
 \section{Future Points of Interest}
-% scalability
-% continious profiling
-% input to simulator
-% ...
+There are many topics that can be handled and implemented in future work. Here we outline some and briefly discuss them:
+\begin {itemize}
+\item \textit{Scalability} is very important as the volumes of data will grow more and more over time. Even though the hardware resources and provided performance also grow over time the issue of scalability is very important. The authors believe that horizontal scalability is the best way to pursue. The current design decisions follow that path. More specifically, future enhancements should include the distributed map-reduce jobs and the caching of specific results, which will enhance the systems responsiveness.
+\item \textit{Continous Profiling} is important as collections change over time. The support for including meta data of new and changed objects as well as adapting the computed aggregations in a easy, fast and scalable fashion is critical for the success of such an application in productuin use. Thus the investigation of the problems that arise with this will be important for future versions of the tool. The Map-Reduce facilities provide a potential solution to such a problem, since it is possible to aggregate new data and reuse old results, which are then just merged as the reduce function is always the same. 
+\item \textit{Input to Digital Preservation Tools}. Monitoring systems and Simulators enhance the preservation planning processes by providing relevant and trustworthy information that is often hard to obtain due to its distribution and by offering simulations and projections of different outcomes based on current decisions and policies. Such systems heavily rely on larger amount of data. An integration with a content profile tool will play an important role for such tools as well as preservation planning activities.
+\item \textit{Representative Sets} are the foundation for unbiased experiments and thus better performing algorithms in terms of speed and effective slection should be the focus of future work as well. 
+\end{itemize}
+
