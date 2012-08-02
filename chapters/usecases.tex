@@ -1,3 +1,88 @@
-\section{Gov Doc}
+\section{Goals and General Information}
+In order to test c3po a large set of files is needed in order to conduct valid experiments.
+For this work we use two sets of data to conduct similar experiments on the same commodity machine. The number of objects in each set is in the order of hundreds of thousands objects with a upper border of one million. This volume is large enough to capture the requirements of many organizations and instituions. However, It is noteworthy, that there are institutions (such as Web Archives) with many millions and even billions of objects. Future work might focus on such use case studies.
+
+The machine used for all the experiments (unless otherwise stated) is a common laptop with a 2.3 GHz Intel Core i5 Processor (2 Cores), 8 GB RAM and a common internal hard drive with 5400 rpm. As c3po is meant to run on a server it is very likely that this configuration is much less capable than the common server used within stakeholding institutions, considering the current trend of hardware technology.
+
+The authors hypothesis is that the processing power as well as the hard drive device would be the limiting factors during data gathering in the following experiments. The  processing of each file alone is a fast operation, however traversing the file system, opening and closing a stream to each file and storing the data to the local harddrive (within the database ) are relative expensive operations. Thus the disk write speed and the processing capacity are of a bigger importance. The RAM capacity will play an important role during analysis as the map-reduce jobs will strongly depend ot that.
+
+The goal of these use cases is to find out the usefulness of the tool in terms of speed, scalability of resources and volume of the data. Also the authors try to find out different filters with c3po in order to partition the file sets in meaningful homogeneous partitions and select representative sample objects for some of these sets.
+
+% how is this going to be validated.
+
+\section{GovDocs1}
+DigitalCorpora.org\footnote{http://digitalcorpora.org} is a website that provides digital corpora for use in computer forensics education and research. The sites offers different file sets, network dumps, disk images and more. For the following experiments we use the GovDocs1 file set, which contains of nearly one million freely-redistributable files that resided in the .gov domain.
+The files are randomly distributed into 1000 directories with up to 1000 files in each directory and can be downloaded at \url{http://digitalcorpora.org/corp/nps/files/govdocs1/}.
+
+\subsection{Data Description}
+Forensic Innovations Inc.\footnote{http://www.forensicinnovations.com/} have provided a simple statistical report that shows some of the important characteristics of the set, which we will try to find out with c3po and provide even more deeper insight. The report can be foind here: \url{http://digitalcorpora.org/corpora/files/govdocs1-simple-statistical-report}. In table \ref{tab:govdoc1_general_info} general information such as file size and volume is summarized, whereas table \ref{tab:govdoc1_content} provides a summary over the content of the different files. Note that the total sum of files in the second table is more than the number of files in the set, meaning that many files are counted twice or even more, which is of course not very helpful for digital preservation activities.
+
+\begin{table}
+\centering
+\begin{tabular}{l || c }
+\hline
+Characteristic & Total \\
+\hline
+\hline
+Nr. Files & 986278 \\
+File Size (KB) & 488658258 \\
+Wrong File Extension & 33917 \\
+Scan Time & 10:12:37 \\
+\hline
+\end{tabular}
+\caption{This table shows the general information of the GovDocs1 data set.}
+\label{tab:govdoc1_general_info}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{l || c }
+\hline
+Content & Total \\
+\hline
+\hline
+  Personal/User Data & 961914\\
+  Text & 727217 \\
+  Document & 539100 \\
+  Hypertext & 467405 \\
+  Graphic Image & 464870 \\
+  Macro/Script &    351781 \\
+  Font & 231275 \\
+  Spreadsheet & 85110\\
+  Program Data  &      41616\\
+  Source Code & 36580 \\
+  Raw Printer Data &  26190 \\
+  Database & 24820 \\
+  Archived Files & 14093 \\
+  Video &  3483 \\
+  Email & 2007 \\
+  N/A  & 882 \\
+  Template & 306\\
+  Program Executable & 277\\
+  Presentation & 222 \\
+  CAD/3D Model & 138 \\
+  Game Data &15\\
+  Sound/Audio & 10 \\
+  Shortcut/Link & 5 \\
+  Library of Functions & 2\\
+  Form & 2 \\
+  Encryption Key  & 1\\
+\hline
+\end{tabular}
+\label{tab:govdoc1_content}
+\caption{This table shows the different content types within the GovDocs1 set as the preliminary data shows.}
+\end{table}
+
+\subsection{Experiment Preparation}
+In order to conduct the experiment all the files have to be characterized with the FITS tool. In order to automate this task, the authors have used a workflow engine developed by the University of Manchester called Taverna\footnote{http://www.taverna.org.uk/}. With the help of Taverna, one can create parallelized workflows that consist of number of small steps and tasks. In this instance, the files were copied via \textit{scp} from a storage server, \textit{FITS} was executed in parallel on each of the files and the output was stored on the experiments machine.
+
+Unfortunately, the current version of FITS (0.6) was not stable for all file types and thus it was unable to produce output for some files. Thus all the experiments conducted on the set are done on a slightly smaller subset consisting of 945746 instead of 986278 files.
+
+\textbf{\textit{Disclaimer}}: Due to the unpredictable behavior of FITS on certain file types the workflow had to be restarted numerous times. Thus it was impossible to capture the real time for characterization. In the following all times intervals that are given are only for the execution of c3po, unless otherwise noted. Thus any comparison with the scan time in the preliminary data should not be taken lightly. Nonetheless, the results provided here, shall give a good overview of what would be possible with a tool such as c3po.
+
+\subsection{Experiment}
+The actual experiment consists of number of steps. First the data is gathered via c3po into a local instance of a Mongo Document store. The time for traversing the file system, parsing the data and storing it to the db is taken into account. The experiment is done with a single thread and with numerous threads to show the performance boost of the parallelization.
+
+In a next step the gathered data is used and analyzed with the c3po web application. Different characteristics and findings are presented as well as some measurement times of the map reduce jobs and further data. The tool is used to partition the content. At the end interesting data for some partitions is provided as well as their profiles.
 
 \section{Web Archive}
