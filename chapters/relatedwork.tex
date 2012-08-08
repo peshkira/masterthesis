@@ -28,7 +28,7 @@ Another more practical downside to migration are the storage costs. Often the ta
 All these and other issues have to be carefully taken into account before choosing such a preservation action.
 \newline
 
-\textbf{Emulation} has the verb 'emulate' in its root, which means to immitate or reproduce.
+\textbf{Emulation} has the verb ``emulate'' in its root, which means to immitate or reproduce.
 In software terms an emulator is a software tool that immitates the behaviour of a (hardware) system/framework (usually an older one) in order to run other (obscolete) tools that are meant to run on the emulated system. Obviously, this approach offers can come in handy in regard of DP.
 In \cite{rothenberg:1999:ensuring} Rothenberg gives an overview of a process for preservation that is based on an emulation process. The author states that not only the data (bit-stream) has to be stored but also the bit stream of the original program, the operating system and all other necessary parts, e.g. dependencies and used libraries. Also a thorough and complete description and specification of the underlying architecture have to be provided in a form that is readable by potential future emulator authors. If these prerequisites are met, an emulator that mimics the specific hardware needed to run the tool can be created.
 Lorie points out in \cite{Lorie:2001:LTP:379437.379726} that the specification of the architecture has to be perfect and complete, which is a immensely difficult task. Another very important argument he makes is the evaluation of such an emulator. Even if all needed input existed and a hypothetical emulator was created, how can its correctnes be proven as no original hardware device exists.
@@ -68,12 +68,16 @@ There is also an external monitoring phase which feeds back important informatio
 
 %what it is, overview, steps, Plato, etc.
 % the big picture
-\section{Analyzing Collections}
+\section{Collections}
 A collection here is defined as a set of digital objects that was created by some process or a user for some specific reason. Whether all digital objects are stored on the same physical location, how they are managed is irrelevant in this context. It is important to keep in mind that a set of digital objects exists and all of its objects are related for some reason.
 
 Obviously, to create and analyze such a collection the meta data for each object has to be examined. Meta data is a descriptive information, usually stored within a file, that provides further information about the content and format of the file.
 
-Furthermore, analysis of such a huge content often is done in a manual fashion, which can be a very time-consuming and cumbersome task. It is obvious if there would be tools at hand, such as identification and characterization, data aggregation, filtering, collection splitting, etc., which will automate the process to a certain degree, that this task will be handled much faster and potentially much more efficient. \newline
+Furthermore, analysis of such a huge content often is done in a manual fashion, which can be a very time-consuming and cumbersome task. It is obvious if there would be tools at hand, such as identification and characterization, data aggregation, filtering, collection splitting, etc., which will automate the process to a certain degree, that this task will be handled much faster and potentially much more efficient. 
+
+It is noteworthy, that content here neither refers to the semantics of the information stored within the digital objects, nor to their visual representation characteristics or anything similar, but solely to the definition of the collection in terms of meta data, such as formats and format-related characteristics.
+
+ For example consider a collection of digital photographs of old newspapers. Here content does not refer to the content of the newspapers, but to the meta data characteristics of the images that comprise the collection. The following paragraphs provide more details on metadata and how this refers to content profiling for preservation planning.\newline
 
 \textbf{Identification vs. Characterization}
 
@@ -157,6 +161,7 @@ Nonetheless, it is an essential precondition in order to assure correct input da
 In order to prepare a preservation action plan some prerequisites have to be met. The following provides a simplified list of steps that would occur in a common digital preservation scenario, usually in the following order: 
 \begin{enumerate}
 \item Organizational policies about the management of the content are created and curated.
+\item A monitoring component is used to observer the policies and operations over the content for violations.
 \item As part of the repository ingest an identification and deep characterization process extracts valuable meta data and stores it within the repository.
 \item A content profile is generated and exported for other tools.
 \item A monitoring component identifies that a certain subset of objects violates the policies and notifies a planning expert for the potential threat.
