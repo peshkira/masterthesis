@@ -27,16 +27,55 @@ The planning tool Plato, developed at the University of Technology in Vienna, im
 However, in its current release the planning tool supports only manual sample records definition and although it assists the planner with integrated characterization tools, it cannot provide higher certainty in the validity of the chosen representatives. It seems that integration with another tool that provides a complete content profile (generated in an automatic fashion) could provide a huge benefit to preservation planners.
 
 \section{Collection \& Content Profiling}
+Content Profiling is a topic that combines two important parts of digital preservation and acts as the glueware, that holds up a digital preservation system in terms of its integrity. On the one side, there are lower level technical procesess, such as characterization, which play an important role not only to preservation planning but to DP in general. These procesess have to deal with single objects (even though, the scale can be very large) and as output they provide information to quality assurance activities and workflows as well as preservation planning. The identity and meta data extracted out of every single digital object is the scaffold that enables many other processes and applications to do their work. Consequently, the tools that provide this data care the responsibility for any subsequent process that relies on this data and its validity.
+On the other side, there is preservation planning, which is a higher level process that deals with sets of objects. As such preservation planning deals with a great deal of data, but is responsible that every single object complies to the requirements of a preservation expert after a preservation action is conducted. The usual size of real world-scenario collection (or set of objetcts) does not allow the test and inspection of every single object before and after each evaluated preservation action. Thus a bigger picture of the content at hand plays an immense role in the choosing of representative samples and implicitly on the decision made by a preservation expert.
+
+In order to ensure that these two different important parts of Digital Preservation fit together and provide a valid and effective outcome, an adaptor is needed that transforms the fine granular output of one process into an aggregated higher level input to the other.
+
+As already mentioned, identification and characterizaion are technical processes that can be conducted in automated fashion. Preservation Planning on the other hand is a process, that can be automated only to a certain extent and will always rely on a human decision. Nonetheless, the degree of automation can be highly improved as the current state of the art is. All this outlines the goals of the content profiling process, which are summarized as follows:
+
+\begin{itemize}
+\item Enable automatic and scalable aggregation of meta data provided by identification and characterization tools.
+\item Create a well-defined, machine readable footprint of the content at hand.
+\item Enable planning experts to analyse and filter content into homogeneous parts based on different characteristics of the content that make sense from use case to use case.
+\end{itemize}
 % goals
 % what is it c3
 % jhove (identify, characterize, validate)
+\subsection{The content profiling process}
+Content profiling consists of three main parts; data harvesting, data aggregation and analysis.
+
+The first part is responsible for parsing the output of the meta data and adapting it to the internal model of the profile tool. Here, special post-processing steps can be applied to each meta data object in order to refine the data. For example, if the tool provides unnormalized data, special actions can be provided, or if there are conflicted values of the same property provided by different sources, data cleanup actions and rules can be executed. These post-processing steps can have huge impact on the final result and thus should not be executed lightly, but only through special configuration steps, done by preservation experts, that understand the source of the meta data, the operations of the identification and characterization tools and the implications of such alterations of the data. Thus, such functionality of the content profiler has to be done in a flexible fashion and has to allow special the configuration that can alter and turn on and off such behavior.
+
+The second step can be done either after the data is parsed, normalized and stored or on demand if the underlying data store provides the necessary facilities. It is responsible to present the big picture of the data in a smaller footprint and structured form, so that other programms and tools can integrate with it. It should provide enough flexibility to understand the data but also a smaller footprint.
+
+The third step is more of a high level feature, that has to be conducted mostly manually by the preservation expert. This means that it will rely on specific desicions and will need the input of a user. Nonetheless it should be automated as much as possible and shall support the user in her decisions.
+
+
+\subsection{Data \& Normalization}
+In order to achieve the goals outliend above, the meta data provided by the characterization tools has to be normalized and should fit into a unified model no matter its origin. For this purpose a simple but flexible domain model has to be created that allows, properties, their measures, provenance information and more to be stored at one place.
+The data structure has to enable efficient aggregation and querying of the data. 
+
+Another important aspect of the data is its validity. Obviously if the data that is provided is valid and of high quality, then the created profiles and the chosen representative sample objects will solely rely on the processes and algorithms involved. If these processes and algorithms are validated and on their terms of high quality, then the result will be a profile that enables unbiased experiments in preservation planning activities. As profiling depends on the meta data and the tools that are able to extract it, it is of great importance that quality assurance is conducted. Unfortunately, the state of the art does not provide many methods of checking the validity of a characterization tool. %cite? qa in characterization?
 % why is it important (iteration of before)
+
+\subsection{Format}
 % specification (representation, xml, rdf)
-%...
+There are numerous ways of representing such a profile. However, from the observations of the previous chapter there are number of goals that it has to fulfill.
+It has to follow a well-defined schema; the profile has to be in a structured, machine readable form as it will act as input to other information systems in the DP landscape.
+Obviously, it has to aggregate the raw data but still provide enough insight into the content at hand. The profile should be able to separate the content based on different characteristics. Here it is important that a user or a user application is able to go one step back and examine the filtering criteria. Finally, the profile should include a small set of representative objects, with their full characteristics and a way to identify all objects in a set or collection that fit into the specified filter. The latter could be done, either via some kind of query or just by a list of objects outlines the identifiers of all selected objects.
+
+\subsection{Integration with DP Systems}
+% integration with other tools, such as repositories and planning tools
+As already stated a content profiler tool can provide benefit to numerous systems and users in a Digital Preservation environment. On the one hand it can act as direct input to Preservation Planning and can spare a planning expert a lot of time defining and outlining a plan. 
+
+On the other hand it supplies the needed facilities to analyse new content ingested within a repository and can act as input to monitoring systems, that can raise alerts if certain problems are detected. For example, an organization should have a policy that defines, which objects have to be preserved and one that defines how many objects of a certain type can exist without a valid plan associated to them. Now consider that each day a great deal of new objects is ingested into the repository of that particular organization. By the end of a certain time period a content prifle is regenerated and a monitoring system obtains and reevaluates this result agains the organizational policies. It will be fairly easy to detect a potential threat and to notify the involved stakeholders and actors in order to resolve it, provided all of these pieces of the puzzle fit together.
+
+Another great deal of the combination of such a content profile and monitoring system can be a global content profile. If enough organizations, such as Web Archives, Libraries, etc. are willing to share the profiles (or parts of them) they have with such a central monitor, the result will most probably be a representative picutre of the global state of the world. Valuable information, such as the number of formats used within a certain domain, the preferred type of files within a user community, the emergence of new file formats, the decline of old file formats and much more can be detected. Provided that enough content-holding institutions are ready to sacrifice a bit of their privacy, the mutual benefit could be something much more valuable.
 
 \section{Representative Sets}
 % what is the problem,
 % how do we create them/find them
-% ...
+
 
 \section{Continuos Profiling}
