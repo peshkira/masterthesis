@@ -111,7 +111,7 @@ Looking at the growth of content within web archives, for example, and their pro
 
 Since this is a problem not only related to digital preservation but to information systems in general, there are many studies for algorithms, technologies and architectures that enable horizontal scalability, i.e. attaching more commodity machines and distributing the payload among them.
 
-Driven by economies of scale and Cloud Computing has played an enormous role in this area by providing a large set of easy to use and access resources, such as hardware, development platforms and services \cite{Vaquero:2008, 4738445}. Distributed Platforms as a Service (PaaS), such as Amazon AWS\footnote{http://aws.amazon.com} and Amazon S3\footnote{http://aws.amazon.com/s3/}, Google App Engine\footnote{https://developers.google.com/appengine/}, Heroku\footnote{http://www.heroku.com}, etc. have proven to be very performance- and cost-effective. Distributed approaches and algorithms, such as Googles Map Reduce \cite{Dean:2008:MSD:1327452.1327492} have found many applications in various fields of computer science. 
+Driven by economies of scale Cloud Computing has played an enormous role in this area by providing a large set of easy to use and access resources, such as hardware, development platforms and services \cite{Vaquero:2008, 4738445}. Distributed Platforms as a Service (PaaS), such as Amazon AWS\footnote{http://aws.amazon.com} and Amazon S3\footnote{http://aws.amazon.com/s3/}, Google App Engine\footnote{https://developers.google.com/appengine/}, Heroku\footnote{http://www.heroku.com}, etc. have proven to be very performance- and cost-effective. Distributed approaches and algorithms, such as Googles Map Reduce \cite{Dean:2008:MSD:1327452.1327492} have found many applications in various fields of computer science. 
 
 Map Reduce is a fairly modern parallelization algorithm for processing large data sets on certain kind of distributable problems. The framework can make use of a large amount of nodes for the computation. It takes as input a set of key/value pairs and produces a set of output key/value pairs. It typically consists of only two functions: map and reduce. In some cases a third finalize function can be used to do some further computation that needs all the results of the reduce steps.
 
@@ -121,29 +121,40 @@ The Reduce function accepts an intermediate key and a list of values associated 
 
 This rather simple approach has been widely accepted by the OpenSource community and was implemented by the Apache Software Foundation in a library called Hadoop\footnote{http://hadoop.apache.org}. The possibility for integration with a BigTable-like Store \cite{Chang:2008:BDS:1365815.1365816} (HBase\footnote{http://hbase.apache.org}) and a distributed file system (HDFS\footnote{http://hadoop.apache.org/docs/hdfs/r0.22.0/hdfs\_design.html}) has enabled many companies to handle the big volumes of data they have. Google was using a similar architecture for its index construction, article clustering and statistical machine translation. Yahoo uses it for spam detection in its mail service and other big corporations use it for data mining, ad optimization and more.
 
-All this implies that analysis of preservation related data should be feasible and cost-effective. Nonetheless, tools nowadays often lack the ability to analyze content on a larger scale, or if they support it, there is a trade off in the analysis depth.
+All this implies that analysis of preservation related data should be feasible and cost-effective. Nonetheless, preservation analysis tools nowadays often lack the ability to analyze content on a larger scale, or if they support it, there is a trade off in the analysis depth. This fact is due to two common worldviews. On the one hand, there is the popular belief that the format is the one property that matters for digital preservation \cite{citeulike:8904907} and that there is no real need to look at many different aspects. On the other hand, the volume of the data is so high, that even the deep characterisation meta data volume can be considerably large, which impends large-scale analysis. These observations of the current state of the art of preservation analysis are visualised in figure \ref{fig:sota_analysis}.
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=3.5in]{figures/related/sota_analysis.png}
+\caption{A visualisation of the current state of the art of preservation analysis tools in relation to the volume of content and the depth of the analysis.}
+\label{fig:sota_analysis}
+\end{center}
+\end{figure}
 
 \section{Tool Support}
 %talk about meta data tool support
 %preservation planning tool support and automation and scalability
 %content profiling/ format profiling tool support
 %repositories, monitoring services
+Due to the rising awareness of digital preservation and the numerous projects conducted in this area in recent years, many existing tools have found new use and many new tools were written from scratch in order to support DP activities. This section provides a short overview of some of the more prominent ones that are related to content profiling.
 
-There are numerous software projects and tools that are related to DP and focus on the field of identification and characterization. In this section we observe some of the most prominent ones. A recent report (created as part of the SCAPE project) summarizes an evaluation framework and the results of the tests of several identification and characterization tools \cite{Knijff:2011it}. It provides a rather good overview of the current state of the art of such tools but concentrates mostly on their identification capabilities. In the report six tools (DROID 6.0, Fido 0.9, Unix File Tool, FITS 0.5 and JHOVE2) were evaluated against 22 criteria among which, the tool interface, its license type, platform dependencies, accuracy of reported results, documentation, etc.
+A recent report (created as part of the SCAPE project) summarizes an evaluation framework and the results of the tests of several identification and characterization tools \cite{Knijff:2011it}. It provides a rather good overview of the current state of the art of such tools but concentrates mostly on their identification capabilities. In the report six tools (DROID 6.0\footnote{http://sourceforge.net/projects/droid/}, FIDO\footnote{https://github.com/openplanets/fido}, Unix File Tool\footnote{http://unixhelp.ed.ac.uk/CGI/man-cgi?file}, FITS\footnote{http://code.google.com/p/fits/} 0.5 and JHOVE2\footnote{https://bitbucket.org/jhove2/main/wiki/Home}) were evaluated against 22 criteria among which, the tool interface, its license type, platform dependencies, accuracy of reported results, documentation, etc. Another recent research conducted by the Natioanal Library of Australia has investigated four file identification tools (File Investigator Engine\footnote{http://www.forensicinnovations.com/fiengine.html}, Outside-In File ID\footnote{http://docs.oracle.com/cd/E16184\_01/dev.837/e12875/title.htm}, FIDO and file) and five metadata extraction tools (File Investigator Engine, Exiftool\footnote{http://owl.phy.queensu.ca/~phil/exiftool/}, MediaInfo\footnote{http://mediainfo.sourceforge.net/en}, pdfinfo\footnote{http://www.foolabs.com/xpdf/download.html} and Apache Tika\footnote{http://tika.apache.org}), some of which commercial. The results of these tests can be found in \cite{NLASP2452}.
 
-Here we summarize the strengths and weaknesses of these and some other tools briefly.
+Here we summarize the strengths and weaknesses of some of these and other tools briefly in order to give an overview of the current state of the art.
 
 \begin{itemize}
 \item \textbf{DROID 6.0}\newline
-Droid is an identification tool produced by the National Archives, which uses the PRONOM\footnote{www.nationalarchives.gov.uk/pronom/} registry and its format signatures and/or file extensions. It provides information about the mimetype, format and format version of a file as long it is in the DROID signature file, which contains the 'magic numbers' of the PRONOM registry. It also outputs a PRONOM Unique Identifier or puid, which can be used to trace the format back into the registry.
+Droid is an identification tool produced by the National Archives, which uses the PRONOM\footnote{http://nationalarchives.gov.uk/pronom/} registry and its format signatures and/or file extensions. It provides information about the mimetype, format and format version of a file as long it is in the DROID signature file, which contains the 'magic numbers' of the PRONOM registry. It also outputs a PRONOM Unique Identifier or puid, which can be used to trace the format back into the registry.
 Unfortunately, the registry is not open and its maintanence is slow. However, the tool is very useful and widely used within the DP community.
 
 \item \textbf{Apache TIKA}\newline
 Tika is an open source project from The Apache Software Foundation that is able to extract metadata from files with various formats. It is a stable tool able to identify files by analysing their bitstream and allows the deeper characterization of some of these files.  
 
-\item \textbf{FIDO 0.9}\newline
+\item \textbf{FIDO}\newline
+FIDO is another identification tool that is a clone of Droid and also uses the PRONOM signature file registry. Although it has numerous glitches, FIDOs performance proves to be 35 times faster than DROID when working on one file at a time.
 
 \item \textbf{UNIX File Tool}\newline
+File is a CLI utility application included in every Unix distribution and first released in 1973. It uses magic numbers to identify files and has been used in DP activities for a long time. It has a very good computational performance and supports large number of formats.
 
 \item \textbf{FITS} \newline
 The File Information Tool Set is developed by the Harvard University Library. It wraps common identification and characterization tools as the ones described here and tries to consolidate them and provide a normalized output. By providing basic provenance information for each extracted record it combines the consolidation result and provides a very basic confidence status for the extracted value of each property. This proves to be helpful for cases where there are uncertainties. The framework is designed to be extended, so that other tools can be also added. The tool seems very helpful, although there are some unstabilities and problematic cases.
@@ -156,20 +167,20 @@ JHOVE 2 is a successor project for the JHOVE tool and also provides an extensibl
 
 \end{itemize}
 
-Although this list is not complete, and there are many other tools that are able to extract meta data as well it shows that the current state of the art is able to provide enough meta data that could be used as input for various preservation activities. The tools have their downsides in terms of format coverage and/or performance, but still provide very valuable information.
+Although this list is not complete, and there are many other tools that are able to extract meta data as well as it shows that the current state of the art is able to provide enough meta data that could be used as input for various preservation activities. The tools have their downsides in terms of format coverage and/or performance, but still provide very valuable information.
 Currently there are only a few tools however, that are able to analyze collections. PRONOM ROAR, for example, is able to create a format profile within a repository interface with the help of DROID.
 Various repositories provide basic information as the formats and size of objects, however no further stratification is possible, although the characterization data is present.
-
+PLATO provides excellent decision making support by utilizing different means, but still handles the content profiling step as a high-level non-automated task, which increases the risk of bias during experimentation and analysis.
+Nonetheless, the means for in-depth analysis on larger-scale are present and seem to be feasible, although there are various issues that still have to be overcome.
 % what is present.
 % explain that the tools for different types of contents are there, but no tool does
 % collection profiling
 % scape evaluation of characterisation...
 
-
-\section{Quality Assurance}
-One of the biggest downsides of all identification and characterization tools is the lack of quality assurance processes. Often there is no way to validate if an extracted measurement value is really representing the truth. This is a huge problem, as it is hard to make assumptions about validity without having a ground truth.
+\section{Quality Assurance of Measures}
+One of the biggest downsides of all identification and characterization tools is the lack of quality assurance processes. Often there is no way to verify if an extracted measurement value is really representing the truth. This is a huge problem, as it is hard to make assumptions about correctness without having a ground truth in the first place.
 Some tools such as FITS try to tackle this problem on a very basic level by stating a confidence level in the form of an enumeration (OK, SINGLE\_RESULT, PARTIAL, CONFLICT). It is not perfect, but it provides the user with warnings about potential threats.
-A big problem here is the consolidation. Often tools provide the same measurement for a specific property but the output format is different. This makes it hard for an automatic consolidator to decide if the values are equal or not. Thus the problem of quality assurance depends on external information provided by other processes or even by manual verification. 
+A big problem here is the consolidation. Often tools provide the same measurement for a specific property but the output format is slightly different. This makes it hard for an automatic consolidator to decide if the values are equal or not. Thus the problem of quality assurance depends on external information provided by other processes or even by manual verification. 
 Clearly, this is a hard, tedious and long running process and thus it is (partially) neglected.
 Nonetheless, it is an essential precondition in order to assure correct input data for the analysis.
 % despite the tools there is a big gap
@@ -183,8 +194,8 @@ Nonetheless, it is an essential precondition in order to assure correct input da
 In order to prepare a preservation action plan some prerequisites have to be met. The following provides a simplified list of steps that would occur in a common digital preservation scenario, usually in the following order: 
 \begin{enumerate}
 \item Organizational policies about the management of the content are created and curated.
-\item A monitoring component is used to observer the policies and operations over the content for violations.
-\item As part of the repository ingest an identification and deep characterization process extracts valuable meta data and stores it within the repository.
+\item A monitoring component is used to observe the policies and operations over the content for violations.
+\item As part of the repository ingest, an identification and deep characterization process extracts valuable meta data and stores it within the repository.
 \item A content profile is generated and exported for other tools.
 \item A monitoring component identifies that a certain subset of objects violates the policies and notifies a planning expert for the potential threat.
 \item A planner uses the content profile, a profiler to analyse and stratify the content into smaller homogeneous partitions as well as identify representative sample objects for the partitions.
@@ -194,10 +205,12 @@ In order to prepare a preservation action plan some prerequisites have to be met
 \item The violation is taken care of and the monitor component continues its work.
 \end{enumerate}
 
-The state of the art provides some of these components and actors in this high-level workflow. Any organization, which is serious about digital preservation has its own set of policies of how to handle different types of content. The problem here is that often such policies are just high-level descriptive statements, which are not structured in any specific form and thus are not machine readable. This makes it almost impossible to use in automated fashion. Also there are numerous repositories that can manage digital objects and extract meta data from them. The planning tool PLATO provides the needed facilities to create an action plan.
+The state of the art provides some of these components and actors in this high-level workflow. Any organization actively doing digital preservation has its own set of policies of how to handle different types of content. The problem here is that often such policies are just high-level descriptive statements, which are not structured in any specific form and thus are not machine readable. This makes it almost impossible to use in automated fashion. Also there are numerous repositories that can manage digital objects and extract meta data from them. 
+
+The planning tool PLATO provides the needed facilities to create an action plan.
 
 However, a couple of components are missing. A preservation monitor, that scans relevant properties of the world and evaluates their values for changes, eventually notifying users or other agents of interesting events. Such a monitor is currently developed within the SCAPE Project (TODO cite).
-Another crucial part that is missing is a tool able to profile a massive content set and stratify it into smaller homogeneous and managable partitions. If there was such a tool it would provide two main benefits. First, easier analysis and content stratification and thus better foundation for planning experiments with reduced bias and second input to a preservation monitor that will be able to create a global profile of content, which would be of great benefit to the DP community.
+Another crucial part that is missing is an method able to profile a massive content set and stratify it into smaller homogeneous and managable partitions. Such a framework would provide two main benefits. First, analysis and content stratification and thus better foundation for planning experiments with reduced bias. And second input to a preservation monitor that will be able to create a global profile of content, which would be of great benefit to the DP community.
 
 % summarize, what is going on,
 % what is missing
