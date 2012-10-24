@@ -22,6 +22,7 @@ Regardless of the origin of the content (web archive, scientific data, personal 
 \end{figure}
 
 \section{Motivation}
+\label{sec:motivation}
 % automation and its importance.
 % concetrate on collection profiling
 % why is it important to know what do we have
@@ -40,6 +41,7 @@ Nonetheless, the current state of the art does not specify a concrete and well-d
 Thus, a specific way of aggregating large amounts of meta data and its multidimensional representation would be of great value. Only with such a content profile efficient preservation planning can be achieved.
 
 \section{Problem Statement}
+\label{sec:problem_statement}
 Very often collection and content profiling is done on a very high level, that
 is often insufficient for a planning process, especially if this process is to be fully automated.
 The current state of the art of content profiling in preservation plans is creating a short description, written by a preservation expert. These descriptions are usualy a very high level assertions, such as: ``The collection contains about 2 million TIFF files''. The profile also contains simple metrics, such as (approximate) collection size, and number of elements as well as the formats identified in the collection. 
@@ -54,6 +56,7 @@ Currently, there is no tool that meets these planning requirements and tries to 
 The rapid data growth introduces even more problems. In the case of web archives for example, much work has to be done in capturing the significant properties of such dynamic content as the World Wide Web, since the harvested content gets outdated almost immediately after the crawl has been done.
 
 \section{Aim Of The Work}
+\label{sec:aim_of_the_work}
 In this thesis we aim to analyze the requirements for such a content profiling process and to create a well-defined approach to generate and represent it, so that it can be used as input to other tools, e.g. preservation planning and preservation monitor components.
 
 This will provide a strong basis for preservation planning experts and processes as well as set the foundation for experiments with reduced bias.
@@ -61,6 +64,7 @@ This will provide a strong basis for preservation planning experts and processes
 The architecture of a software tool that is able to read the characteristics of large amount of files and generate a content profile is to be designed as well as a prototype to be implemented. 
 
 \section{Methodical Approach}
+\label{sec:methodical_approach}
 In a first step a research of the current methods in scientific projects and institutional practices regarding content profiling will be done. Based on this, a short analysis of the existing gap between the idea of content profiling and the actual steps done will be carried out. 
 
 The main part of the thesis will be the creation of a specification and the architecture of a software tool that is able to profile larger amounts of data and produce output conforming to that specification. In the next step, research about applicable algorithms able to find a (representative) subset of a given collection of characterized digital objects will be performed, and a prototype implementation will be created for the content profiling tool. 
@@ -70,4 +74,5 @@ Afterwards a use case study will be conducted, where the produced prototype will
 In the last step an evaluation of the tool and the methods applied will be done and based on it a conclusion will be drawn.
 
 \section{Structure Of The Work}
+\label{sec:structure_of_the_work}
 This thesis is structured as follows: The next chapter offers an overview of digital preservation and preservation planning. The state of the art regarding content profiling is summarized and some observations of the author about the the current related work are discussed. In Chapter 3, a theoretical view of content profiling is presented, where its requirements, issues and open challenges are discussed. Chapter 4 presents the architecture and gives deeper insight into a prototype tool that is designed and implemented as part of this master thesis. The following Chapter 5 describes a use case that was conducted in order to evaluate the tool and draws conclusions about the content profiling approach proposed in this thesis and its implementation. In the last chapter a summary of this thesis is provided as well as the open issues and next steps regarding content profiling that have to be undertaken in future research.
