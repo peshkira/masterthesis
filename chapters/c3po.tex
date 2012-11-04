@@ -1,3 +1,5 @@
+This chapter summarises the goals of the content profiling approach discussed so far and gives a detailed overview of the architecture for a prototype implementation of it. First a high level design is discussed and then detailed explanation of the chosen technology, implementation details, enhancements made and trade-offs is provided. Following some algorithms for representative sample selection that were implemented are presented and discussed. At the end a short summary and overview of future interesting work which will enhance the tool and help preservation experts even more in their endeavours is given.
+
 \section{C3PO in Perspective}
 As part of this thesis, a software prototype is developed that aims to tackle the issues, problems and gaps presented in the previous chapters. The aim is to create a tool that is able to automatically generate a content profile of large collections (consisting of hundreds of thousands, or even millions of objects). This means a framework that provides enough scalability to be feasibly applied on the metadata of collections of multi-terabyte ranges and beyond.
 
@@ -20,11 +22,11 @@ The prototype implementation of the profiling approach is called '\textbf{C}leve
 % part of scape, watch source, etc..
 
 \section{Architecture}
-In this section an overview over the architecture of c3po and its more important aspects are presented. Afterwards, detailed information about the design and implementation is given as well as a discussion of the decisions made is done. The implementation was carried out into two iterations which are presented after the overview.
+In this section an overview of the architecture of c3po and its more important aspects are presented. Afterwards, detailed information about the design and implementation is given as well as a discussion of the decisions made is done. The implementation was carried out into two iterations which are presented after the overview.
 
 \subsection{High Level Overview}
 C3PO is separated into different modules and provides a relatively simple workflow that follows the three steps of content profiling as presented in \cite{petrov-ipres2012} and discussed in section \ref{sec:content_profiling} on page \pageref{sec:content_profiling}. In the first part it gathers raw meta data and parses it in order to normalise it into a simple internal data model. In the next step the data is cleaned up, partially aggregated and stored into an external to the tool database.
-This offers the baseline for the deeper analysis provided by some of the modules.
+This offers the baseline for the deeper analysis provided by some of the modules in a stack diagram which is detailed in the following subsections.
 
 
 \begin{figure}[htb]
@@ -39,15 +41,16 @@ Figure \ref{fig:architecture_highlevel} presents the high level architecture and
 
 \subsubsection{Data Model}
 
-At the bottom there is the domain model module which sits as the foundation of the architecture. It represents a simple model that captures the important aspects of the content meta data in a generic way but still provides the ability to do flexible queries over the data. It consists mainly of elements, properties and values. Elements encapsulate a digital object and capture important information, such as the identifier of an object within its source (e.g. a digital repository), which is important for later access. Properties define characteristics of a given object. These may include information, such as size, format, format version, etc. The values capture measurements of specific properties that are provided by different tools.
+At the bottom there is the domain model module which sits as the foundation of the architecture. It represents a simple model that captures the important aspects of the content meta data in a generic way, but still provides the ability to do flexible queries over the data. It consists mainly of elements, properties and values. Elements encapsulate a digital object and capture important information, such as the identifier of an object within its source (e.g. a digital repository), which is important for later access. Properties define characteristics of a given object. These may include information, such as size, format, format version, etc. The values capture measurements of specific properties that are provided by different tools.
 
 \subsubsection{Core}
-Above the data model is the main part or the core module, which encapsulates the framework that allows the gathering, normalising and aggregation of the data. It not only offers interfaces that allow the extension of the framework, but also provides the glue-ware to create and run the work flow. The core wraps the middle part of the architecture stack diagram and can also be divided into three logical parts:
+Above the data model is the main part or the core module, which encapsulates the framework that allows the gathering, normalising and aggregation of the data. It not only offers interfaces that allow the extension of the framework, but also provides the glue-ware to create and run the work flow.
 
-On top, there is a simple controller, that uses the components below to carry out the work flow. 
+The core wraps the middle part of the architecture stack diagram. It is divided into three logical parts: A controller, sub-components and a persistence layer.
 
-Below that, there are three important sub-components: the Gatherer, the Meta Data Adaptor and the Aggregator component.
-As described in section (TODO cite) the raw meta data of the content can be stored in many different places or sources. For example, it can be provided locally in form of files stored on the local file system, or remotely. The remote source can have many different variations. E.g. there can be a remote ssh server that stores the raw meta data again in file form, or a remote web archive server that stores the meta data in special container files called arc (archive) or warc (web archive) file, but there can be also a remote repository, which not only stores the original content but all the meta data for each object in a different way (internal data store, to its local file system, etc.). The latter represents the most likely use case in a real world digital preservation scenario, however all others are possible as well, not to mention that they are easier to use for experimentation purposes.
+The controller is responsible for chaining the sub components and carrying out the whole workflow of the system.
+
+The three sub-components (Gatherer, Meta Data Adaptor and Aggregator) divide the work and encapsulate important steps of the whole workflow. As described in section (TODO cite) the raw meta data of the content can be stored in many different places or sources. For example, it can be provided locally, in form of files stored on the local file system, or remotely. The remote source can have many different variations. E.g. there can be a remote ssh server that stores the raw meta data again in file form, or a remote web archive server that stores the meta data in special container files called arc (archive) or warc (web archive) file, but there can be also a remote repository, which not only stores the original content but all the meta data for each object in a different way (internal data store, to its local file system, etc.). The latter represents the most likely use case in a real world digital preservation scenario, however all others are possible as well, not to mention that they are easier to use for experimentation purposes.
 
 As the users of c3po should not be interested in the way of how and where the meta data is stored, the gatherer component offers an interface that abstracts this issue.
 
@@ -64,7 +67,7 @@ The first iteration was done in order to explore the problem and find out potent
 \subsubsection{Data Model}
 As relational databases have stood the test of time and are proven to work in virtually any use case, the natural thing was to try a relational model first. Figure \ref{fig:old_datamodel} shows a simplified version of the key domains of the first data model used. It models the key concepts for generic key value structure in a relational database, which would fit the needs of the collection profiler and leaves out some fields and helper classes. 
 
-The \textit{Elements} describe the digital objects. Each element has a number of \textit{Values}, where every value is a measurement for a specific \textit{Property}. Properties are specific characteristics, such as format, size, or number of pages i n a document, etc. 
+The \textit{Elements} describe the digital objects. Each element has a number of \textit{Values}, where every value is a measurement for a specific \textit{Property}. Properties are specific characteristics, such as format, size, or number of pages in a document, etc. 
 
 There are different typed values for the different data types, such as String, Bool, Numeric, Float and Array, which are not shown in the diagram. Furthermore, each value has a \textit{ValueSource}, which provides provenance information.
 
@@ -81,36 +84,33 @@ The underlying data store was a PostgreSQL data base, which is one of the best o
 \end{figure}
 
 \subsubsection{Core}
-In a first implementation the controller worked in a single threaded, sequential manner due to simplicity reasons. However, preliminary experiments have shown that some tasks, such as meta data parsing make only partial use of the system resources at hand. For example the cpu utilisation was mostly less than 25\% during data parsing and storage. This was an indicator of a possible enhancement that might result in a significant speedup.
+In the first implementation the controller worked in a single threaded, sequential manner due to simplicity reasons. However, preliminary experiments have shown that some tasks, such as meta data parsing make only partial use of the system resources at hand. For example the cpu utilisation was mostly less than 25\% during data parsing and storage. This was an indicator of a possible enhancement that might result in a significant speedup.
 
-Because of the XML representation of the FITS meta data a parser had to be written in order to adapt the meta data schema of FITS to the internal data model. As FITS files usually are small in size (up to 5KB) the parser that was implemented utilised a DOM based approach. Early tests over a small set of FITS XML files seemed to have feasible performance. However, the first test over larger collections revealed the next issue: Memory usage. Even though the amount of objects that had to be created by the DOM parser for each node in each xml document was not so high, the garbage collector of the JVM seemed to be unreliable and the overall consumption seemed to increase constantly with the xml document count and the collection size. This revealed the next potential optimisation.
+Because of the XML representation of the FITS meta data a parser had to be written in order to adapt the meta data schema of FITS to the internal data model. As FITS files usually are small in size (up to 5KB) the parser that was implemented utilised a DOM based approach. Early tests over a small set of FITS XML files seemed to have feasible performance. However, the first test over larger collections revealed the next issue: memory usage. Even though the amount of objects that had to be created by the DOM parser for each node in each xml document was not so high, the garbage collector of the JVM seemed to be unreliable and the overall consumption seemed to increase constantly with the xml document count and the collection size. This revealed the next potential optimisation.
 
 C3PO's persistence layer was based on the Java Persistence API\footnote{http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html} (JPA 1.0) with Hibernate\footnote{http://www.hibernate.org/} as the persistence provider in the first iteration. The higher level abstraction was done via a couple of generic data access object (DAO) interfaces, which were implemented by the client application, and client modules.
 
-This design was chosen in order to allow each client application to choose its own implementation of the persistence layer. This was important since c3po is meant to be deployable in application server containers, that support the Java EE technology stack. For this, a special container managed transactional model would have been needed. On the other hand, content profiling is a data intensive process, which can gain from the fact that the tool can execute near the data. That is why, also a local transactional model was needed, in which the tool should run locally near the data without any application server. All this would allow the separation of the data gathering and the data analysis parts of the work flow. The fact that the data base is external to the tool also means that it can be setup near the data or on a specific storage sever that has enough resources at its hand to handle the load.
+This design was chosen in order to allow each client application to choose its own implementation of the persistence layer. This was important since c3po is meant to be deployable in application server containers, that support the Java EE technology stack. For this, a special container managed transactional model would have been needed. On the other hand, content profiling is a data intensive process which can gain from the fact that the tool can execute near the data. That is why, also a local transactional model was needed, in which the tool should run locally near the data without any application server. All this would allow the separation of the data gathering and the data analysis parts of the work flow. The fact that the data base is external to the tool also means that it can be setup near the data or on a specific storage sever that has enough resources at its hand to handle the load.
 
 Using an ORM framework, such as Hibernate is often very useful. However, in this instance a lot of optimisations and tweaks had to be done in order get out the most of the data base. While this was certainly possible, it was not the focus of the work to fight the framework. Using JVM profiling applications, revealed that a lot of resources are used during storage, because of the high volume of data and it seemed the ORM framework was the bottleneck.
 
 \subsubsection{Applications}
-In the first iteration only a prototype of the CLI application was implemented that made use of the non-transactional persistence model. It was used to measure performance and to monitor the behaviour of the whole framework. As far as the web application was concerned only the persistence layer interfaces were implemented in order to validate the design and the separation of concerns.
+In the first iteration only a prototype of the CLI application was implemented that made use of the non-transactional persistence model. It was used to measure performance and to monitor the behaviour of the whole framework. As far as the web application was concerned, only the persistence layer interfaces were implemented in order to validate the design and the separation of concerns.
 
 \subsection{Second Iteration}
 This section gives an overview of the implementation changes and enhancements in the second iteration and discusses the benefits and drawbacks of the alternatives.
 
 \subsubsection{Data model}
-After examination of the data at hand it seemed that the key value structure was fitting, but through the normalisation, performance was compromised. Thus it seemed appropriate to exchange the underlying data source. A MongoDB document store schema was chosen for a number of reasons:
+After examination of the data at hand it seemed that the key value structure was fitting, but through the data base normalisation, performance was compromised. Thus, it seemed appropriate to exchange the underlying data source, which made it possible to remove the ORM framework at all. Its overhead was proven to be unnecessary during meta data adaptation and storage. Also, the analysis of the data seemed to take a unnecessary long time due to the many JOIN operations. One could argue that these could have been avoided by making the data model more specific, however this would have compromised the flexibility, which would have been a huge trade off.
 
-\begin{itemize}
-\item Natural fit of the data into a key-value schema
-\item Native Map-Reduce support for data aggregation
-\item Query cursor and pagination
-\item Horizontal scaling and automatic node balancing out of the box
-\end{itemize}
+For these reasons the data model was analysed again and different storage possibilities were evaluated.  Due to the natural key-value structure of the meta data it seemed that a key value store would possibly provide better solution to the problem. However, usually such solutions are used for caching (EHCache\footnote{http://ehcache.org}, Memchahed\footnote{http://memcached.org}, etc.) and architecture designers often have problems fitting their data model when such technologies are used for more than their purpose - caching. There are some implementations of data bases that offer most of the flexibility of the relational paradigm, high performance due to their almost key-value paradigm and out of the box horizontal scalability.
 
-As any NoSQL solution, MongoDB does not gain from the fact that the data is normalised and relational. On the contrary, NoSQL solutions often give up normalisation in order to enhance performance of specific use cases. The data model from the first iteration was transformed into three collections (here the term collection is used in the sense of a document store and can be understood as the equivalent concept of a table in a relational database). One for the elements, one for the properties and one for the sources. The values are embedded into each element document and thus each document represents a self-contained object with all its known meta data - values, sources and conflicts. This has one big advantage when querying, as all values are already present without a need of joining the property table. Furthermore the equivalent of a SELECT statement in MongoDB does not retrieve the actual data, but only a cursor over it.
+MongoDB\footnote{http://www.mongodb.org/} is a document store that uses BSON\footnote{http://bsonspec.org/} (Binary JSON) in order to store documents. These documents can have any kind of structure and do not have to be normalised in the relational database sense. On top of that MongoDB provides native facilities for executing Map Reduce \cite{Dean:2008:MSD:1327452.1327492} jobs on the server, which were proven to be very useful for aggregating and filtering the data. 
+
+As any NoSQL solution, MongoDB does not gain from the fact that the data is normalised and relational. On the contrary, NoSQL solutions often give up normalisation in order to enhance performance of specific use cases. The data model from the first iteration was transformed into three collections (here the term collection is used in the sense of a document store and can be understood as the equivalent concept of a table in a relational database): one for the elements, one for the properties and one for the sources. The values are embedded into each element document and thus each document represents a self-contained object with all its known meta data - values, sources and conflicts. This has one big advantage when querying, as all values are already present without a need of joining the property table. Furthermore the equivalent of a SELECT statement in MongoDB does not retrieve the actual data, but only a cursor over it. This lazy-loading mechanism comes in handy in numerous use cases of the applications.
 Figure \ref{fig:document_structure} gives an overview of the basic structure of element documents in BSON syntax. Note that the syntax is very similar to JSON, but provides data type support (e.g. the ObjectId).
 
-\begin{figure}[htb]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=4in]{figures/architecture/document_structure.png}
 \caption{Structure of a c3po element in BSON.}
@@ -118,22 +118,22 @@ Figure \ref{fig:document_structure} gives an overview of the basic structure of 
 \end{center}
 \end{figure}
 
-Since Map-Reduce jobs are supported natively in MongoDB, it is easy to do simple aggregation over some specific value of a specific key in every element document. Another great advantage of this implementation is the pagination support. Every query in Mongo DB returns a cursor over the data rather then the data itself. This makes navigation over the data within an application fast and efficient in terms of memory, as one does not have to consider the volume of the queried data.
-The third reason, why Mongo was chosen, was the automatic load balancing used by the document store server. The document store supports horizontal scaling and auto node balancing out of the box, which might turn up useful when considering the amounts of data that the profiler has to deal with.
+Since Map-Reduce jobs are supported natively in MongoDB, it is easy to aggregate specific values of a specific keys in every element document or to execute some analysis queries. Another great advantage of this implementation is the pagination support. Every query in Mongo DB returns a cursor over the data, instead of the data itself. This makes navigation over the data within an application fast and efficient in terms of memory, as one does not have to consider the volume of the queried data.
+The third reason, why Mongo was chosen, was the automatic load balancing used by the document store server. The document store supports horizontal scaling and auto node balancing out of the box, which might turn up useful when considering the amounts of data that the profiler has to deal with. To summarise MongoDB was chosen because of the:
+
+\begin{itemize}
+\item Natural fit of the data into a key-value schema
+\item Native Map-Reduce support for data aggregation and near data processing
+\item Query cursor and pagination
+\item Horizontal scaling and automatic node balancing out of the box
+\end{itemize}
+
 
 \subsubsection{Core}
 In the second iteration the controller and the meta data adaptors were reimplemented to follow a master-worker pattern.
-The controller uses the gatherer interface to traverse the raw meta data files and spawns an adaptor worker thread for each file that is to be processed. This change resulted in much larger utilisation of CPU resources. Each meta data adaptor runs in a thread and is responsible for parsing meta data files that conform to a specific meta data schema. The c3po prototype makes use of a single adaptor for the FITS output format as described in (TODO cite). 
+The controller uses the gatherer interface to traverse the raw meta data files and spawns an adaptor worker thread for each file that has to be processed. This change resulted in much larger utilisation of CPU resources. Each meta data adaptor runs in a thread and is responsible for parsing meta data files that conform to a specific meta data schema. The c3po prototype makes use of a single adaptor for the FITS output format as described in (TODO cite). 
 
-The parser implementation of the FITS adaptor was also changed due to the previous performance results. This time a SAX based approach was used. The Apache Commons Digester library\footnote{http://commons.apache.org/digester/} makes provides a special SAX parser that traverses each document only once and does not require the building of a complex DOM tree. This results in a much faster parsing with significantly less memory resources.
-
-Another change was the different underlying data store and the removal of the ORM framework.
-The overhead of the ORM mapper was proven to be unnecessary during meta data adaptation and storage. Also, the analysis of the data seemed to take a unnecessary long time due to the many joins. One could argue that the joins could have been avoided by making the data model more specific, however this would have compromised the flexibility which was a huge trade off.
-
-For these reasons the data model was analysed again and different storage possibilities were evaluated. 
-Due to the natural key-value structure of the meta data it seemed that a key value store would possibly provide better solution to the problem. However, usually key-value stores are used for caching (EHCache\footnote{http://ehcache.org}, Memchahed\footnote{http://memcached.org}, etc.) and architecture designers often have problems fitting their data model when such technologies are used for more than their purpose - caching. There are some implementations of data bases that offer most of the flexibility of the relational paradigm, high performance due to their almost key-value paradigm and out of the box horizontal scalability.
-
-MongoDB\footnote{http://www.mongodb.org/} is a document store that uses BSON\footnote{http://bsonspec.org/} (Binary JSON) in order to store documents. These documents can have any kind of structure and do not have to be normalized in the relational database sense. On top of that MongoDB provides native facilities for executing Map Reduce \cite{Dean:2008:MSD:1327452.1327492} jobs on the server, which were proven to be very useful for aggregating and filtering the data.
+The parser implementation of the FITS adaptor was also changed due to the previous performance results. This time a SAX based approach was used. The Apache Commons Digester library\footnote{http://commons.apache.org/digester/} provides a special SAX parser that traverses each document only once and does not require the building of a complex DOM tree. This results in a much faster parsing with significantly less memory resources.
 
 \subsubsection{Applications}
 The CLI application was modified so that it reflects the changes of the new persistence layer.
@@ -172,11 +172,12 @@ Clearly, meta data representation is another important aspect in such as system.
 In order to obtain a profile, client applications can use the REST API. With a few simple calls a xml representation of a collection profile can be generated and retrieved. This file conforms to the proposed schema and provides simple aggregations of the data.
  
 \section{Representative Sets}
-Representative sets are one of the most important features of the content profile, as they provide the basis for experiments during the planning phase. The selection of valid representatives can highly influence the decisions of a planner for the future of specific content. There are many different ways of selecting a small set of representatives.
-Here we present a few algorithms that were implemented and discuss there benefits and drawbacks. It is important to keep in mind that real world scenarios involve large collections of thousands to millions and even more digital objects, but usually the experiments are done a very small set of representative sample objects in the order of 10 objects. 
+Representative sets are one of the most important features of c3po, as they provide the basis for experiments during the planning phase. The selection of valid representatives can highly influence the decisions of a planner for the future of specific content. There are many different ways of selecting a small set of representatives.
+Here we present a few algorithms that were implemented and discuss their benefits and drawbacks. It is important to keep in mind that real world scenarios can involve large collections of thousands to millions and even more digital objects, but usually the experiments during preservation planning are done on a very small set of representative sample objects in the order of 10 objects. 
 
-\subsection{Random}
-As the  name suggests, this algorithm takes N random elements from the larger set and returns them. A simple pseudo code implementation looks like listing 1. This approach is widely used in real world scenarios, due to the lack of automation support and understanding of the content at hand. Clearly it will provide terrible results when applying it on a highly heterogenous content, but it can be helpful if the content is first filtered. With C3PO, one can first apply some filter and split the collection into smaller sets, that are homogeneous with respect to certain properties and then apply this algorithm on each of the subsets. If the smaller subsets are homogeneous enough, it is possible to achieve good results. Splitting and analysing the content could potentially take a lot of time.\newline
+\subsection{Random Selection}
+As the  name suggests, this algorithm takes N random elements from the larger set and returns them. A simple pseudo code implementation looks like listing \ref{alg:random_selection}. Unfortunately, this approach is widely used in real world scenarios, due to the lack of automation support and understanding of the content at hand. One drawback of this approach is that it will most probably provide terrible results when applying it on a highly heterogenous content.
+Nonetheless it could be useful in some cases, if the content is first filtered. For example, one can first apply some filters with C3PO and split the collection into smaller sets, that are homogeneous with respect to certain properties and then apply this algorithm on each of the subsets. If the smaller subsets are homogeneous enough, it is possible to achieve good results. Nonetheless, splitting and analysing the content could potentially take a lot of time.
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -191,24 +192,147 @@ As the  name suggests, this algorithm takes N random elements from the larger se
 \tcp{gets the number of objects in S}
 count = \textit{S.size()}\; 
  
- \While{R.size() < N} {
-  \tcp{gets a pseudo random number between 0 and count}
-  rand = getRandomNumber(count)\;
-  \tcp{S[rand] get the object at index 'rand'}
-  sample = S[rand]\;
-  \tcp{add() appends the object to R}
-  R.add(sample)\; 
+ \If{count $<=$ N} {
+   \While{S.size() $!=$ 0} {
+   \tcp{remove(i) removes and returns the object at index 'i'}
+   	R.add(S.remove(0));
+   }
  }
- 
+\Else{
+ \While{R.size() $<=$ N} {
+   \tcp{gets a pseudo random number between 0 and count}
+   rand = getRandomNumber(count)\;
+   \tcp{S[rand] get the object at index 'rand'}
+   sample = S[rand]\;
+   \tcp{add() appends the object to R}
+   R.add(sample)\; 
+  }
+ }
  \caption{Random sample selection}
+ \label{alg:random_selection}
 \end{algorithm}
 
 \subsection{Size Statistics}
-This approach is probably the most common approach currently used by planners. It also takes random elements, however it considers some statistical information regarding the size of objects. This stems from the fact that preservation action tools often perform bad on objects with a large variation in size. Thus planners often take the smallest, largest and several average sized objects and conduct the experiments over them. A possible pseudo code implementation is provided in listing 2. This approach is slightly better than the previous one, as it considers at least one characteristic of the meta data, that indeed often has influence on the experiments. If applied on a homogeneous set (with respect to the digital object type) it could give good results. Nonetheless, there are other factors that have to be considered. Especially in cases where the variance of the size in the collection is small.
+This approach is probably the most common approach currently used by planners and preservation experts. It also selects random elements, however it considers some statistical information regarding the size of objects. This decision stems from the fact that preservation action tools often perform bad on objects with a large variation in size. Thus planners often take the smallest, largest and several average sized objects and conduct the experiments over them. If there are no other significant variations and differences in the objects, the selected representative set, could provide good results for planning. However, if the objects have significant variations in other characteristics other than the size, that might influence the preservation action tools, the algorithm would be error prone. A possible pseudo code implementation is provided in listing \ref{alg:size_selection}. Note that it makes use of a map reduce job that is executed near the data in order to calculate some statistics, such as the minimum, maximum, average and standard deviation, that are needed for the selection. The map, reduce and finalize functions, that make this aggregations possible are presented afterwards in javascript notation.
+
+This approach is slightly better than the previous one, as it considers at least one characteristic of the meta data, that indeed often has influence on the experiments. If applied on a homogeneous set (with respect to the digital object type) it could give good results. Nonetheless, there are other factors that have to be considered. Especially in cases where the variance of the size in the collection is small.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\SetKwFunction{SSS}{Size Statistics Sample Selection}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+ \Input{A set of digital objects S and a upper limit N for the sample objects set}
+ \Output{A set of random representative sample objects R}
+ \BlankLine
+
+\tcp{gets the number of objects in S}
+count = \textit{S.size()}\; 
+ 
+ \If{count $<=$ N} {
+   \While{S.size() $!=$ 0} {
+   \tcp{remove(i) remove and return the object at index 'i'}
+   	R.add(S.remove(0));
+   }
+ }
+\Else{
+\tcp{map reduce job that calculates statistics for the property 'size'}
+sizeStatistics = numericMapReduceJob('size')\;
+min = sizeStatistics.getMin()\;
+max = sizeStatistics.getMax()\;
+avg = sizeStatistics.getAvg()\;
+sd = sizeStatistics.getSd()\;
+low = floor(avg - sd / 10)\;
+high = ceil(avg - sd/10)\;
+\BlankLine
+minObject  = querySize(min)\;
+maxObject = querySize(max)\;
+A = querySizeBetween(low, high)\;
+\BlankLine
+R.add(minObject)\;
+R.add(maxObject)\;
+\BlankLine
+\If{A.size() $>=$ (N-2)} {
+  \While{R.size() $<$ N} {
+    R.add(A.remove(0))\;
+  }
+}\Else{
+  \While{A.size() $!=$ 0} {
+   R.add(A.remove(0)\;
+  }
+}
+}
+ \caption{Size Statistics sample selection}
+ \label{alg:size_selection}
+\end{algorithm}
+
+
+\begin{verbatim}
+
+function map() {
+  var size = this.metadata['size'].value;
+  emit(1, {sum: size, min: size, max: size, count:1, diff: 0,});
+}
+
+function reduce(key, values) {
+  var a = values[0];
+  for (var i=1; i < values.length; i++){
+    var b = values[i];
+    var delta = a.sum/a.count - b.sum/b.count;
+    var weight = (a.count * b.count)/(a.count + b.count);
+    a.diff += b.diff + delta*delta*weight;
+    a.sum += b.sum;a.count += b.count;
+    a.min = Math.min(a.min, b.min);
+    a.max = Math.max(a.max, b.max);
+  }
+  return a;
+}
+
+function finalize(key, value){
+  value.avg = value.sum / value.count;
+  value.variance = value.diff / value.count;
+  value.stddev = Math.sqrt(value.variance);
+
+  return value;
+}
+\end{verbatim}
 
 \subsection{Systematic Sampling}
-Systematic sampling is another optimisation of the random approach and is an equal-probability method. In other words it is more fair. It divides the content into 'n' bins and calculates a 'skip' variable by dividing the number of objects in the population 'N' by the number of bins 'n'. Then a random starting point is chosen between 0 and the calculated skip. Afterwards the next n-1 elements are chosen by adding the skip to the index of the last chosen element.  This will result in one element per bin, where all elements in the bin will have the same probability of being chosen.
-Even though this method is more fair, it still has the same problems as the others. The benefit of it, is that it will work good on homogeneous collections and slightly better than the random one, but still bad on heterogeneous content.
+Systematic sampling is another optimisation of the random approach and is an equal-probability method. In other words it is more fair as every object in the set has equal probability to be chosen as a representative. It divides the content into 'n' buckets and calculates a 'skip' variable by dividing the number of objects in the population 'N' by the number of buckets 'n'. Then a random starting point is chosen between 0 and the calculated skip. Afterwards the next n-1 elements are chosen by adding the skip to the index of the last chosen element.  This will result in one element per bucket.
+Even though this method is more fair, it still shows the same problems as the randoms sample selection algorithm. A pseudo code implementation is given in listing \ref{alg:systematic_sampling}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\SetKwFunction{SSS}{Systematic Sampling Selection}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+ \Input{A set of digital objects S and a upper limit N for the sample objects set}
+ \Output{A set of random representative sample objects R}
+ \BlankLine
+
+\tcp{gets the number of objects in S}
+count = \textit{S.size()}\; 
+ 
+ \If{count $<=$ N} {
+   \While{S.size() $!=$ 0} {  
+   	R.add(S.remove(0));
+   }
+ }
+\Else{
+ limit = round(count / N)\;
+ \tcp{generates a random number with a upper limit}
+  skip = nextRandom(limit)\;
+  
+  \While{R.size() < N} {
+     offset = skip * R.size() + skip\;
+     R.add(S[offset])\;
+  }
+ }
+ \caption{Systematic Sampling Selection}
+ \label{alg:systematic_sampling}
+\end{algorithm}
 
 \subsection{Distribution Coverage}
 The distribution coverage algorithm tries to find sample objects with the same distribution of the property value pairs of pre chosen characteristics. For example, if there is a collection consisting of 40\% PDF documents and 40\% Word documents and 20\% other documents and the sample set should be ten, then the algorithm will select 4 PDF files, 4 word files and 2 other files at random that are not PDF or Word documents.
