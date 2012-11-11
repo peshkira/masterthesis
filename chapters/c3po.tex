@@ -25,19 +25,19 @@ The prototype implementation of the profiling approach is called '\textbf{C}leve
 In this section an overview of the architecture of c3po and its more important aspects are presented. Afterwards, detailed information about the design and implementation is given as well as a discussion of the decisions made is done. The implementation was carried out into two iterations which are presented after the overview.
 
 \subsection{High Level Overview}
-C3PO is separated into different modules and provides a relatively simple workflow that follows the three steps of content profiling as presented in \cite{petrov-ipres2012} and discussed in section \ref{sec:content_profiling} on page \pageref{sec:content_profiling}. In the first part it gathers raw meta data and parses it in order to normalise it into a simple internal data model. In the next step the data is cleaned up, partially aggregated and stored into an external to the tool database.
-This offers the baseline for the deeper analysis provided by some of the modules in a stack diagram which is detailed in the following subsections.
+C3PO is separated into different modules and provides a relatively simple workflow that follows the three steps of content profiling as presented in \cite{petrov-ipres2012} and discussed in section \ref{sec:content_profiling} on page \pageref{sec:content_profiling}. In the first part it gathers raw meta data and parses it in order to normalise it into a simple internal data model. In the next step the data is cleaned up, partially aggregated and stored into an external to the tool database. 
+
+All this offers the baseline for the deeper analysis provided by some of the modules of the framework. Figure \ref{fig:architecture_highlevel} presents the high level architecture and c3po's modules in a stack diagram which are detailed in the following subsections.
 
 
-\begin{figure}[htb]
+\begin{figure}[t]
 \begin{center}
-\includegraphics[width=5.5in]{figures/architecture/c3po_highlevel_architecture.png}
+\includegraphics[width=5in]{figures/architecture/c3po_highlevel_architecture.png}
 \caption{High-level architecture of c3po.}
 \label{fig:architecture_highlevel}
 \end{center}
 \end{figure}
 
-Figure \ref{fig:architecture_highlevel} presents the high level architecture and its modules.
 
 \subsubsection{Data Model}
 
@@ -75,7 +75,7 @@ Although this model was so minimalistic it was proven to be incapable of a high 
 
 The underlying data store was a PostgreSQL data base, which is one of the best open relational databases at the time of writing. However, the limitation of the high number of JOINS for the sparse matrix use case is just contradictory to the paradigm, since there is a general rule of thumb that more JOINS result in a poor performance. Through data model enhancements and optimisations and a lot of query optimisation it probably would have been possible to use a relational model effectively. However, this was not the focus of the work, so a new approach had to be chosen.
 
-\begin{figure}[htb]
+\begin{figure}[t]
 \begin{center}
 \includegraphics[width=5in]{figures/architecture/old_datamodel.png}
 \caption{Old datamodel used in the first iteration.}
@@ -110,24 +110,25 @@ MongoDB\footnote{http://www.mongodb.org/} is a document store that uses BSON\foo
 As any NoSQL solution, MongoDB does not gain from the fact that the data is normalised and relational. On the contrary, NoSQL solutions often give up normalisation in order to enhance performance of specific use cases. The data model from the first iteration was transformed into three collections (here the term collection is used in the sense of a document store and can be understood as the equivalent concept of a table in a relational database): one for the elements, one for the properties and one for the sources. The values are embedded into each element document and thus each document represents a self-contained object with all its known meta data - values, sources and conflicts. This has one big advantage when querying, as all values are already present without a need of joining the property table. Furthermore the equivalent of a SELECT statement in MongoDB does not retrieve the actual data, but only a cursor over it. This lazy-loading mechanism comes in handy in numerous use cases of the applications.
 Figure \ref{fig:document_structure} gives an overview of the basic structure of element documents in BSON syntax. Note that the syntax is very similar to JSON, but provides data type support (e.g. the ObjectId).
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=4in]{figures/architecture/document_structure.png}
-\caption{Structure of a c3po element in BSON.}
-\label{fig:document_structure}
-\end{center}
-\end{figure}
-
 Since Map-Reduce jobs are supported natively in MongoDB, it is easy to aggregate specific values of a specific keys in every element document or to execute some analysis queries. Another great advantage of this implementation is the pagination support. Every query in Mongo DB returns a cursor over the data, instead of the data itself. This makes navigation over the data within an application fast and efficient in terms of memory, as one does not have to consider the volume of the queried data.
 The third reason, why Mongo was chosen, was the automatic load balancing used by the document store server. The document store supports horizontal scaling and auto node balancing out of the box, which might turn up useful when considering the amounts of data that the profiler has to deal with. To summarise MongoDB was chosen because of the:
 
+\vbox{
 \begin{itemize}
 \item Natural fit of the data into a key-value schema
 \item Native Map-Reduce support for data aggregation and near data processing
 \item Query cursor and pagination
 \item Horizontal scaling and automatic node balancing out of the box
 \end{itemize}
+}
 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[width=4in]{figures/architecture/document_structure.png}
+\caption{Structure of a c3po element in BSON.}
+\label{fig:document_structure}
+\end{center}
+\end{figure}
 
 \subsubsection{Core}
 In the second iteration the controller and the meta data adaptors were reimplemented to follow a master-worker pattern.
@@ -143,10 +144,10 @@ Since the technology stack was different (no need of JAVA EE) and there was no n
 
 The UI was implemented with the help of the framework, by utilising Scala templates and standard technology such as HTML5, Javascript and CSS3. It enables the user to select her collection and obtain deeper overview by filtering the data based on specific properties and values as shown in figure \ref{fig:web_app_overview}.
 
-\begin{figure}[htb]
+\begin{figure}[tbp]
 \begin{center}
 \includegraphics[width=5.5in]{figures/architecture/web_app_overview}
-\caption{Screenshot of c3po - part of the overview of a collection.}
+\caption{Screenshot of c3po - Overview of a collection.}
 \label{fig:web_app_overview}
 \end{center}
 \end{figure}
@@ -179,8 +180,7 @@ Here we present a few algorithms that were implemented and discuss their benefit
 As the  name suggests, this algorithm takes N random elements from the larger set and returns them. A simple pseudo code implementation looks like listing \ref{alg:random_selection}. Unfortunately, this approach is widely used in real world scenarios, due to the lack of automation support and understanding of the content at hand. One drawback of this approach is that it will most probably provide terrible results when applying it on a highly heterogenous content.
 Nonetheless it could be useful in some cases, if the content is first filtered. For example, one can first apply some filters with C3PO and split the collection into smaller sets, that are homogeneous with respect to certain properties and then apply this algorithm on each of the subsets. If the smaller subsets are homogeneous enough, it is possible to achieve good results. Nonetheless, splitting and analysing the content could potentially take a lot of time.
 
-\begin{algorithm}[H]
-\SetAlgoLined
+\begin{algorithm}[!htb]
 \SetKwFunction{RSS}{Random Sample Selection}
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
@@ -213,11 +213,11 @@ count = \textit{S.size()}\;
 \end{algorithm}
 
 \subsection{Size Statistics}
-This approach is probably the most common approach currently used by planners and preservation experts. It also selects random elements, however it considers some statistical information regarding the size of objects. This decision stems from the fact that preservation action tools often perform bad on objects with a large variation in size. Thus planners often take the smallest, largest and several average sized objects and conduct the experiments over them. If there are no other significant variations and differences in the objects, the selected representative set, could provide good results for planning. However, if the objects have significant variations in other characteristics other than the size, that might influence the preservation action tools, the algorithm would be error prone. A possible pseudo code implementation is provided in listing \ref{alg:size_selection}. Note that it makes use of a map reduce job that is executed near the data in order to calculate some statistics, such as the minimum, maximum, average and standard deviation, that are needed for the selection. The map, reduce and finalize functions, that make this aggregations possible are presented afterwards in javascript notation.
+This approach is probably the most common approach currently used by planners and preservation experts. It also selects random elements, however it considers some statistical information regarding the size of objects. This decision stems from the fact that preservation action tools often perform bad on objects with a large variation in size. Thus planners often take the smallest, largest and several average sized objects and conduct the experiments over them. If there are no other significant variations and differences in the objects, the selected representative set, could provide good results for planning. However, if the objects have significant variations in other characteristics other than the size, that might influence the preservation action tools, the algorithm would be error prone. A possible pseudo code implementation is provided in listing \ref{alg:size_selection}. Note, that it makes use of a map reduce job that is executed near the data in order to calculate some statistics, such as the minimum, maximum, average and standard deviation, that are needed for the selection. The map, reduce and finalize functions, that make this aggregations possible are presented in javascript notation in listing \ref{lst:map_reduce}.
 
 This approach is slightly better than the previous one, as it considers at least one characteristic of the meta data, that indeed often has influence on the experiments. If applied on a homogeneous set (with respect to the digital object type) it could give good results. Nonetheless, there are other factors that have to be considered. Especially in cases where the variance of the size in the collection is small.
 
-\begin{algorithm}[H]
+\begin{algorithm}[tbp]
 \SetAlgoLined
 \SetKwFunction{SSS}{Size Statistics Sample Selection}
 \SetKwInOut{Input}{Input}
@@ -267,9 +267,7 @@ R.add(maxObject)\;
  \label{alg:size_selection}
 \end{algorithm}
 
-
-\begin{verbatim}
-
+\begin{lstlisting}[caption={The Map, Reduce and Finalize functions for basic statistical aggregations.}, label={lst:map_reduce}]
 function map() {
   var size = this.metadata['size'].value;
   emit(1, {sum: size, min: size, max: size, count:1, diff: 0,});
@@ -293,16 +291,15 @@ function finalize(key, value){
   value.avg = value.sum / value.count;
   value.variance = value.diff / value.count;
   value.stddev = Math.sqrt(value.variance);
-
   return value;
 }
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Systematic Sampling}
 Systematic sampling is another optimisation of the random approach and is an equal-probability method. In other words it is more fair as every object in the set has equal probability to be chosen as a representative. It divides the content into 'n' buckets and calculates a 'skip' variable by dividing the number of objects in the population 'N' by the number of buckets 'n'. Then a random starting point is chosen between 0 and the calculated skip. Afterwards the next n-1 elements are chosen by adding the skip to the index of the last chosen element.  This will result in one element per bucket.
 Even though this method is more fair, it still shows the same problems as the randoms sample selection algorithm. A pseudo code implementation is given in listing \ref{alg:systematic_sampling}
 
-\begin{algorithm}[H]
+\begin{algorithm}[!htb]
 \SetAlgoLined
 \SetKwFunction{SSS}{Systematic Sampling Selection}
 \SetKwInOut{Input}{Input}
