@@ -101,7 +101,7 @@ c3po -g ~/path/to/folder/ -r -c govdocs1
 
 The processing of all 945746 files took more than 167 minutes. 47 files were not processed successfully due to malformed meta data files. After initial preparation and setup, processing 1000 files took 10.46 seconds on average.
 
-The same procedure was conducted with 4 threads and with 8 threads. The speedup was 121 and XX minutes respectively. The average processing of 1000 files was 7.54 and ..  seconds respectively. This shows about 28\% increase in speed. More powerful hardware (with a solid state drive disk and faster CPU) will most probably enable a speedup up to 50\%. The next step could be to also parallelise the process on different nodes against the same DB.
+The same procedure was conducted with 4 threads and with 8 threads. The speedup was 121 and XX minutes respectively. The average processing of 1000 files was 7.54 and ..  seconds respectively. This shows about 28\% increase in speed. More powerful hardware (with a solid state drive disk and faster CPU) will most probably enable a speedup up to 50\% in comparison to the single threaded solution. A next step of improvement towards the next threshold could be the parallelisation of the process on different nodes against the same document store and even distribution the store itself. These improvements are not included as part of this thesis but are possible next steps, which will enhance the process even further.
 
 \subsubsection{Profile \& Export}
 In this part of the experiment c3po was used to generate a profile of the data processed in the previous step and to also export it. The generated files are then inspected.
@@ -110,20 +110,24 @@ In this part of the experiment c3po was used to generate a profile of the data p
 c3po -p ~/path/to/output/folder -c govdocs1
 \end{verbatim}
 
-The time taken for the profile generation of the whole govdocs1 collection was 12 minutes. The profile included 112 properties. The output file was 53 KB in size, which is an acceptable size for transfer over the network.
+The time taken for the profile generation of the whole govdocs1 collection was 12 minutes. The profile included 112 properties. The output file was 53 KB in size. Considering that content profiling is not meant to be a process that delivers results instantly, these preliminary output seems to be feasible and is acceptable considering the integration with other tools over a network.
+
+In the case that the aforementioned improvements in terms of processing are successful then it is likely that the generation of a profile over larger content will take more time. If the time of profile generation takes tool long in such a case a new polling strategy will have to be implemented, where an asynchronous profile generation job is submitted and the status of the result is polled by the client.
 
 The same command was then executed with the -ie switch, which includes the element identifiers in the profile.
-The time taken was 12 minutes once again and the resulting file was 60 MB in size. This was due to the fact that all object identifiers were included in the profile. Since the collection is pretty big, this shows how infeasible this option is. It is helpful for demonstration purposes on smaller collections, but will not work in real world scenarios. This part of the profile should be swapped with a special query that selects the digital objects falling into this profile. This query should be understood by client and integrating applications, such planning tools and digital repositories. If this is the case, the footprint will be small and generation, as well as transfer over the network will be feasible.
+The time taken was 12 minutes once again and the resulting file was 60 MB in size. This was due to the fact that all object identifiers were included in the profile. Since the collection is pretty big, this shows how infeasible this option is. It is helpful for demonstration purposes on smaller sized collections, but will most probably not be feasible in real world scenarios. This part of the profile should be swapped with a special query that selects the digital objects falling into this profile. This presents a potential problem as the query should be agnostic to the data representation, but expressive enough to select all of the matching objects. Furthermore, this query should be understood by any client and integrating applications, such as planning tools and digital repositories, as it will be the interface between these. If this is can be achieved, the footprint will be once again rather small. 
 
 %TODO include what was in the profile and some results.
 
 \begin{verbatim}
 c3po -e ~/path/to/output/folder -c govdocs1
 \end{verbatim}
-Afterwards all the data was exported to a .csv file in a sparse matrix, with the object identifiers as rows and the properties as columns. The generation took a little more than 2 minutes and resulted in a file of 430 MB in size. This matrix view is very helpful to obtain an overview of the whole collection and can be used to apply some more complex filters that are not possible with the web application. On the downside, it is questionable if this approach will scale for bigger collections. While state of the art spreadsheet processors still cope with files of this size, it is highly questionable if it will be possible to open a much larger file.
+Afterwards all the data was exported to a .csv file in a sparse matrix, with the object identifiers as rows and the properties as columns. The generation took a little more than 2 minutes and resulted in a file of 430 MB in size. This matrix view is very helpful to obtain an overview of the whole collection and can be used to apply some more complex filters that are not possible with the web application. On the downside, it is questionable if this approach will scale on larger content. While state of the art spreadsheet processors still cope with files of this size, it is highly questionable if it will be possible to open and process a much larger file. A solution for this potential problem would be to split the exported matrix into smaller pieces and process them separately.
 
 \subsubsection{Analysis}
-The web app of c3po revealed that the whole collection of digital objects had an overall storage size of 447.36GB of data. This value seems to be realistic considering that FITS failed on numerous objects and the c3po gathering process failed on some as well. The smallest object has a size of 7 Bytes and the largest - 1.52GB. On average all of the objects have a size of 0.48 MB with a standard deviation of 4.29 MB.
+In the last step the web app of c3po was used to look at the govdocs1 content set and obtain an overview. The following describes the set and what was possible with the tool.
+
+c3po revealed that the whole collection of digital objects had an overall storage size of 447.36GB of data. This value seems to be realistic considering that FITS failed on numerous objects and the c3po gathering process failed on some as well. The smallest object has a size of 7 Bytes and the largest - 1.52GB. On average all of the objects have a size of 0.48 MB with a standard deviation of 4.29 MB. On the downside, the application did not allow the selection of the smallest and largest objects, which could be easily fixed in a next version. In the current version, this will be only possible via the .csv export.
 
 C3PO immediately showed, that the collection consists of 46 different mime types and in addition there is one subset of conflicted mimes, which is the second most occurring. The first 9 most occurring mime types represent nearly 80\% of the whole collection and are presented in table \ref{tab:govdocs1_mimetypes}. The correlation between the mime type the format of a digital object implies that both distributions are similar. This was proven by c3po as well.
 
@@ -185,24 +189,28 @@ Rest		&  6362\\
 \label{tab:govdocs1_created}
 \end{table}
 
-\textbf{Portable Document Format}\newline
+\paragraph{Portable Document Format}
 Adding a new mime type based filter showed that the 224495 application/pdf files in the govdocs1 set consisted of three different PDF formats (PDF, PDF/A and PDF/X) with more than 10 different versions. This is about 28\% of the storage size  needed for the whole collection.
 
 In a next step validity and well-formedness of the documents was examined. 90\% of these documents were valid, nearly 10\% were invalid and less than 1\% were unknown. Almost all documents were well-formed. About 1\% were not and once again less than 1\% were unknown. Drilling further down (valid=''unknown'') made it possible to conclude that  the unknown files in terms of validity and wellformedness were exactly overlapping. Because of this fact, they are excluded of the following observations.
 
-c3po showed that all valid pdf documents were also well formed. However, 8\% of all well-formed pdf objects were invalid. None of these 8\% were in format PDF/X, which implies that all PDF/X formatted objects are both valid and well-formed. Another interesting observation was made by selecting the subset of invalid and not well-formed documents, which were about 1\% of the whole pdf collection. This subset consists only of PDF documents (in all versions from 1.0 to 1.6). c3po also provided a list of so called 'evil' applications that created these malformed files. Most were created by different versions of Acrobat Distiller.
+c3po showed that all valid pdf documents were also well formed. However, 8\% of all well-formed pdf objects were invalid. None of these 8\% were in format PDF/X, which implies that all PDF/X formatted objects are both valid and well-formed.
+
+Another interesting observation was made by selecting the subset of invalid and not well-formed documents, which were about 1\% of the whole pdf collection. This subset consists only of PDF documents (in all versions from 1.0 to 1.6). c3po also provided a list of so called 'evil' applications that created these malformed files. Most were created by different versions of Acrobat Distiller.
 
 At last the distribution of the properties 'is rights managed' and 'is protected' were generated.
-It turns out that only 81 pdf documents had rights data associated with them, whereas 97\% didn't have any. For about 2\% it was unknown. The protected pdfs were much more in comparison - about 4\%. Again 2\% were unknown and the rest were not protected. Very interesting was that eight objects were conflicted in terms of protection. All of these were invalid and not well-formed. Two had the format PDF 1.4 and six PDF 1.6.\newline
+It turns out that only 81 pdf documents had rights data associated with them, whereas 97\% didn't have any. For about 2\% it was unknown. The protected pdfs were much more in comparison - about 4\%. Again 2\% were unknown and the rest were not protected. Very interesting was that eight objects were conflicted in terms of protection. All of these were invalid and not well-formed. Two had the format PDF 1.4 and six PDF 1.6.
 
-\textbf{Conflicted}\newline
+All in all analysis of this type of objects was quite easy and the tool enabled the user to drill down and find out interesting facts about this subset.
+
+\paragraph{Conflicted}
 Examining the objects with conflicted mime type values with c3po proved to be rather hard and showed room for optimisation and enhancement in the future versions of c3po. Besides of the storage size statistics the information was not very helpful. The storage size of all 160353 objects was about 81GB. All the formats in the subset were also conflicted and only versions were shown, which was not enough information to gain an overview of the conflicted subset (the second highest in the whole set). An idea was to take a look at the creating applications and to obtain a rough overview of the type of documents in this subset. Unfortunately, 99\% of these were unknown.
 
-In terms of validity and wellformedness, the following observations were made. For 48\% of the subset both these properties were unknown. All 20\% of the valid objects in this subset were also well formed. The other 32\% percent of invalid objects contained both well formed and not well formed objects in ratio 3 to 2.
+In terms of validity and wellformedness, the following observations were made. For 48\% of the subset both these properties were unknown. All 20\% of the valid objects in this subset were also well formed. The other 32\% of invalid objects contained both well formed and not well formed objects in ratio 3 to 2.
 
-All this showed, that it will be helpful to a planner to see a list of conflicted values or some kind of weighted distribution. Additional filters over these would also be helpful. Furthermore it will be helpful to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).\newline
+All this showed, that it will be helpful to a planner to see a list of conflicted values or some kind of weighted distribution. Additional filters over these would also be helpful. Furthermore it will be beneficial to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).\newline
 
-\textbf{Joint Photographic Experts Group}\newline
+\paragraph{Joint Photographic Experts Group}
 As there is a second use case study, conducted over data from a web archive, the third most common mime type (text/html) is skipped for the next one - image/jpeg.
 
 This subset consists of 106714 objects or about 11\% of the whole set. The storage space needed for this subset is about 34GB.
@@ -214,6 +222,7 @@ The JPEG files presented 95\% of the subset and most of them had YCbCr colorspac
 
 The EXIF files were significantly smaller (a bit more than 4\%). For most of them the colorspace was unknown. The rest were RGB images.
 
+Other interesting data provided by FITS were the gps coordinates of some images. Unfortunately, c3po is not able to make use of these in order to visualise them. Nonetheless, an overview of the objects having such meta data could be an interesting asset in a digital preservation activity considering a scenario where such meta data has to be kept after a preservation action is conducted. 
 
 \section{Web Archive}
 
