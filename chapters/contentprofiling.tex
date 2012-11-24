@@ -18,7 +18,13 @@ All these issues outline the goals of the content profiling process, which are s
 
 \begin{itemize}
 \item Enable automatic and scalable aggregation of sparse meta data provided by identification and characterisation tools.
-\item Create and expose a well-defined, machine readable footprint of the content at hand, for other actors to use.
+\item Create and expose a well-defined, machine readable footprint of the content at hand, for other actors to use. This has to summarise the following information.
+ \begin{itemize}
+  \item an identifier of the content.
+  \item the characteristics of the content, such as mime types, formats, size, but also any other that is of interest to preservation planning.
+  \item the sample records.
+  \item the scope of the profile (e.g. the object identifiers of the collection, within a repository interface)
+ \end{itemize}
 \item Enable planning experts to analyse the content. This includes:
  \begin{itemize}
   \item obtaining an overview of the content types and formats, of the collection, but is not restricted only to these.
@@ -83,7 +89,6 @@ For this purpose, a simple but flexible domain model has to be created that allo
 %Another important aspect of the data is its validity. Obviously if the data that is provided is valid and of high quality, then the created profiles and the chosen representative sample objects will solely rely on the processes and algorithms involved. If these processes and algorithms are validated and on their terms of high quality, then the result will be a profile that enables unbiased experiments in preservation planning activities. As profiling depends on the meta data and the tools that are able to extract it, it is of great importance that quality assurance is conducted. Unfortunately, the state of the art does not provide many methods of checking the validity of a characterisation tool. %cite? qa in characterization?
 % why is it important (iteration of before)
 
-
 \subsection{The process}
 Content profiling consists of three main parts; data harvesting, data aggregation and analysis.
 
@@ -95,6 +100,17 @@ The next step of aggregation can be done either after the data is parsed, normal
 
 The last step is a higher level service on top of the framework, that has to be conducted mostly manually by the preservation expert. This means that it will rely on specific decisions and will need the input of a user. Nonetheless, it should be automated as much as possible and shall support the user in her decisions. This includes querying the data and gaining knowledge about the content by drilling it down based on different characteristics.
 
+\subsection{Limitations \& Pitfalls}
+There are a number of problems and potential pitfalls, that have to be considered when designing and implementing the proposed framework.
+
+A very important issue is the removal of objects. It is, unusual that objects are removed from archives, but it is not impossible (e.g. after migration). Once an object (or a set of objects) is removed, the profile immediately becomes invalid and should be regenerated. If the source system (repository, file system, etc) does not provide information of which objects were deleted, the whole process should be repeated from the beginning. This could be time and resource consuming.
+
+The same goes if new meta data is acquired and merged within the current profile. Here normalisation has to be kept intact and also any aggregation that might be influenced should be recalculated.
+
+Clearly, the quality of a content profile is highly dependant on the quality of meta data.
+
+If data normalisation is done via the framework and is not part of the meta data input, then very specific expertise will be required to do this task efficiently.
+
 \subsection{Output}
 % specification (representation, xml, rdf)
 The profiler has to present the aggregated data in form that is usable to planning experts, but also allow the export of the data into other formats for further processing. Furthermore, the preservation process will be enhanced, only if the data
@@ -104,28 +120,51 @@ There are numerous ways of representing such a profile. However, from the observ
 
 Clearly, it has to aggregate the raw data, so that it has a small enough footprint, but still provide enough insight into the content at hand. The profile should be able to separate the content based on different characteristics. Here it is important that a user or a user application is able to go one step back and examine the filtering criteria. Finally, the profile should include a small set of representative objects, with their full characteristics and a way to identify all objects in a set or collection that fit into the specified filter. The latter could be done, either via some kind of query or just by a list of objects outlines the identifiers of all selected objects.
 
+Having such a content profile is the foundation for integration with other DP software systems, such as preservation watch and monitoring systems, simulation environments and planning components. For this integration some higher level features based on the exported profile and representative sets can be done.
+
 %Appendix A shows a proposal of the first format schema.
 
-\subsection{Integration with DP Systems}
-% integration with other tools, such as repositories and planning tools
-A content profiler tool can provide benefit to numerous systems and users in a Digital Preservation environment. On the one hand, it can act as direct input to Preservation Planning and can spare a planning expert a lot of time defining and outlining a plan. 
+\section{Continuos Profiling}
+A content profiler tool can provide benefit to numerous systems and users in a Digital Preservation environment. On the one hand, it can act as direct input to Preservation Planning and can spare a planning expert a lot of time defining and outlining a plan. On the other hand, it supplies the needed foundation to do continuous profiling. Continuous profiling refers to two higher level applications of content profiling when integrating with other systems. The one is profiling data based on its creation or harvesting date. The other one is the continuous monitoring of a profile of a collection and all its changes through time. Here we give some overview of both ideas and summarise how these can be achieved and what benefits they will provide to planning experts.
 
-On the other hand, it supplies the needed facilities to analyse new content ingested within a repository and can act as input to monitoring systems, that can raise alerts if certain conditions are violated. For example, an organisation should have a policy that defines, which objects have to be preserved and one that defines how many objects of a certain type can exist without a valid plan associated to them. Now consider that each day a great deal of new objects is ingested into the repository of that particular organisation. By the end of a certain time period a content profile is regenerated and a monitoring system obtains and reevaluates this result against the organisational policies. It will be fairly easy to detect a potential threat and to notify the involved stakeholders and actors in order to resolve it, provided all of these pieces of the puzzle fit together.
+\subsection{Monitoring}
+As discussed in the previous chapter monitoring is an external phase of the preservation planning environment that provides feedback and can trigger reevaluation of a plan. If a content profile generated from the content of a repository is observed continuously by such a monitoring system, then certain triggers can be raised when conditions are violated.
+For example, an organisation that has a policy that defines which objects have to be preserved and one that defines how many objects of a certain type can exist without a valid plan associated to them. Now consider that each day a great deal of new objects is ingested into the repository of that particular organisation. By the end of a certain time period a content profile is regenerated and a monitoring system obtains and reevaluates this result against the organisational policies. It will be fairly easy to detect a potential threat and to notify the involved stakeholders and actors in order to resolve it, provided all of these pieces of the puzzle fit together.
 
-Another great deal of the combination of such a content profile and monitoring system can be a global content profile. If enough organisations, such as Web Archives, Libraries, etc. are willing to share the profiles (or parts of them) they have with such a central monitor, the result will most probably be a representative overview of the global state of the world \cite{duretec:2012:watch}. Valuable information, such as the number of formats used within a certain domain, the preferred type of files within a user community, the emergence of new file formats, the decline of old file formats and much more can be detected. Provided that enough content-holding institutions are ready to sacrifice a bit of their privacy, the mutual benefit could be something much more valuable.
+Another great deal of the combination of such a content profile and monitoring system can be a global content profile. If enough organisations, such as Web Archives, Libraries, etc. are willing to share the profiles (or parts of them) they have with such a central monitor, the result will most probably be a representative overview of the global state of the world \cite{becker-ipres2012}. Valuable information, such as the number of formats used within a certain domain, the preferred type of files within a user community, the emergence of new file formats, the decline of old file formats and much more can be detected. Provided that enough content-holding institutions are ready to sacrifice a bit of their privacy, the mutual benefit could be something much more valuable.
 
-\subsection{Limitations \& Pitfalls}
-There are a number of problems and potential pitfalls, that have to be considered when designing and implementing the proposed framework.
+The integration between a content profiling tool and such a monitoring system presents some technical issues and questions that have to be answered, as content holding institutions make use of different repository and systems. Nonetheless, if there is a profiling tool running within such a system or near the data and conforms to a standardised machine-readable output, then such an integration is feasible. A design proposition of such a novel preservation watch system is discussed in \cite{duretec:2012:watch, FariaPDBFR12}.
 
-A very important issue is the removal of objects. It is, unusual that objects are removed from archives, but it is not impossible (e.g. after migration). Once an object (or a set of objects) is removed, the profile immediately becomes invalid and should be regenerated. If the source system (repository, file system, etc) does not provide information of which objects were deleted, the whole process should be repeated from the beginning. This could be time and resource consuming.
 
-%TODO add more
+%TODO
+%describe minitoring
+% how does it work in terms of content profiling
+% need of an exposed service
+% cite papers at the according places and may be not up there
+
+\subsection{Simulation \& Trend Analysis}
+Another interesting possibility for integration is with simulation software that tries to analyse the trends of different characteristics of the content over time. Among these could be future development of the format profiles, detection of format obsolescence and emerging formats, size fluctuations, or any other preservation related characteristic.
+
+Weihs et.al demonstrate a simulation prototype \cite{TUW-206758} that can simulate the evolution of a repository over time. The input used for the simulations are different models and configurations of the content, as well as the potential result of preservation actions over this content. An integration between such a tool and a real world content profile could be an interesting approach to examine and validate how simulation can influence digital preservation decisions, but also provide new requirements and goals for content profiling  as well.
+
+Other interesting aspects to simulate could be the format footprint of a repository over time. There are different theories regarding the lifetime of formats and a debate pro and contra for following a direct migration strategy or whether or not this should be left to the so called network effects of data sharing, which should prevent the damages of obsolescence \cite{Rosenthal:1January2010:0737-8831:195}. Jackson gives a good summary of this debate and asks the question: ''Where is the evidence?'' In order to find out, experiments of format usage over large digital corpora of the British Web Archive are conducted. The results are presented in \cite{journals/corr/abs-1210-1714} and suggest that there are indeed formats that live longer than five years, however there were number of formats fading from use and these should be studied closely. Apart from being very interesting, these (unstructured) profiles could act as input to simulation environments, where based on the past trends new hypothesis for the future development are tested and used for planning.
+
+One example of such trend results is presented in figure \ref{fig:trends_html}. There the different html versions of about 1.5 million webarchive digital objects from the the danish web archive are presented through the years. The data for this graph was processed with the help of the backend of a content profile tool following the suggested approach in this chapter. It was produced for another thesis conducted at the time of writing at the University of Technology in Vienna that researches different statistical trend analysis approaches for preservation planning. Thus, we believe that such content profiling output data can be of very high value to DP activities if it can be structured and processed by other software.
+
+% Simulation environments
+% cite or refer to Stefan Schindlers thesis and give him credit
+% may be say that this was possible with the backend of the tool presented in the next chapter.
+
+\begin{figure}[b]
+\begin{center}
+\includegraphics[width=3.6in]{figures/contentprofiling/trends_html.png}
+\caption{Usage trends in html versions over time in a danish web archive}
+\label{fig:trends_html}
+\end{center}
+\end{figure}
 
 \section{Representative Sets}
 \label{sec:representative_sets}
 % what is the problem,
 % how do we create them/find them
-TBD
-
-\section{Continuos Profiling}
 TBD
