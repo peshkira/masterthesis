@@ -1,3 +1,60 @@
 \section{Summary \& Contributions}
+With the rapid increase rates of digital data growth, the problem of preserving digital content becomes more pressing than ever.
+All our personal and social information, cultural heritage and scientific findings are stored and managed in a digital form.
+Much of this content is born digital and there are no other copies.
+
+Although there is an increasing awareness in research and business communities about the problem, there are still many people and organisations, that do not act accordingly.
+Ignorance, misunderstanding of the problem or financial costs are just a few of the causes for digital disasters and data loss.
+
+Digital Preservation tries to keep digital content findable, accessible, readable and understandable through time.
+And since preserving content is not a one time single-step process, but rather an ongoing effort, there are many aspects that have to be considered.
+The community aims to find ways to preserve already existing content by making use of different strategies and tools, but also considers prevention as a valid strategy.
+In the future, so called preservation-ready systems should try to keep our content safe from the minute it is born, until it is no longer needed. The problem is that every software that produces or manipulates information and is used within an organisation or a preservation-worthy scenario should cope with these problems.
+
+The current state of the art in preservation processes, usually follows the OAIS model as a guideline and recommendation, due to the lack of specific framework for the domain.
+Although it has issues, it has been widely used and adopted by the community.
+One of its sub-processes is a decision making process, that evaluates different preservation strategies, called preservation planning.
+
+The process of preservation planning is currently highly dependent on manual input of experts, regarding the content that is preserved.
+Unfortunately, even experts and stakeholders have problem giving a specific overview of the content they possess or manage.
+As a result, high-level assertions and descriptions are usually used as the basis of the preservation planning process.
+Even though, this works it introduces two immense problems.
+Firstly, this approach does not scale, because of the manual fashion of gaining an overview over the content and the manual unstructured input that it provides.
+Secondly, because of its unspecific nature it often can lead to rather vague or at least biased results.
+Another huge impediment for planners and preservation experts in the current state of the art is the selection of representative sample objects.
+This is a small subset of a larger collection, that contains several objects considered representative to the whole collection. 
+Due to the volume of real-world collections, creating a more detailed overview and finding good representative samples, that capture the essence of the collection is usually a hard, cumbersome and time-consuming task.
+Thus, planners usually rely on random selection or consider only one or two characteristics, such as the format and the size of the objects.
+
+% TODO describe content profiling more
+
+This thesis contributes by proposing an approach of the content profiling process that can aid the preservation planning environment and ultimately digital preservation.
+The approach consists of three simple steps that gather and process the characterisation data, aggregate it and provide
+interfaces for analysis and filtering.
+By exposing an aggregation of the content containing, some significant data and overview of a collection of digital objects, other software components can make use of the data and provide feedback to a stakeholder in an automatic fashion. 
+These may include, violations of organisational policies, fluctuations in expected growth, unexpected formats and more.
+A prototype was implemented that makes was divided into two parts.
+One command line application that processed meta data files and allows near data processing and a web application for analysis.
+Through the a web application a user can filter and analyse the content based on different criteria, browse the raw meta data, make use of different representative sample algorithms and export the data.
+In the backend a widely used document store is used that supports native map reduce jobs, which was proven to be a good approach.
+%TODO
+
+% Contributions
+% proposal for a framework of content profiling
+% first prototype that creates a profile allows filtering and analysis
+% representatives
+% scales for collections up to 1 Mio on a single machine
+% integrates with monitoring and planning
+% 
 
 \section{Open Issues \& Next Steps}
+
+%TODO
+% More visualisations
+% Better filtering
+% more expressive profile format
+% user management
+% connection to repositories
+% better sampling
+% validation of the sampling algorithms
+% 

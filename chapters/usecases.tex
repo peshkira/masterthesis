@@ -1,24 +1,43 @@
-This chapter summarises the outcomes of two use cases conducted with the implemented prototype c3po and
-the results. First the goals of the experiments and some general information about the content sets are defined. Then the two use case are summarised and some of the interesting results are presented. The first use case is conducted on rather heterogeneous content and the second one over a web archive.
+This chapter summarises the outcomes of two use cases conducted with the implemented prototype c3po and the results.
+First the goals of the experiments and some general information about the content sets are defined.
+Then the two use case are summarised and some of the interesting results are presented.
+The first use case is conducted on rather heterogeneous content and the second one over a web archive.
 
 \section{Goals and General Information}
 In order to test and validate c3po a large set of files is needed to conduct experiments over it.
-For this work we use two sets of data to conduct similar experiments on the same commodity machine. The number of objects in each set is in the order of hundreds of thousands objects with a upper border of one million. This volume is large enough to capture the requirements of many organisations and institutions. However, it is noteworthy, that there are institutions (such as Web Archives) with many millions and even billions of objects. Future work might focus on such use case studies.
+For this work we use two sets of data to conduct similar experiments on the same commodity machine
+The number of objects in each set is in the order of hundreds of thousands objects with a upper border of one million.
+This volume is large enough to capture the requirements of many organisations and institutions.
+However, it is noteworthy, that there are institutions (such as Web Archives) with many millions and even billions of objects.
+Future work might focus on such use case studies.
 
-The machine used for all the experiments (unless otherwise stated) is a common laptop with a 2.3 GHz Intel Core i5 Processor (2 Cores), 8 GB RAM and a common internal hard drive with 5400 rpm. As c3po is meant to run on a server it is very likely that this configuration is much less capable than the common server used within stake holding institutions, considering the current trend of hardware technology.
+The machine used for all the experiments (unless otherwise stated) is a common laptop with a 2.3 GHz Intel Core i5 Processor (2 Cores), 8 GB RAM and a common internal hard drive with 5400 rpm.
+As c3po is meant to run on a server it is very likely that this configuration is much less capable than the common server used within stake holding institutions, considering the current trend of hardware technology.
 
-The authors hypothesis is that the processing power as well as the hard drive device would be the limiting factors during data gathering in the following experiments. The  processing of each file alone is a fast operation, however traversing the file system, opening and closing a stream to each file and storing the data to the local hard drive (within the database ) are relative expensive operations. Thus the disk write speed and the processing capacity are of a bigger importance. The RAM capacity will play an important role during analysis as the map-reduce jobs will strongly depend to that.
+The authors hypothesis is that the processing power as well as the hard drive device would be the limiting factors during data gathering in the following experiments.
+The  processing of each file alone is a fast operation, however traversing the file system, opening and closing a stream to each file and storing the data to the local hard drive (within the database ) are relative expensive operations.
+Thus the disk write speed and the processing capacity are of a bigger importance.
+The RAM capacity will play an important role during analysis as the map-reduce jobs will strongly depend to that.
 
 The goal of these use cases is to find out the usefulness of the tool in terms of speed, scalability of resources and volume of the data and to find out the limitations of the tool and ways for its enhancement in future versions.
 
-It is important to note, that the usefulness in terms of preservation planning will not be validated and is not in the scope of the following experiments and observations. One way to do this, would be to do the whole preservation planning procedure for each of the partitions created by c3po. In a next step representative samples have to be chosen and then the recommended action has to be applied over the whole partition. In a last step, special quality assurance processes will have to validate the results of the planning process. If they were successful, this will be a hint for the usefulness of tools, such as c3po. Since, this will required many resources and there are huge gaps in terms of quality assurance possibilities on larger scale, it will be rather hard to conduct such a case study successfully.
+It is important to note, that the usefulness in terms of preservation planning will not be validated and is not in the scope of the following experiments and observations.
+One way to do this, would be to do the whole preservation planning procedure for each of the partitions created by c3po. In a next step representative samples have to be chosen and then the recommended action has to be applied over the whole partition.
+In a last step, special quality assurance processes will have to validate the results of the planning process.
+If they were successful, this will be a hint for the usefulness of tools, such as c3po.
+Since, this will required many resources and there are huge gaps in terms of quality assurance possibilities on larger scale, it will be rather hard to conduct such a case study successfully.
 
 \section{GovDocs1}
-DigitalCorpora.org\footnote{http://digitalcorpora.org} is a website that provides digital corpora for use in computer forensics education and research. The sites offers different file sets, network dumps, disk images and more. For the following experiments we use the GovDocs1 file set, which contains of nearly one million freely-redistributable files that resided in the .gov domain.
+DigitalCorpora.org\footnote{http://digitalcorpora.org} is a website that provides digital corpora for use in computer forensics education and research.
+The sites offers different file sets, network dumps, disk images and more.
+For the following experiments we use the GovDocs1 file set, which contains of nearly one million freely-redistributable files that resided in the .gov domain.
 The files are randomly distributed into 1000 directories with up to 1000 files in each directory and can be downloaded at \url{http://digitalcorpora.org/corp/nps/files/govdocs1/}.
 
 \subsection{Data Description}
-Forensic Innovations Inc.\footnote{http://www.forensicinnovations.com/} have provided a simple statistical report that shows some of the important characteristics of the set, which we will try to find out with c3po and provide even more deeper insight. The report can be found here: \url{http://digitalcorpora.org/corpora/files/govdocs1-simple-statistical-report}. In table \ref{tab:govdoc1_general_info} general information such as file size and volume is summarised, whereas table \ref{tab:govdoc1_content} provides a summary over the content of the different files. Note that the total sum of files in the second table is more than the number of files in the set, meaning that many files are counted twice or even more, which is of course not very helpful for digital preservation activities.
+Forensic Innovations Inc.\footnote{http://www.forensicinnovations.com/} have provided a simple statistical report that shows some of the important characteristics of the set, which we will try to find out with c3po and provide even more deeper insight.
+The report can be found here: \url{http://digitalcorpora.org/corpora/files/govdocs1-simple-statistical-report}.
+In table \ref{tab:govdoc1_general_info} general information such as file size and volume is summarised, whereas table \ref{tab:govdoc1_content} provides a summary over the content of the different files.
+Note that the total sum of files in the second table is more than the number of files in the set, meaning that many files are counted twice or even more, which is of course not very helpful for digital preservation activities.
 
 \begin{table}
 \centering
@@ -76,21 +95,35 @@ Content & Total \\
 \caption{This table shows the different content types within the GovDocs1 set as the preliminary data shows.}
 \end{table}
 
-\subsection{Experiment Preparation}
-In order to conduct the experiment all the files have to be characterised with the FITS tool. In order to automate this task, the authors have used a workflow engine developed by the University of Manchester called Taverna\footnote{http://www.taverna.org.uk/}. With the help of Taverna, one can create parallelised workflows that consist of number of small steps and tasks. In this instance, the files were copied via \textit{scp} from a storage server, \textit{FITS} was executed in parallel on each of the files and the output was stored on the experiments machine.
+\subsection{Experiment Preparation}.
+In order to conduct the experiment all the files have to be characterised with the FITS tool.
+In order to automate this task, the authors have used a workflow engine developed by the University of Manchester called Taverna\footnote{http://www.taverna.org.uk/}.
+With the help of Taverna, one can create parallelised workflows that consist of number of small steps and tasks.
+In this instance, the files were copied via \textit{scp} from a storage server, FITS was executed in parallel on each of the files and the output was stored on the experiments machine.
 
-Unfortunately, the current version of FITS (v0.6) was not stable for all file types and thus it was unable to produce output for some files. Thus all the experiments conducted on the set are done on a slightly smaller subset consisting of 945746 instead of 986278 files.
+Unfortunately, the current version of FITS (v0.6) was not stable for all file types and thus it was unable to produce output for some files.
+Thus all the experiments conducted on the set are done on a slightly smaller subset consisting of 945746 instead of 986278 files.
 
-\textbf{\textit{Disclaimer}}: Due to the unpredictable behaviour of FITS on certain file types the workflow had to be restarted numerous times. Thus it was impossible to capture the real time for characterisation. In the following all times intervals that are given are only for the execution of c3po, unless otherwise noted. Thus any comparison with the scan time in the preliminary data should not be taken lightly. Nonetheless, the results provided here, shall give a good overview of what would be possible with a tool such as c3po.
+\textbf{\textit{Disclaimer}}: Due to the unpredictable behaviour of FITS on certain file types the workflow had to be restarted numerous times.
+Thus it was impossible to capture the real time for characterisation.
+In the following all times intervals that are given are only for the execution of c3po, unless otherwise noted.
+Thus any comparison with the scan time in the preliminary data should not be taken lightly.
+Nonetheless, the results provided here, shall give a good overview of what would be possible with a tool such as c3po.
 
 \subsection{Experiment}
-The actual experiment consists of number of steps. All these experiments were conducted with c3po v0.2.0 that can be downloaded from here (\url{https://github.com/peshkira/c3po/downloads}). 
+The actual experiment consists of number of steps.
+All these experiments were conducted with c3po v0.2.0 that can be downloaded from here (\url{https://github.com/peshkira/c3po/downloads}). 
 
-First the data is gathered via c3po into a local instance of a Mongo Document store. The time for traversing the file system, parsing the data and storing it to the db is taken into account. The experiment is done with a single thread and with numerous threads to show the performance boost of the parallelisation.
+First the data is gathered via c3po into a local instance of a Mongo Document store.
+The time for traversing the file system, parsing the data and storing it to the db is taken into account.
+The experiment is done with a single thread and with numerous threads to show the performance boost of the parallelisation.
 
 In a next step some measurements are done for data export and profile generation, which will be important in a real world scenario.
 
-In the last step of the experiment the gathered data is used and analysed with the c3po web application. Different characteristics and findings are presented as well as some measurement times of the map reduce jobs and further data. The tool is used to partition the content. At the end interesting data for some partitions is provided as well as their profiles.
+In the last step of the experiment the gathered data is used and analysed with the c3po web application.
+Different characteristics and findings are presented as well as some measurement times of the map reduce jobs and further data.
+The tool is used to partition the content.
+At the end interesting data for some partitions is provided as well as their profiles.
 
 \subsubsection{Gathering}
 In the initial test the gathering was conducted in a single thread environment. 
@@ -99,37 +132,70 @@ In the initial test the gathering was conducted in a single thread environment.
 c3po -g ~/path/to/folder/ -r -c govdocs1
 \end{verbatim}
 
-The processing of all 945746 files took more than 167 minutes. 47 files were not processed successfully due to malformed meta data files. After initial preparation and setup, processing 1000 files took 10.46 seconds on average.
+The processing of all 945746 files took more than 167 minutes.
+47 files were not processed successfully due to malformed meta data files.
+After initial preparation and setup, processing one thousand files took 10.46 seconds on average.
 
-The same procedure was conducted with 4 threads and with 8 threads. The speedup was 121 and XX minutes respectively. The average processing of 1000 files was 7.54 and ..  seconds respectively. This shows about 28\% increase in speed. More powerful hardware (with a solid state drive disk and faster CPU) will most probably enable a speedup up to 50\% in comparison to the single threaded solution. A next step of improvement towards the next threshold could be the parallelisation of the process on different nodes against the same document store and even distribution the store itself. These improvements are not included as part of this thesis but are possible next steps, which will enhance the process even further.
+The same procedure was conducted with four and 8 threads.
+The speedup was 121 and 108 minutes respectively.
+The average processing of one thousand files was 7.54 and 6.73  seconds respectively.
+This shows more than 35\% increase in speed.
+More powerful hardware (with a solid state drive disk and faster CPU) will most probably enable a speedup up to 50\% in comparison to the single threaded solution.
+A next step of improvement towards the next threshold could be the parallelisation of the process on different nodes against the same document store and even distribution the store itself.
+These improvements are not included as part of this thesis but are possible next steps, which will enhance the process even further.
 
 \subsubsection{Profile \& Export}
-In this part of the experiment c3po was used to generate a profile of the data processed in the previous step and to also export it. The generated files are then inspected.
+In this part of the experiment c3po was used to generate a profile of the data processed in the previous step and to also export it.
+The generated files are then inspected.
 
 \begin{verbatim}
 c3po -p ~/path/to/output/folder -c govdocs1
 \end{verbatim}
 
-The time taken for the profile generation of the whole govdocs1 collection was 12 minutes. The profile included 112 properties. The output file was 53 KB in size. Considering that content profiling is not meant to be a process that delivers results instantly, these preliminary output seems to be feasible and is acceptable considering the integration with other tools over a network.
+The time taken for the profile generation of the whole govdocs1 collection was 12 minutes.
+The profile included 112 properties. The output file was 53 KB in size.
+Considering that content profiling is not meant to be a process that delivers results instantly, these preliminary output seems to be feasible and is acceptable considering the integration with other tools over a network.
 
-In the case that the aforementioned improvements in terms of processing are successful then it is likely that the generation of a profile over larger content will take more time. If the time of profile generation takes tool long in such a case a new polling strategy will have to be implemented, where an asynchronous profile generation job is submitted and the status of the result is polled by the client.
+In the case that the aforementioned improvements in terms of processing are successful then it is likely that the generation of a profile over larger content will take more time.
+If the time of profile generation takes tool long in such a case a new polling strategy will have to be implemented, where an asynchronous profile generation job is submitted and the status of the result is polled by the client.
 
-The same command was then executed with the -ie switch, which includes the element identifiers in the profile.
-The time taken was 12 minutes once again and the resulting file was 60 MB in size. This was due to the fact that all object identifiers were included in the profile. Since the collection is pretty big, this shows how infeasible this option is. It is helpful for demonstration purposes on smaller sized collections, but will most probably not be feasible in real world scenarios. This part of the profile should be swapped with a special query that selects the digital objects falling into this profile. This presents a potential problem as the query should be agnostic to the data representation, but expressive enough to select all of the matching objects. Furthermore, this query should be understood by any client and integrating applications, such as planning tools and digital repositories, as it will be the interface between these. If this is can be achieved, the footprint will be once again rather small. 
+The same command was then executed with the \textit{-ie} switch, which includes the element identifiers in the profile.
+The time taken was 12 minutes once again and the resulting file was 60 MB in size.
+This was due to the fact that all object identifiers were included in the profile.
+Since the collection is pretty big, this shows how infeasible this option is.
+It is helpful for demonstration purposes on smaller sized collections, but will most probably not be feasible in real world scenarios.
+This part of the profile should be swapped with a special query that selects the digital objects falling into this profile.
+This presents a potential problem as the query should be agnostic to the data representation, but expressive enough to select all of the matching objects.
+Furthermore, this query should be understood by any client and integrating applications, such as planning tools and digital repositories, as it will be the interface between these.
+If this is can be achieved, the footprint will be once again rather small. 
 
 %TODO include what was in the profile and some results.
 
 \begin{verbatim}
 c3po -e ~/path/to/output/folder -c govdocs1
 \end{verbatim}
-Afterwards all the data was exported to a .csv file in a sparse matrix, with the object identifiers as rows and the properties as columns. The generation took a little more than 2 minutes and resulted in a file of 430 MB in size. This matrix view is very helpful to obtain an overview of the whole collection and can be used to apply some more complex filters that are not possible with the web application. On the downside, it is questionable if this approach will scale on larger content. While state of the art spreadsheet processors still cope with files of this size, it is highly questionable if it will be possible to open and process a much larger file. A solution for this potential problem would be to split the exported matrix into smaller pieces and process them separately.
+Afterwards all the data was exported to a .csv file in a sparse matrix, with the object identifiers as rows and the properties as columns.
+The generation took a little more than 2 minutes and resulted in a file of 430 MB in size.
+This matrix view is very helpful to obtain an overview of the whole collection and can be used to apply some more complex filters that are not possible with the web application.
+On the downside, it is questionable if this approach will scale on larger content.
+While state of the art spreadsheet processors still cope with files of this size, it is highly questionable if it will be possible to open and process a much larger file.
+A solution for this potential problem would be to split the exported matrix into smaller pieces and process them separately.
 
 \subsubsection{Analysis}
-In the last step the web app of c3po was used to look at the govdocs1 content set and obtain an overview. The following describes the set and what was possible with the tool.
+In the last step the web app of c3po was used to look at the govdocs1 content set and obtain an overview.
+The following describes the set and what was possible with the tool.
 
-c3po revealed that the whole collection of digital objects had an overall storage size of 447.36GB of data. This value seems to be realistic considering that FITS failed on numerous objects and the c3po gathering process failed on some as well. The smallest object has a size of 7 Bytes and the largest - 1.52GB. On average all of the objects have a size of 0.48 MB with a standard deviation of 4.29 MB. On the downside, the application did not allow the selection of the smallest and largest objects, which could be easily fixed in a next version. In the current version, this will be only possible via the .csv export.
+c3po revealed that the whole collection of digital objects had an overall storage size of 447.36GB of data.
+This value seems to be realistic considering that FITS failed on numerous objects and the c3po gathering process failed on some as well.
+The smallest object has a size of 7 Bytes and the largest - 1.52GB.
+On average all of the objects have a size of 0.48 MB with a standard deviation of 4.29 MB.
+On the downside, the application did not allow the selection of the smallest and largest objects, which could be easily fixed in a next version.
+In the current version, this will be only possible via the .csv export.
 
-C3PO immediately showed, that the collection consists of 46 different mime types and in addition there is one subset of conflicted mimes, which is the second most occurring. The first 9 most occurring mime types represent nearly 80\% of the whole collection and are presented in table \ref{tab:govdocs1_mimetypes}. The correlation between the mime type the format of a digital object implies that both distributions are similar. This was proven by c3po as well.
+C3PO immediately showed, that the collection consists of 46 different mime types and in addition there is one subset of conflicted mimes, which is the second most occurring.
+The first 9 most occurring mime types represent nearly 80\% of the whole collection and are presented in table \ref{tab:govdocs1_mimetypes}.
+The correlation between the mime type the format of a digital object implies that both distributions are similar.
+This was proven by c3po as well.
 
 %APPENDIX?
 %The whole distribution is presented in figure
@@ -156,7 +222,16 @@ Mime Type & Count \\
 \label{tab:govdocs1_mimetypes}
 \end{table}
 
-The next interesting observation was the creation date distribution of the content set. The following table \ref{tab:govdocs1_created} presents it. The total of the files in this distribution is much less than the total of the collection, because of the data sparsity. Nonetheless, there are some interesting observations that can be made out of this distribution. Firstly, the objects created between 2003 and 2008 are much more than the rest. This can be related to the fact that data production does not increase constantly, but rather exponentially during the years. Although this conclusion might be biased as the data may not be sufficient to back it up. Secondly, it is very interesting that the data created in 2009 is  less than some data created during the 90s. Thirdly, there is one small subset that is gathered in year '-1'. This is clearly a faulty measurement provided by some of the characterisation tools bundled in FITS, which proves the point of the importance of meta data quality. 
+The next interesting observation was the creation date distribution of the content set.
+The following table \ref{tab:govdocs1_created} presents it.
+The total of the files in this distribution is much less than the total of the collection, because of the data sparsity.
+Nonetheless, there are some interesting observations that can be made out of this distribution.
+Firstly, the objects created between 2003 and 2008 are much more than the rest.
+This can be related to the fact that data production does not increase constantly, but rather exponentially during the years.
+Although this conclusion might be biased as the data may not be sufficient to back it up.
+Secondly, it is very interesting that the data created in 2009 is  less than some data created during the 90s.
+Thirdly, there is one small subset that is gathered in year '-1'.
+This is clearly a faulty measurement provided by some of the characterisation tools bundled in FITS, which proves the point of the importance of meta data quality.
 Last but not least, there is one subset that seems to be created in 1910, which seems to be rather peculiar and might also be related to bad data quality.
 
 \begin{table}[h]
@@ -190,39 +265,71 @@ Rest		&  6362\\
 \end{table}
 
 \paragraph{Portable Document Format}
-Adding a new mime type based filter showed that the 224495 application/pdf files in the govdocs1 set consisted of three different PDF formats (PDF, PDF/A and PDF/X) with more than 10 different versions. This is about 28\% of the storage size  needed for the whole collection.
+Adding a new mime type based filter showed that the 224495 application/pdf files in the govdocs1 set consisted of three different PDF formats (PDF, PDF/A and PDF/X) with more than 10 different versions.
+This is about 28\% of the storage size  needed for the whole collection.
 
-In a next step validity and well-formedness of the documents was examined. 90\% of these documents were valid, nearly 10\% were invalid and less than 1\% were unknown. Almost all documents were well-formed. About 1\% were not and once again less than 1\% were unknown. Drilling further down (valid=''unknown'') made it possible to conclude that  the unknown files in terms of validity and wellformedness were exactly overlapping. Because of this fact, they are excluded of the following observations.
+In a next step validity and well-formedness of the documents was examined.
+90\% of these documents were valid, nearly 10\% were invalid and less than 1\% were unknown.
+Almost all documents were well-formed. About 1\% were not and once again less than 1\% were unknown.
+Drilling further down (valid=''unknown'') made it possible to conclude that  the unknown files in terms of validity and wellformedness were exactly overlapping.
+Because of this fact, they are excluded of the following observations.
 
-c3po showed that all valid pdf documents were also well formed. However, 8\% of all well-formed pdf objects were invalid. None of these 8\% were in format PDF/X, which implies that all PDF/X formatted objects are both valid and well-formed.
+c3po showed that all valid pdf documents were also well formed.
+However, 8\% of all well-formed pdf objects were invalid.
+None of these 8\% were in format PDF/X, which implies that all PDF/X formatted objects are both valid and well-formed.
 
-Another interesting observation was made by selecting the subset of invalid and not well-formed documents, which were about 1\% of the whole pdf collection. This subset consists only of PDF documents (in all versions from 1.0 to 1.6). c3po also provided a list of so called 'evil' applications that created these malformed files. Most were created by different versions of Acrobat Distiller.
+Another interesting observation was made by selecting the subset of invalid and not well-formed documents, which were about 1\% of the whole pdf collection.
+This subset consists only of PDF documents (in all versions from 1.0 to 1.6).
+c3po also provided a list of so called 'evil' applications that created these malformed files.
+Most were created by different versions of Acrobat Distiller.
 
 At last the distribution of the properties 'is rights managed' and 'is protected' were generated.
-It turns out that only 81 pdf documents had rights data associated with them, whereas 97\% didn't have any. For about 2\% it was unknown. The protected pdfs were much more in comparison - about 4\%. Again 2\% were unknown and the rest were not protected. Very interesting was that eight objects were conflicted in terms of protection. All of these were invalid and not well-formed. Two had the format PDF 1.4 and six PDF 1.6.
+It turns out that only 81 pdf documents had rights data associated with them, whereas 97\% didn't have any.
+For about 2\% it was unknown.
+The protected pdfs were much more in comparison - about 4\%.
+Again 2\% were unknown and the rest were not protected.
+Very interesting was that eight objects were conflicted in terms of protection.
+All of these were invalid and not well-formed. Two had the format PDF 1.4 and six PDF 1.6.
 
 All in all analysis of this type of objects was quite easy and the tool enabled the user to drill down and find out interesting facts about this subset.
 
 \paragraph{Conflicted}
-Examining the objects with conflicted mime type values with c3po proved to be rather hard and showed room for optimisation and enhancement in the future versions of c3po. Besides of the storage size statistics the information was not very helpful. The storage size of all 160353 objects was about 81GB. All the formats in the subset were also conflicted and only versions were shown, which was not enough information to gain an overview of the conflicted subset (the second highest in the whole set). An idea was to take a look at the creating applications and to obtain a rough overview of the type of documents in this subset. Unfortunately, 99\% of these were unknown.
+Examining the objects with conflicted mime type values with c3po proved to be rather hard and showed room for optimisation and enhancement in the future versions of c3po.
+Besides of the storage size statistics the information was not very helpful.
+The storage size of all 160353 objects was about 81GB.
+All the formats in the subset were also conflicted and only versions were shown, which was not enough information to gain an overview of the conflicted subset (the second highest in the whole set).
+An idea was to take a look at the creating applications and to obtain a rough overview of the type of documents in this subset.
+Unfortunately, 99\% of these were unknown.
 
-In terms of validity and wellformedness, the following observations were made. For 48\% of the subset both these properties were unknown. All 20\% of the valid objects in this subset were also well formed. The other 32\% of invalid objects contained both well formed and not well formed objects in ratio 3 to 2.
+In terms of validity and wellformedness, the following observations were made.
+For 48\% of the subset both these properties were unknown.
+All 20\% of the valid objects in this subset were also well formed.
+The other 32\% of invalid objects contained both well formed and not well formed objects in ratio 3 to 2.
 
-All this showed, that it will be helpful to a planner to see a list of conflicted values or some kind of weighted distribution. Additional filters over these would also be helpful. Furthermore it will be beneficial to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).\newline
+All this showed, that it will be helpful to a planner to see a list of conflicted values or some kind of weighted distribution. 
+Additional filters over these would also be helpful.
+Furthermore it will be beneficial to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).\newline
 
 \paragraph{Joint Photographic Experts Group}
 As there is a second use case study, conducted over data from a web archive, the third most common mime type (text/html) is skipped for the next one - image/jpeg.
 
-This subset consists of 106714 objects or about 11\% of the whole set. The storage space needed for this subset is about 34GB.
+This subset consists of 106714 objects or about 11\% of the whole set.
+The storage space needed for this subset is about 34GB.
 
 Two formats were identified within this subset (JPEG and EXIF) with more than 10 different versions.
-80\% of the files were valid and wellformed. Only 3 objects were invalid. The rest was unknown both in terms of validity and wellformedness.
+80\% of the files were valid and wellformed. Only 3 objects were invalid.
+The rest was unknown both in terms of validity and wellformedness.
 
-The JPEG files presented 95\% of the subset and most of them had YCbCr colorspace. The rest were unknown.
+The JPEG files presented 95\% of the subset and most of them had YCbCr colorspace.
+The rest were unknown.
 
-The EXIF files were significantly smaller (a bit more than 4\%). For most of them the colorspace was unknown. The rest were RGB images.
+The EXIF files were significantly smaller (a bit more than 4\%).
+For most of them the colorspace was unknown.
+The rest were RGB images.
 
-Other interesting data provided by FITS were the gps coordinates of some images. Unfortunately, c3po is not able to make use of these in order to visualise them. Nonetheless, an overview of the objects having such meta data could be an interesting asset in a digital preservation activity considering a scenario where such meta data has to be kept after a preservation action is conducted. 
+Other interesting data provided by FITS were the gps coordinates of some images.
+Unfortunately, c3po is not able to make use of these in order to visualise them.
+Nonetheless, an overview of the objects having such meta data could be an interesting asset in a digital preservation activity considering a scenario where such meta data has to be kept after a preservation action is conducted. 
 
 \section{Web Archive}
 

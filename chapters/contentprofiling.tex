@@ -2,7 +2,7 @@ This chapter gives a good theoretical overview of the issue of content profiling
 
 \section {Goals}
 \label{sec:goals}
-Content Profiling is a topic that combines two important parts of digital preservation and acts as the glue-ware, that holds up a digital preservation system in terms of its integrity.
+Content Profiling is a topic that stands between the low-level technical processes and uses their output and the high-level decision making process of preservation planning.
 
 On the one side, there are lower level technical processes, such as characterisation, which play an important role not only to preservation planning but to DP in general. These processes have to deal with single objects (even though the scale can be very large). As output they provide information to quality assurance activities and workflows as well as preservation planning. The identity and meta data extracted out of every single digital object is the scaffold that enables many other processes and applications to do their work. Consequently, the tools that provide this data care the responsibility for any subsequent process that relies on this data and its validity.
 
@@ -20,10 +20,10 @@ All these issues outline the goals of the content profiling process, which are s
 \item Enable automatic and scalable aggregation of sparse meta data provided by identification and characterisation tools.
 \item Create and expose a well-defined, machine readable footprint of the content at hand, for other actors to use. This has to summarise the following information.
  \begin{itemize}
-  \item an identifier of the content.
+  \item an identifier of the content or collection.
   \item the characteristics of the content, such as mime types, formats, size, but also any other that is of interest to preservation planning.
-  \item the sample records.
-  \item the scope of the profile (e.g. the object identifiers of the collection, within a repository interface)
+  \item a set of sample records.
+  \item the scope of the profile (e.g. the object identifiers of the collection, within a repository interface) or some other means to distinguish the objects that conform to this profile.
  \end{itemize}
 \item Enable planning experts to analyse the content. This includes:
  \begin{itemize}
@@ -31,13 +31,14 @@ All these issues outline the goals of the content profiling process, which are s
   \item generating statistical reports about the size of the content.
   \item filtering the content into homogeneous sub sets, based on multiple characteristics.
  \end{itemize}
-\item Export the raw (sparse) meta data in a common format that can be processed by other analysis software.
-\item Select representative subsets based on different approaches, that make sense in different use cases.
+\item Export the raw (sparse) meta data in a common format that can be processed by other analysis software, which will enable preservation experts to conduct even more in-depth analysis.
+\item Select representative subsets based on different approaches, that make sense in different planning use cases.
 \item Browse the raw meta data of objects.
 \end{itemize}
 % goals
 
 \section{Preservation Planning}
+\label{lbl:cp_preservationplanning}
 The preservation planning process is a well-defined workflow consisting of three phases with several steps amounting to 11 altogether \cite{STR07_jcdl}. The process specification was created during the PLANETS project and has been verified by numerous case studies since then. 
 
 In the first phase, \textit{``Define Requirements''}, the scope of the preservation plan is demarcated. The preservation expert has to follow three steps; to provide information about the collection, environment etc. (\textbf{Define Basis}), to choose representative sample records for experimentation (\textbf{Define Sample Records}) and to identify the requirements for the preservation plan or the so called objective tree, which summarised high-level goals of the plan (\textbf{Identify Requirements}). 
@@ -61,7 +62,8 @@ However, there is one step that could have serious implications and even cause d
 
 One can argue, that no real preservation expert will choose representatives at random. Although this might be true, there are numerous other factors that have to be considered when choosing the representatives and since the collections that are worth preserving are often big enough, the overhead for the preservation expert is just not feasible to select them by hand. Thus the representatives are usually chosen by format and format version in combination with their size (minimum, maximum and average).
 
-Note, that there is a fourth phase (\textit{``Build preservation plan``}) which adds an important part to the workflow and results in an applicable real world preservation plan artefact. The planning tool PLATO, developed at the University of Technology in Vienna, implements this process and appends a fourth phase, where the user/planning expert can create an executable plan, which can be deployed within a repository. The preservation action plan is a well defined specification that serves the purpose of documentation of the decision and contains the executable part, which specifies the tools, environment and parameters to use during the preservation operation.
+The planning tool PLATO, developed at the University of Technology in Vienna, implements this process and appends a fourth phase, where the user/planning expert can create an executable plan, which can be deployed within a repository. 
+This fourth phase, (\textit{``Build preservation plan``}) adds an important part to the workflow and results in an applicable real world preservation plan artefact. The preservation action plan is a well defined specification that serves the purpose of documentation of the decision and contains the executable part, which specifies the tools, environment and parameters to use during the preservation operation.
 
 However, in its current release, the planning tool supports only manual sample records definition. Although it assists the planner with integrated characterisation tools, it cannot provide higher certainty in the validity of the chosen representatives. Integration with another tool that provides a complete content profile (generated in an automatic fashion) would provide a huge benefit to preservation planners.
 
@@ -90,15 +92,22 @@ For this purpose, a simple but flexible domain model has to be created that allo
 % why is it important (iteration of before)
 
 \subsection{The process}
-Content profiling consists of three main parts; data harvesting, data aggregation and analysis.
+Content profiling consists of three main parts; data harvesting, data aggregation and analysis. These are illustrated in figure \ref{fig:cp_threesteps} and is discussed in the following.
 
-The first part is responsible for gathering and processing the output of the characterisation processes in a DP system and adapting it to the internal model of the profile framework. Since DP scenarios usually make use of digital repositories, it should be possible to harvest the meta data directly from the repository. This can present a potential issue, due to the differences in the interfaces of repositories. Nonetheless, it has to be considered within the design of the system. Of course the approach could include characterisation as part of the process, which would result in a collection of meta data files. In such a case, the disadvantages discussed above, should be considered.
+\begin{figure}[bh]
+\begin{center}
+\includegraphics[width=3in]{figures/contentprofiling/contentprofiling.png}
+\caption{The three steps of content profiling}
+\label{fig:cp_threesteps}
+\end{center}
+\end{figure}
 
-After parsing the meta data, special post-processing steps can be applied to each meta data object in order to refine data gathering. For example, if the tool does not provide normalised data, special actions can be undertaken to deal with this issue. Also, if there are conflicted values of the same property provided by different meta data sources, data cleanup actions and rules can be executed. These post-processing steps can have huge impact on the final result and thus should not be executed lightly, but only through special configuration steps, done by preservation experts, that understand the source of the meta data, the operations of the identification and characterisation tools and the implications of such alterations of the data. Thus, such functionality of the content profiler has to be done in a flexible fashion and has to allow special configuration that can alter and turn on and off such behaviour. Once the data fits the internal representation of the profiler, it can be stored in a data base per digital object level and thus allow further processing by the profiling process.
+The first step is responsible for characterising, collecting and processing the data in a DP system and adapting it to the internal model of the profile framework. This includes normalisation of the different properties and characteristics, removal of unnecessary data and more. Since DP scenarios usually make use of digital repositories, it should be possible to harvest the meta data directly from the repository. This can present a potential issue, due to the differences in the interfaces of repositories. Nonetheless, it has to be considered within the design of the system. Of course the approach could include characterisation as part of the process, which would result in a collection of meta data files. In such a case, the disadvantages discussed above, should be considered. After extracting and parsing the characterisation data out of the digital objects, special post-processing steps can be applied to each meta data object in order to refine the gathered data. For example, if the characterisation process does not provide normalised data, special actions can be undertaken to deal with this issue. Also, if there are conflicted values of the same property provided by different meta data sources, data cleanup actions and rules can be executed. These post-processing steps can have huge impact on the final result and thus should not be executed lightly, but only through special configuration steps, done by preservation experts, that understand the source of the meta data, the operations of the identification and characterisation tools and the implications of such alterations of the data. Thus, such functionality of the content profiler has to be done in a flexible fashion and has to allow special configuration that can alter and turn on and off such behaviour. Once the data fits the internal representation of the profiler, it can be stored in a data base per digital object level and thus allow further processing by the profiling process.
 
-The next step of aggregation can be done either after the data is parsed, normalised and stored or on demand if the underlying data store provides the necessary facilities. It is responsible to present the big picture of the data in a smaller footprint and structured form, so that other programs and tools can integrate with it. It should provide enough flexibility to understand the data but also a smaller footprint. Here different queries and aggregations can be executed, stored or cached in order to enable analysis or export of the data. An important issue that has to be considered is how data is going to be updated during time and content changes. 
+The next step of aggregation can be done either after the data is parsed, normalised and stored or on demand if the underlying data store provides the necessary facilities. It is responsible to present the big picture of the data in a smaller footprint and structured form, so that other programs and tools can integrate with it. It should provide enough flexibility to understand the data but also be aggregated as much as possible. Here different queries and aggregations can be executed, stored or cached in order to enable analysis or export of the data. An important issue that has to be considered is how data is going to be updated during time and content changes. 
 
-The last step is a higher level service on top of the framework, that has to be conducted mostly manually by the preservation expert. This means that it will rely on specific decisions and will need the input of a user. Nonetheless, it should be automated as much as possible and shall support the user in her decisions. This includes querying the data and gaining knowledge about the content by drilling it down based on different characteristics.
+The last step is a higher level service on top of the framework, that has to be conducted mostly manually by the preservation expert. This means that it will rely on specific decisions and will need the input of a user. Nonetheless, it should be automated as much as possible and shall support the user in her decisions. This includes querying the data and gaining knowledge about the content by drilling it down based on different characteristics, but also the export of the whole raw data or a subset of it in a representation that allows further analysis but provides comprehensible overview.
+Due to the nature of the data (a set of key-value pairs per object), a sparse matrix seems to be a good fit for this.
 
 \subsection{Limitations \& Pitfalls}
 There are a number of problems and potential pitfalls, that have to be considered when designing and implementing the proposed framework.
@@ -107,7 +116,7 @@ A very important issue is the removal of objects. It is, unusual that objects ar
 
 The same goes if new meta data is acquired and merged within the current profile. Here normalisation has to be kept intact and also any aggregation that might be influenced should be recalculated.
 
-Clearly, the quality of a content profile is highly dependant on the quality of meta data.
+Clearly, the quality of a content profile is highly dependant on the quality of meta data, which makes it very important for preservation experts to know and understand the identification and characterisation tools they use.
 
 If data normalisation is done via the framework and is not part of the meta data input, then very specific expertise will be required to do this task efficiently.
 
@@ -155,7 +164,7 @@ One example of such trend results is presented in figure \ref{fig:trends_html}. 
 % cite or refer to Stefan Schindlers thesis and give him credit
 % may be say that this was possible with the backend of the tool presented in the next chapter.
 
-\begin{figure}[b]
+\begin{figure}[t]
 \begin{center}
 \includegraphics[width=3.6in]{figures/contentprofiling/trends_html.png}
 \caption{Usage trends in html versions over time in a danish web archive}
@@ -167,4 +176,23 @@ One example of such trend results is presented in figure \ref{fig:trends_html}. 
 \label{sec:representative_sets}
 % what is the problem,
 % how do we create them/find them
-TBD
+As discussed in chapter \ref{lbl:cp_preservationplanning} finding a small set of representative sample objects is one of the most important steps during the first step of the planning process as it forms the foundation for the chosen course of action.
+
+The goal is to choose a small set of objects out of a much larger set.
+This small set should ideally capture the essence of the large set, which means covering as much of the different measurements of a set of characteristics.
+
+There are a couple of questions that a preservation planner has to answer when selecting this set.
+Firstly, how many samples is enough?
+And secondly, what characteristics are important for the coverage?
+
+Unfortunately, both of these questions do not have specific answers and are highly dependent on the given preservation use case.
+Nonetheless, these questions outline some requirements for the planner to consider during selection and planning.
+The sample set has to have as less as possible entries due to the resource consumption of the experiments, but as much as needed to guarantee the validity of the experiments.
+As far as the characteristics are concerned, the planner has to select such characteristics that are important for the use case, that are measurable and could cover as much as possible in the set.
+For example, consider a format homogeneous collection.
+Choosing your samples based on the format, would not make much sense, as the chosen samples would still be random due to the format homogeneity.
+
+Choosing such samples is somehow related to the more known problem of clustering.
+Clustering tries to organise a given set of patterns based on similarity, usually by representing them in vectors or points in multidimensional spaces and their distances \cite{Jain:1999:DCR:331499.331504}.
+The problem is that we do not only search for similar objects based on different characteristics, but we want to select enough objects of every distinct cluster, so that we have the confidence that enough objects were selected to cover all peculiarities and differences between them, that could be the cause of a failure.
+To some extent the first step of filtering through the content and finding a homogeneous set is the clustering, which results   in one cluster of the whole content. The representative sample set is a much smaller subset in this cluster that has to cover as much as possible of the differences between the objects inside of the homogeneous set. Clearly, if the first step is omitted, finding a representative set, should still work. However, it will be more complex to achieve a good coverage as the differences will be much more as well as the data sparsity will be larger. 
