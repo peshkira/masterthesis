@@ -11,33 +11,50 @@ And since preserving content is not a one time single-step process, but rather a
 The community aims to find ways to preserve already existing content by making use of different strategies and tools, but also considers prevention as a valid strategy.
 In the future, so called preservation-ready systems should try to keep our content safe from the minute it is born, until it is no longer needed. The problem is that every software that produces or manipulates information and is used within an organisation or a preservation-worthy scenario should cope with these problems.
 
-The current state of the art in preservation processes, usually follows the OAIS model as a guideline and recommendation, due to the lack of specific framework for the domain.
+The current state of the art in preservation processes, usually follows the OAIS model as a guideline and recommendation, due to the lack of a more specific framework for the domain.
 Although it has issues, it has been widely used and adopted by the community.
 One of its sub-processes is a decision making process, that evaluates different preservation strategies, called preservation planning.
 
 The process of preservation planning is currently highly dependent on manual input of experts, regarding the content that is preserved.
-Unfortunately, even experts and stakeholders have problem giving a specific overview of the content they possess or manage.
+Even though, there is a high chance that the preservation planning process will never be fully automated, it could be greatly enhanced. Even with current technology, preservation planners can benefit a lot.
+Unfortunately, experts and stakeholders do not have an overview of the content they possess or manage due to the large volumes of data they have to deal with.
 As a result, high-level assertions and descriptions are usually used as the basis of the preservation planning process.
-Even though, this works it introduces two immense problems.
+Based on these and manually chosen random sample records, different preservation strategies and actions are evaluated.
+Even though this works in practice, it introduces two immense problems.
 Firstly, this approach does not scale, because of the manual fashion of gaining an overview over the content and the manual unstructured input that it provides.
-Secondly, because of its unspecific nature it often can lead to rather vague or at least biased results.
-Another huge impediment for planners and preservation experts in the current state of the art is the selection of representative sample objects.
-This is a small subset of a larger collection, that contains several objects considered representative to the whole collection. 
+The creation of a complete executable plan can take up to weeks and often needs the attention of more than one person.
+Secondly, because of its unspecific nature it can lead to rather vague or at least biased results.
+
+Another huge impediment for planners and preservation experts in the current state of the art is the selection of representative sample objects. This is a small subset of a larger collection, that contains several objects considered representative to the whole collection. 
+
 Due to the volume of real-world collections, creating a more detailed overview and finding good representative samples, that capture the essence of the collection is usually a hard, cumbersome and time-consuming task.
 Thus, planners usually rely on random selection or consider only one or two characteristics, such as the format and the size of the objects.
 
 % TODO describe content profiling more
 
 This thesis contributes by proposing an approach of the content profiling process that can aid the preservation planning environment and ultimately digital preservation.
+
+A content profile is ideally a machine readable aggregation of all important characteristics of a collection of digital objects. It includes relevant information, such as the size and volume of a collection, aggregated identification data, but also any other preservation related characteristic. The profile usually also contains a small set of representative samples and their identifiers within the source.
+
 The approach consists of three simple steps that gather and process the characterisation data, aggregate it and provide
-interfaces for analysis and filtering.
+interfaces for analysis and filtering. 
+
 By exposing an aggregation of the content containing, some significant data and overview of a collection of digital objects, other software components can make use of the data and provide feedback to a stakeholder in an automatic fashion. 
 These may include, violations of organisational policies, fluctuations in expected growth, unexpected formats and more.
-A prototype was implemented that makes was divided into two parts.
-One command line application that processed meta data files and allows near data processing and a web application for analysis.
-Through the a web application a user can filter and analyse the content based on different criteria, browse the raw meta data, make use of different representative sample algorithms and export the data.
-In the backend a widely used document store is used that supports native map reduce jobs, which was proven to be a good approach.
-%TODO
+
+A prototype was implemented as part of the thesis. Its was divided into two logical components because of scalability issues.
+First, a command line application that processes meta data files and allows near data processing and a web application for analysis. By separating the processing component off of the analysis component, the implemented framework provides
+better flexibility for integration in real-world scenarios and systems. For example, the command line can be integrated within a repository or even executed regularly (e.g. by a cron job) on the system near the data. This will allow the effective utilisation of resources in the usually more powerful backend.
+Through the a web application a user can filter and analyse the content based on different criteria, browse the raw meta data, make use of different representative sample algorithms and export the data. The web application can be deployed in any (other) environment. It connects to the backend and makes use of its resources. By exposing a simple REST API, other components, can communicate with the tool and obtain a machine readable content profile.
+ 
+In the backend a widely used document store is used that supports native map reduce jobs. These seem to provide the needed capabilities for handling large amounts of data and provide results in feasible time spans.
+
+The current implementation works good on collections of sizes up to million. The backend could handle even more data on common hardware, however, the front-end seems to be the bottleneck in such cases. In order to overcome this hurdle, better caching mechanisms have to be implemented and some of the data transfer could be optimised.
+Nonetheless, the handling of collections of such sizes is still valuable to many organisations and practitioners.
+
+The prototype was disseminated to the community through the Open Planets Foundation Blog\footnote{http://openplanetsfoundation.org/blogs/2012-11-19-c3po-content-profiling-tool-preservation-analysis}, which generated quite a lot of interest. It was also presented on special training event carried out by the SCAPE project. The responses of the community thus far have been rather positive and the tool seems to take up.  
+
+In the near future c3po will be presented at developer events as part of other EU funded digital preservation projects and will be given away to the community for further development if enough interest is expressed.
 
 % Contributions
 % proposal for a framework of content profiling
@@ -49,12 +66,19 @@ In the backend a widely used document store is used that supports native map red
 
 \section{Open Issues \& Next Steps}
 
-%TODO
-% More visualisations
-% Better filtering
-% more expressive profile format
-% user management
-% connection to repositories
-% better sampling
-% validation of the sampling algorithms
-% 
+As any piece software, this prototype has many places for optimisation. As the case studies showed there are many places for enhancement. In the following we give an overview of some features that are considered for the next releases:
+
+Starting with trivial things as more visualisation types, in order to give an even better overview to the planner. Adding support for scatterplots and bubble charts, will allow the visualisation of two different characteristics, which will be rather helpful to a planner.
+
+Filtering can be enhanced by providing more options, such as the negation of a condition and the logical OR operator. However, this can make the usage more complex and has to be considered carefully. During this optimisation, caching of some filter results has to be built into c3po. This will make it faster and much more responsive.
+Other issues related to filtering is the switch between different filters, without removing the old one.
+
+One important part, that is currently completely skipped, due to the focus of this work is user management. As content profiling deals with rather sensitive information, user management and support for user groups and anonymisation is very important.
+
+Better integration with other tools. Within the SCAPE project, c3po was integrated with Plato - the planning tool and Scout - the monitoring component, where the interface between these components was the exported machine readable profile. This integration can be enhanced by making the profile format more expressive and by analysing which characteristics can be omitted and which can be presented in a more verbose fashion.
+
+Connecting c3po with repositories will greatly benefit the whole preservation lifecycle as the content profile will be generated directly within the repository interface. c3po provides some interfaces for extension, which have to be validated and enhanced if necessary. Integration with repositories, such as RODA\footnote{http://roda.keep.pt} will be a great benefit to preservation experts.
+
+By conducting special planning case studies on larger scale, the different sampling algorithms can be tested and evaluated for their effectiveness.
+
+Considering the whole proposed concept of content profiling, there are a few places that have to be addressed in future work. For one, the removal and regeneration of a content profile has to be done in an efficient way, without the need of starting from scratch. Improving characterisation processes and providing ground truth data will most probably influence the quality of the extracted characterisation data. With increasing quality of data, also the quality of the profiling service will increase.

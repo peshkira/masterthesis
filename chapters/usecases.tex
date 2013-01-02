@@ -39,7 +39,7 @@ The report can be found here: \url{http://digitalcorpora.org/corpora/files/govdo
 In table \ref{tab:govdoc1_general_info} general information such as file size and volume is summarised, whereas table \ref{tab:govdoc1_content} provides a summary over the content of the different files.
 Note that the total sum of files in the second table is more than the number of files in the set, meaning that many files are counted twice or even more, which is of course not very helpful for digital preservation activities.
 
-\begin{table}
+\begin{table}[b]
 \centering
 \begin{tabular}{l || c }
 \hline
@@ -95,14 +95,14 @@ Content & Total \\
 \caption{This table shows the different content types within the GovDocs1 set as the preliminary data shows.}
 \end{table}
 
-\subsection{Experiment Preparation}.
+\subsection{Experiment Preparation}
 In order to conduct the experiment all the files have to be characterised with the FITS tool.
 In order to automate this task, the authors have used a workflow engine developed by the University of Manchester called Taverna\footnote{http://www.taverna.org.uk/}.
 With the help of Taverna, one can create parallelised workflows that consist of number of small steps and tasks.
 In this instance, the files were copied via \textit{scp} from a storage server, FITS was executed in parallel on each of the files and the output was stored on the experiments machine.
 
 Unfortunately, the current version of FITS (v0.6) was not stable for all file types and thus it was unable to produce output for some files.
-Thus all the experiments conducted on the set are done on a slightly smaller subset consisting of 945746 instead of 986278 files.
+Thus all the experiments conducted on the set are done on a slightly smaller subset consisting of 945746 instead of 986278 files. The overall file size of the FITS meta data was 5.37GB.
 
 \textbf{\textit{Disclaimer}}: Due to the unpredictable behaviour of FITS on certain file types the workflow had to be restarted numerous times.
 Thus it was impossible to capture the real time for characterisation.
@@ -133,7 +133,7 @@ c3po -g ~/path/to/folder/ -r -c govdocs1
 \end{verbatim}
 
 The processing of all 945746 files took more than 167 minutes.
-47 files were not processed successfully due to malformed meta data files.
+47 files were not processed successfully due to malformed meta data files, which were caused by failures during the execution of the FITS tool.
 After initial preparation and setup, processing one thousand files took 10.46 seconds on average.
 
 The same procedure was conducted with four and 8 threads.
@@ -308,7 +308,7 @@ The other 32\% of invalid objects contained both well formed and not well formed
 
 All this showed, that it will be helpful to a planner to see a list of conflicted values or some kind of weighted distribution. 
 Additional filters over these would also be helpful.
-Furthermore it will be beneficial to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).\newline
+Furthermore it will be beneficial to apply special rules that resolve the conflicts in cases where the characterisation tools provide conflicts for similar formats (e.g. text/xhtml, text/xml).
 
 \paragraph{Joint Photographic Experts Group}
 As there is a second use case study, conducted over data from a web archive, the third most common mime type (text/html) is skipped for the next one - image/jpeg.
@@ -331,6 +331,118 @@ Other interesting data provided by FITS were the gps coordinates of some images.
 Unfortunately, c3po is not able to make use of these in order to visualise them.
 Nonetheless, an overview of the objects having such meta data could be an interesting asset in a digital preservation activity considering a scenario where such meta data has to be kept after a preservation action is conducted. 
 
-\section{Web Archive}
+\section{Web Archive Data}
+The Danish State University Library\footnote{http://en.statsbiblioteket.dk} (SB) has a mandate to maintain the whole danish web archive.
+This includes every website of the danish domain (.dk top-level domain), all web content hosted by danish companies, all content produced by Danish and more.
+Currently the archive has content with more than seven billion objects with size in the order of petabytes. The growth of the archive is expected to rise exponentially during the next decade.
+
+\subsection{Data Description}
+In collaboration with the University of Technology in Vienna, the SB has shared the FITS metadata of a subset of the web archive harvested over the last eight years.
+The files were selected randomly and contain not only HTML documents but all related content, such as stylesheets, script files, image material, etc.
+Due to the volume of the data, even the administrators of the archive do not have an overview of the data they possess.
+In the following we analyse 958,953 FITS files with overall size of 4.18GB.
+
+\subsection{Experiment Preparation}
+In this case, the FITS files were generated by the SB. They used an extended version of FITS, which was provided by the University of Technology in Vienna.
+This version deactivated the JHOVE tool for html files, due to its known bad performance and  included another tool, that provides some more information about html content.
+Once again, all time measurements provided in the following solely include the time that c3po needed for execution, unless otherwise stated.
+
+\subsection{Experiment}
+Here we undergo the same steps as with the previous experiment and measure the times needed for gathering, processing and profiling.
+Afterwards, an overview analysis over the content is done, in order to test the functionality and limitations of the prototype implementation and the proposed profiling approach.
+
+\subsubsection{Gathering}
+The processing was done with 8 threads and took 178 minutes for  all 958,953 files. 316 files were not processed successfully, due to a bug in c3po. The average processing time of 1000 files took 10.92 seconds. 
+
+\subsubsection{Profile \& Export}
+Generating the machine readable profile took 13.5 minutes. The resulting file was 700K in size. Repeating the profiling procedure with included object identifiers, took nearly the same time. However, the resulting file was once again rather large which shows how infeasible this strategy would be at even larger scales.
+
+A problem that was revealed by the profile, was that the datatype of some of the characteristics were not correctly identified. This resulted in bogus aggregations for some of the numeric properties. Further investigation will be needed, in order to determine, whether this was caused by bad meta data or bad implementation in c3po.
+
+The export of the sparse matrix tool about 2 minutes and 40 seconds and resulted in a 580MB file.
+
+\subsubsection{Analysis}
+Since there is no overview or ground truth data about the archive, we suspect to see that the web archive consists of mostly html documents, text documents (the stylesheets and scripts) as well as images. It is highly possible that there are a lot of conflicts, as the tools bundled in FITS often do not agree whether a file is xml, html or a mixture of both.
+Another assumption is that the average file size is around 0.2MB, which means that the overall size of the analysed web archive data should be a little less than 200GB.
+
+Looking at the data with c3po, revealed the following:
+
+In terms of size, the assumptions were wrong by a factor of almost 8. The analysed web archive data has an overall size of  26GB. The average file size is 0.03MB with a standard deviation of 0.66MB. The smallest file within the data was 1B and the largest 201.73MB. This proves how difficult it is to predict even the size of such a heterogeneous collection, not to mention other more complex characteristics.
+
+The following table gives a distribution of the mime types identified within the collection.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l || l }
+\hline
+Mime Type & Count \\
+\hline
+\hline
+ image/jpeg & 306654 \\
+ text/html 	& 250316 \\
+ image/gif		&  199147 \\
+ conflicted	&  104722 \\
+ text/plain		& 52379 \\
+ image/png & 23878 \\
+ application/pdf & 7055 \\
+ text/xml		& 6620\\
+ application/octet-stream & 2096 \\
+ image/x-ico	& 1324\\
+ rest			& 4447\\
+ \hline
+\end{tabular}
+\caption{This table shows the most represented mime types identified within the web archive collection as c3po showed.}
+\label{tab:webarchive_mimetypes}
+\end{table}
+
+\paragraph{Hypertext Markup Language}
+Observing this mime type distribution shows that the initial assumptions are mostly correct. At a first glance, It is curios that there are more images than html files. The reason for that could be the fact that the fourth most occurring mime type category is 'conflicted'. As such a high number of conflicts was expected due to known problems with FITS, we examine the conflicted subset first. As the formats were also 'conflicted', the only clue that c3po was able to provide were the format versions. 50\% had version '1.0'. Since many formats could have this version, the PUIDs of the subset were examined. It revealed that all of this 'conflicted' files had one of the following: 'fmt/101', 'fmt/102', 'fmt/96'. A quick check with the PRONOM registry showed that these are XML and HTML formats. From this two conclusions can be drawn. Firstly, it was fairly easy to identify the 'conflicted' documents by crossmatching the format version with other properties, such as the PUID. Secondly, the problems with the FITS conflict resolution for XML and HTML were once again proven.
+Another 30\% of the same document subset had version '4.01' which is a HTML version. Looking at the raw meta data confirmed this assumption. If we do sum up the correctly identified HTML documents and the ones that are 'conflicted' but were proven to be html, then the initial assumption of having mostly HTML files will be correct.
+
+Concentrating on the correctly identified html subset (the second group in the mime type table) showed the following.
+The size of this subset was a bit more than 3GB. 94\% of the documents were not valid opposed to less than 1\% valid. The rest were unknown. Wellformedness revealed that 57\% were not well structured html documents, whereas 38\% were well formed.
+
+\paragraph{Joint Photographic Experts Group}
+The 306654 JPEG objects amounted to 32\% of the whole set. Their overall size was almost 8GB.
+Most of the images were formatted with version '1.01' (48\%), closely followed by format version '1.02' (41\%). The rest of the format versions were distributed around 10 other versions.
+
+82\% were valid and wellformed. Almost 18\% were unknown in terms of validity and well-formedness and the very small rest were either not valid, not well-formed or both.
+
+Also 82\% were had the YCbCr colorspace and nearly 18\% had RGB. At first the authors thought that these are the same subsets as the ones in the validity and wellformedness experiments. However, a short analysis showed that this conclusion cannot be drawn.
+
+Once again, the creating date was not extracted out of many files. Most of the files (for which it was extracted) were created between 2003 and 2007.
+
+\paragraph{Graphics Interchange Format}
+The size of this subset was 1GB with an average file size of 0.01MB, which is usual for such web content.
+97\% of the GIF (animated) images were formatted with the newer enhanced version - 89a, whereas the rest had the older 87a version. Almost all of them were valid and well-formed and a very small subset of objects (566) were both invalid and not well-formed.
+
+As expected most of them were compressed with LZW\footnote{http://en.wikipedia.org/wiki/Lempel-Ziv-Welch}, which is a lossless data compression scheme and is common for GIF images. Nonetheless, there were 4 GIFs that had conflict in compression, which is rather strange. It would be interesting to look at the originals and check, why the conflict is reported. Unfortunately, the original content cannot be obtained in this case.
+
+Again, only a few had associated creation meta data.
 
 \section{Observations}
+In this section we observe the outcomes of the experiments and try to give an objective evaluation of the c3po prototype tool.
+
+Altogether, the experiments showed, that c3po can be rather useful in giving a complete overview of the identification data of rather large collections. In cases, such as the web archive data, where it is rather hard to get an idea what content there is, the identification data, such as mime types, formats and format versions, gives a rather valuable insight into the data. Even in cases where there were conflicts, it was still possible to figure out the type of content by creating some filter conditions. Considering that web archives, currently try to preserve web content by ensuring the bit streams are kept in tact and that access is still possible, the information that c3po provides is rather useful. 
+
+The other use case showed that in cases of documents or images, where different preservation actions might be chosen, not only a good overview of the identification data is given, but also some specific information about some characteristics can be aggregated and displayed.
+
+Nonetheless, there were two big issues regarding the meta data and thus the quality of c3po. For one the data sparsity is a huge problem, as it often makes it hard to distinguish between format homogeneous subsets. What is more, the quality of the data is very important. Even if a measurement is reported, there is almost no way of knowing if this is the correct measurement, or a bug in the characterisation process.
+
+Scalability was shown to be feasible for collections of size up to a million objects on a single commodity machine. Using  better hardware will probably allow some vertical scalability but only to a certain point. The next logical step is taking advantage of the horizontal scalability capabilities of the back end, which still have to be tested. What is more, the gathering process can be also distributed on more nodes, in order to improve performance.
+
+As far as the machine readable profile is concerned, it was shown that its creation is feasible. However, its structure and usefulness has to be evaluated by integration with other software components. Two potential problems were shown by these experiments. First, including a long list of identifiers is a solution which will not scale due to the resulting file size.
+Second, it is questionable, whether or not the inclusion of all known properties in aggregated form is needed.
+
+Export of the data in a sparse matrix was shown to be rather fast and helpful for the user. However, this approach will most probably not scale for all data on larger collections, as spreadsheet tools will most likely have problems handling such big files. Nonetheless, exporting only subsets of the data can be rather helpful to a preservation
+expert.
+
+Another criticism can be issued regarding the preprocessing rules. The current implementation allows to filter, or correct some of the meta data that seems to be wrong during the processing phase. By implementing some pre-processing rules it will be possible to enhance the quality of the data (e.g. XML/HTML identification). However, this task can be dangerous as such assumptions should not be done lightly.
+
+When looking at the selected samples, one potential pitfall was found. None of the proposed algorithms is able to deterministically select outliers in homogeneous sets, which is a hint for a further optimisation.
+
+The current prototype implementation provides visualisations for each characteristic in form of histograms. Nonetheless, it was shown that it will be helpful to combine some of the characteristics in other types of visualisations (e.g. scatterplots or bubble charts). For example in the case of GPS data or image resolution data, this could make a lot of sense.
+
+Filtering showed, that in a few easy steps it is possible to find some interesting facts about the data. Enhancing the filtering mechanism further, will be even more helpful to a planner. For example inverting the condition or adding a logical 'OR' to the conditions might be helpful.
+
+All of these observations have to be taken into account, for the future releases of the tool.

@@ -174,7 +174,9 @@ In order to obtain a profile, client applications can use the REST API. With a f
  
 \section{Representative Sets}
 Representative sets are one of the most important features of c3po, as they provide the basis for experiments during the planning phase. The selection of valid representatives can highly influence the decisions of a planner for the future of specific content. There are many different ways of selecting a small set of representatives.
-Here we present a few algorithms that were implemented and discuss their benefits and drawbacks. It is important to keep in mind that real world scenarios can involve large collections of thousands to millions and even more digital objects, but usually the experiments during preservation planning are done on a very small set of representative sample objects in the order of 10 objects. 
+Here we present a few algorithms that were implemented and discuss their benefits and drawbacks. It is important to keep in mind that real world scenarios can involve large collections of thousands to millions and even more digital objects, but usually the experiments during preservation planning are done on a very small set of representative sample objects in the order of 10 objects.
+
+In the following we present only the core of the algorithm and leave out some basic input checks, such as the initial size of the collection or the filtered subset, etc.
 
 \subsection{Random Selection}
 As the  name suggests, this algorithm takes N random elements from the larger set and returns them. A simple pseudo code implementation looks like listing \ref{alg:random_selection}. Unfortunately, this approach is widely used in real world scenarios, due to the lack of automation support and understanding of the content at hand. One drawback of this approach is that it will most probably provide terrible results when applying it on a highly heterogenous content.
@@ -190,15 +192,8 @@ Nonetheless it could be useful in some cases, if the content is first filtered. 
  \BlankLine
 
 \tcp{gets the number of objects in S}
-count = \textit{S.size()}\; 
+ count = \textit{S.size()}\; 
  
- \If{count $<=$ N} {
-   \While{S.size() $!=$ 0} {
-   \tcp{remove(i) removes and returns the object at index 'i'}
-   	R.add(S.remove(0));
-   }
- }
-\Else{
  \While{R.size() $<=$ N} {
    \tcp{gets a pseudo random number between 0 and count}
    rand = getRandomNumber(count)\;
@@ -206,8 +201,8 @@ count = \textit{S.size()}\;
    sample = S[rand]\;
    \tcp{add() appends the object to R}
    R.add(sample)\; 
-  }
  }
+ 
  \caption{Random sample selection}
  \label{alg:random_selection}
 \end{algorithm}
@@ -223,20 +218,13 @@ This approach is slightly better than the previous one, as it considers at least
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 
- \Input{A set of digital objects S and a upper limit N for the sample objects set}
+ \Input{A set of digital objects S and an upper limit N for the sample objects set}
  \Output{A set of random representative sample objects R}
  \BlankLine
 
 \tcp{gets the number of objects in S}
 count = \textit{S.size()}\; 
- 
- \If{count $<=$ N} {
-   \While{S.size() $!=$ 0} {
-   \tcp{remove(i) remove and return the object at index 'i'}
-   	R.add(S.remove(0));
-   }
- }
-\Else{
+
 \tcp{map reduce job that calculates statistics for the property 'size'}
 sizeStatistics = numericMapReduceJob('size')\;
 min = sizeStatistics.getMin()\;
@@ -261,7 +249,6 @@ R.add(maxObject)\;
   \While{A.size() $!=$ 0} {
    R.add(A.remove(0)\;
   }
-}
 }
  \caption{Size Statistics sample selection}
  \label{alg:size_selection}
@@ -305,19 +292,13 @@ Even though this method is more fair, it still shows the same problems as the ra
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 
- \Input{A set of digital objects S and a upper limit N for the sample objects set}
+ \Input{A set of digital objects S and an upper limit N for the sample objects set}
  \Output{A set of random representative sample objects R}
  \BlankLine
 
 \tcp{gets the number of objects in S}
-count = \textit{S.size()}\; 
+ count = \textit{S.size()}\; 
  
- \If{count $<=$ N} {
-   \While{S.size() $!=$ 0} {  
-   	R.add(S.remove(0));
-   }
- }
-\Else{
  limit = round(count / N)\;
  \tcp{generates a random number with a upper limit}
   skip = nextRandom(limit)\;
@@ -326,15 +307,65 @@ count = \textit{S.size()}\;
      offset = skip * R.size() + skip\;
      R.add(S[offset])\;
   }
- }
  \caption{Systematic Sampling Selection}
  \label{alg:systematic_sampling}
 \end{algorithm}
 
 \subsection{Distribution Coverage}
 The distribution coverage algorithm tries to find sample objects with the same distribution of the property value pairs of pre chosen characteristics. For example, if there is a collection consisting of 40\% PDF documents and 40\% Word documents and 20\% other documents and the sample set should be ten, then the algorithm will select 4 PDF files, 4 word files and 2 other files at random that are not PDF or Word documents.
-If the user wants also other property value distributions taken into account, then these are also calculated. And the nearest distribution possible is returned.
+If the user wants also other property value distributions taken into account, then these are also calculated. And the nearest distribution possible over all the combinations of the properties and their values is returned. In the previous example if also the format versions are considered, then there could be version 1.2 and 1.4 for PDF and versions 2003, 2007 for the word documents. The algorithm will find all possible combinations (PDF - 1.2, PDF - 1.4, PDF - 2003, É, Word - 1.4, Word - 2003,É etc. ). Then the occurrences will be counted and the approximate distribution will be returned.
+
 This algorithm is better with respect to heterogeneity of properties within the same digital object type. It is also good in the sense that it does not consider the long tail of files, which is often good as these files usually have to be handled differently and are often responsible for messed up experiment results.
+
+One potential problem is that the selection of two many properties can make the selection more difficult in terms of time and also in terms of validity as the occurrences per combination for each combination of property values will get significantly smaller.
+
+\begin{algorithm}[!htb]
+\SetAlgoLined
+\SetKwFunction{SSS}{Distribution Coverage Selection}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+ \Input{A set of digital objects S, an upper limit N for the sample objects set and a set of properties P}
+ \Output{A set of random representative sample objects R}
+ \BlankLine
+
+\tcp{creates a matrix M with the property and all distinct values for this property}
+M[P.size()][]\;
+
+i=0\;
+j=0\;
+\ForEach{property $p$ of $P$}{
+  \tcp{issues a database query}
+  DV = findDistinctValuesForProperty( P )\;
+  V[DV.size()]\;
+  \ForEach{value $dv$ of $DV$} {
+    \tcp{PV is property value pair wrapped in an object}
+    V[j] = PV(p, dv)\;
+    j = j+1\;
+  }
+  M[i] = V\;
+  i = i + 1\;
+}
+
+\tcp{C is a list of combinations over all property value pairs}
+\tcp{A combination is a wrapper object that has a distinct value for each property and the count of objects that
+conform to the combination}
+C =  combinations( M )\;
+
+ \ForEach{combination $c$ of $C$} {
+ 
+   percent = c.count() * 100 / S.size()\;
+   tmpLimit = round(percent / 100 * N)\;
+   
+   \tcp{get maximum 'tmpLimit' objects out of S that conform to the current combination}
+   R.addAll(getObjectsConformingToQuery(c.query(), tmpLimit))\;
+}
+
+return R\;
+
+ \label{alg:distribution_coverage}
+\end{algorithm}
+
 
 \section{Future Points of Interest}
 There are many topics that can be handled and implemented in future work. Here we outline some and briefly discuss them:
