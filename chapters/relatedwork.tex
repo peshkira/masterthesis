@@ -1,19 +1,34 @@
-This chapter discusses related work in the field of digital preservation. First some general information about projects and activities are presented and then an overview of the most common approaches of dealing with digital content in the long-term are outlined. Then a definition of the term collection is given and important aspects, such as meta data, its analysis and scalability are discussed. Following the chapter gives an overview of the current state of the art in tool support and discusses the influence and importance of quality assurance of measurements with respect to content profiling. At the end, the author gives some personal observations about the state of the art and the identified problems and gaps.
+This chapter discusses related work in the field of digital preservation.
+First some general information about projects and activities are presented and then an overview of the most common techniques of dealing with digital content in the long-term are outlined.
+Then a definition of the term collection is given and important aspects such as meta data analysis and scalability are discussed.
+Subsequently the chapter gives an overview of the current state of the art in tool support and discusses the influence and importance of quality assurance of measurements with respect to content profiling.
+At the end, we draw observations about the state of the art and the identified problems and gaps.
 
 \section{Preservation}
-More and more information is produced in digital form and more and more information has only a digital representation. This has enormous implications for national and state archives, libraries, scientific institutions and business enterprises but also the small companies and even private people as they often face data corruption and access problems in the long-term.
-In general, digital preservation (or DP for short) copes with two main problems; preserving content (bit streams) for longer periods of time and ensuring these contents are accessible and understandable in the future. When talking about ``the future'' or ``longer periods of time'' we mean ``as long as the content is needed''.
-Of course this view is over simplified and there are many more challenges in digital preservation. From the fundamental technical problems through organisational and social challenges to practical and financial ones.
+More and more information is produced in digital form and has only a digital representation.
+This has enormous implications for national and state archives, libraries, scientific institutions and business enterprises, but also the small companies and even private people, as they often face data corruption and access problems in the long term.
+In general, digital preservation (or DP for short) copes with two main problems; preserving content (bit streams) for longer periods of time, and ensuring these contents are accessible and understandable in the future.
+When talking about ``the future'' or ``longer periods of time'' we mean ``as long as the content is needed''.
+Of course this view is over simplified and there are many more challenges in digital preservation.
+From the fundamental technical problems through organisational and social challenges to practical and financial ones.
 
 A good example to picture the problem and challenges in DP is presented in \cite{Lorie:2001:LTP:379437.379726} and in \cite{Rauber:2009:dpchallenges}. Imagine a file created today on a specific physical machine. This file is nothing more than a series of bits shaped in a specific format. In order to access this file in the long term, not only the bits and bytes have to be preserved but also the way of interpreting them (the format specification). This would also require to preserve the programs that can open, render and manipulate the file, which in turn will require the preservation of the dependency libraries and software packages as well as the operating system and the whole environment in which these programs or program versions run. Failing to preserve only one single part of this chain and the file would be lost (even if the physical bit stream is still in tact).
 
-Due to this and many other problems a community of preservation experts has emerged. Through the last decade a number of DP-related research projects and initiatives have been established. These have identified problems and threats and have advanced the state of the art in this filed. An overview of the EU DP projects and activities is presented in \cite{strodl:2011:dpreport}. Starting in the mid nineties scientists recognised that these problems could lead to disasters and thus the need of digital preservation and its importance. By the beginning of the new millennium there were the first initiatives and projects in the EU that started focusing on research topics related to DP aiming the establishment of a community, identification of target groups and transfer of expertise (ERPANET\footnote{http://www.erpanet.org/}, DELOS\footnote{http://www.delos.info/}, DPE\footnote{http://www.digitalpreservationeurope.eu/}). The first scientific research was focused on topics such as standards, system concepts, selection and appraisal policies and format identification. Afterwards more technical and practical approaches were undertaken to research the preservation of simple digital objects such as office documents and images (PLANETS\footnote{http://www.planets-project.eu}, CASPAR\footnote{http://www.casparpreserves.eu}). All this helped the establishment of a solid community and a body of expertise.
+Due to this and many other problems, a community of preservation experts has emerged.
+Through the last decade a number of DP-related research projects and initiatives have been established.
+These have identified problems and threats and have advanced the state of the art in this filed.
+Starting in the mid nineties, scientists recognised that these problems could lead to disasters and thus the need of digital preservation and its importance.
+By the beginning of the new millennium there were the first initiatives and projects in the EU that started focusing on research topics related to DP aiming the establishment of a community, identification of target groups and transfer of expertise (ERPANET\footnote{http://www.erpanet.org/}, DELOS\footnote{http://www.delos.info/}, DPE\footnote{http://www.digitalpreservationeurope.eu/}).
+The first scientific research was focused on topics such as standards, system concepts, selection and appraisal policies and format identification.
+Afterwards more technical and practical approaches were undertaken to research the preservation of simple digital objects such as office documents and images (PLANETS\footnote{http://www.planets-project.eu}, CASPAR\footnote{http://www.casparpreserves.eu}).
+All this helped the establishment of a solid community and a body of expertise.
+An overview of the EU DP projects and activities is presented in \cite{strodl:2011:dpreport}.
 
 Present initiatives include more fundamental research that tries to focus rather on more complex and interactive objects than simple documents and data structures. Projects such as LiWA\footnote{http://www.liwa-pro ject.eu} attempt to solve issues related to Web Archiving whereas projects such as TIMBUS\footnote{http://timbusproject.net} and WF4Ever\footnote{http://www.wf4ever-pro ject.org} focus on the preservation of business processes and scientific workflows.
 Other projects such as SCAPE\footnote{http://scape-project.eu} build upon the solid framework established in the past and aim to improve the state of the art of DP by developing infrastructure and tools for scalable preservation actions and integrating them with automated policy based preservation planning and preservation watch systems and workflows.
 %what does the future hold
 
-\subsection{Most Common Approaches}
+\subsection{Common Techniques}
 % the tools at hand, why are these important, trade offs
 Through the years many tools and procedures were developed in order to preserve digital content. In the literature there are often different names for the same concepts. Here we present the most prominent ones. \newline
 
@@ -50,54 +65,75 @@ Nevertheless, emulation is widely used in specific branches, such as video gamin
 Guttenbrunner et al have evaluated different strategies for the preservation of console video games in \cite{guttenbrunner:2008:evaluating} and came to the conclusion that while migration shows very good results for the preservation of visual and audio components it completely fails in interactivity. Emulation, on the other hand, showed promising results. All of these, however, were strongly dependent on the sample objects that were emulated. Some of the evaluated emulation alternatives worked great on some of the sample records but completely failed on others, which is an important aspect to keep in mind when selecting representative objects.
 
 \subsection{Preservation Planning}
-Preservation planning is a key task in DP that has to be undertaken by every institution or person that is serious about preservation. Numerous DP related projects have investigated the key requirements and processes involved in preservation planning. Projects such as PLANETS\footnote{http://www.planets-project.eu/} have created very strong fundaments in this area and have developed tools such as PLATO\footnote{http://ifs.tuwien.ac.at/dp/plato} - the preservation planning tool which supports a special workflow and helps users throughout numerous steps with the goal of creating a preservation plan. Follow up projects, such as SCAPE\footnote{http://www.scape-project.eu/} advance the state of the art and enhance the planning capabilities by improving the current status. This involves building up a framework around the process that supports many new features such as preservation monitoring services, semi-automatised experiments execution, automatic plan deployment and execution and many more enhancements to the whole process in order to provide a scalable, robust preservation planning process.\newline
+Preservation planning is a key task in DP that has to be undertaken by every institution or person that is serious about preservation. Numerous DP related projects have investigated the key requirements and processes involved in preservation planning. Projects such as PLANETS\footnote{http://www.planets-project.eu/} have created very strong fundaments in this area and have developed tools such as PLATO\footnote{http://ifs.tuwien.ac.at/dp/plato} - the preservation planning tool which supports a standardised workflow and helps users throughout numerous steps with the goal of creating a preservation plan. Follow up projects, such as SCAPE\footnote{http://www.scape-project.eu/} advance the state of the art and enhance the planning capabilities by improving the current status. This involves building up a framework around the process that supports many new features such as preservation monitoring services, semi-automatised experiments execution, automatic plan deployment and execution and many more enhancements to the whole process in order to provide a scalable, robust preservation planning process.\newline
 
 \noindent\textit{What is Preservation Planning?}\newline
-The OAIS reference model was developed by the Consultative Committee for Space Data Systems and soon afterwards was dubbed to be an ISO standard \cite{iso:2003:oais}. This high-level reference model has proven to be a helpful tool for the DP community for many years. Undoubtedly, one of its key parts is Preservation Planning or PP for short.
+The OAIS reference model was developed by the Consultative Committee for Space Data Systems and soon afterwards was accepted as an ISO standard \cite{iso:2003:oais}. This high-level reference model has proven to be a helpful tool for the DP community for many years. Undoubtedly, one of its key parts is Preservation Planning or PP for short.
 
-It is a decision making process that evaluates different preservation strategies or actions and chooses the most appropriate one. This process is highly dependent on object characteristics and institutional settings and requirements \cite{STR07_jcdl}. The goal of the process is to create a preservation plan that documents all the steps and choices that were made, the policies that were followed while making these decisions and the different preservation alternatives that were evaluated. It offers a complete documentation of the decision that allows one to repeat all experiments and verify why a certain preservation action was chosen at a given point in time.
+It is a decision making process that evaluates different preservation strategies or actions and chooses the most appropriate one. The outcome of the process is highly dependent on object characteristics and institutional settings and requirements \cite{STR07_jcdl}. The goal of the process is to create a preservation plan that documents all the steps and choices that were made, the policies that were followed while making these decisions and the different preservation alternatives that were evaluated. It offers a complete documentation of the decision that allows one to repeat all experiments and verify why a certain preservation action was chosen at a given point in time.
 
-%TODO describe more...
 \begin{figure}[th]
 \begin{center}
 \includegraphics[width=4.5in]{figures/related/planningenvironment.png}
-\caption{The preservation planning environment \cite{becker:2010:trustowrothy}.}
+\caption{The preservation planning environment \cite{Becker:2009fk}.}
 \label{fig:planenv}
 \end{center}
 \end{figure}
 
-%PLATO\footnote{http://ifs.tuwien.ac.at/dp/plato} is an online tool developed at the University of Technology in Vienna, which supports the whole preservation planning workflow.
-%It guides the user through all necessary steps to create a fully documented (and executable) preservation plan.
 Figure \ref{fig:planenv} depicts the planning environment of the whole planning process. It constitutes of four main phases: define requirements, evaluate alternatives, analyse results and build preservation plan.
 
-In the first step all necessary requirements for the specific use case are collected. This includes the identifiers and a profile of the objects or the collection that is examined, but also the technical environment and specific usage criteria for the particular set of objects. Another important part are the organisational policies, which are usually high level statements
-that guide the organisation.
+In the first step, all necessary requirements for the specific use case are collected. This includes the identifiers and a profile of the objects or the collection that is examined, but also the technical environment and specific usage criteria for the particular set of objects. Another important part are the organisational policies, which are usually high level statements that guide the organisation.
 
-In the next step different alternatives are evaluated. These are called preservation actions and follow different preservation strategies, depending on the use case. e.g. migration, emulation, etc. Depending on the chosen
-strategy different preservation action tools can be evaluated by conducting different experiments over a set of objects. As every strategy offers a set of tools and every tool has its own set of configuration parameters this step may become quite expensive in terms of time and resources.
+In the next step, different alternatives are evaluated. These are called preservation actions and follow different preservation strategies, depending on the use case. e.g. migration, emulation, etc. Depending on the chosen
+strategy different preservation action tools can be evaluated by conducting different experiments over a set of objects. As every strategy offers a set of tools and every tool has its own set of configuration parameters, this step may become quite expensive in terms of time and resources.
 
-As soon as the experiments are conducted a planner has to analyse the results objectively and to decide which of the tested actions makes most sense considering the requirements and the experiment results. It is important to note, that
+As soon as the experiments are conducted, a planner has to analyse the results objectively and to decide which of the tested actions makes most sense considering the requirements and the experiment results. It is important to note, that
 keeping the status quo is a perfectly valid solution in many use cases and is also supported by the planning process.
 
-After a recommendation is made, a preservation plan is created, which is a very concrete artefact, opposed to policy documents, that specifies an action plan for the preservation of a set of digital objects.
+After a recommendation is made, a preservation plan is created, which is a very concrete artefact, as opposed to policy documents, that specifies an action plan for the preservation of a set of digital objects.
 
 \begin{quote}
-A preservation plan defines a series of preservation actions to be taken by a responsible institution due to an identified risk for a given set of digital objects or records (called collection). The Preservation Plan takes into account the preservation policies, legal obligations, organisational and technical constraints, user requirements and preservation goals and describes the preservation context, the evaluated preservation strategies and the resulting decision for one strategy, including the reasoning for the decision. It also specifies a series of steps or actions (called preservation action plan) along with responsibilities and rules and conditions for execution on the collection. Provided that the actions and their deployment as well as the technical environment allow it, this action plan is an executable workflow definition \cite{Becker:2009fk}.
+\textit{A preservation plan defines a series of preservation actions to be taken by a responsible institution due to an identified risk for a given set of digital objects or records (called collection). The Preservation Plan takes into account the preservation policies, legal obligations, organisational and technical constraints, user requirements and preservation goals and describes the preservation context, the evaluated preservation strategies and the resulting decision for one strategy, including the reasoning for the decision. It also specifies a series of steps or actions (called preservation action plan) along with responsibilities and rules and conditions for execution on the collection. Provided that the actions and their deployment as well as the technical environment allow it, this action plan is an executable workflow definition}\cite{Becker:2009fk}.
 \end{quote}
 
 Since planning is not a one-time activity, there is also an external monitoring phase which keeps track of important preservation related aspects of the world, such as new technology, formats and the organisational policies. It feeds back this important information about relevant changes in the environment, which can cause a reiteration/reevaluation of a preservation plan. A detailed overview and a high level design of such an addition to the preservation planning environment can be found in \cite{duretec:2012:watch}.
 
-%what it is, overview, steps, Plato, etc.
-% the big picture
+As content profiling is a very important and necessary part for efficient and successful preservation planning, we take a look at the whole process in detail in order to understand where profiling fits in the process and how can it help enhance it later. It is a well-defined workflow consisting of four phases with several steps which are discussed in \cite{STR07_jcdl}.
+
+In the first phase, \textit{``Define Requirements''}, the scope of the preservation plan is demarcated. The preservation expert has to follow three steps; to provide information about the collection, environment etc. (\textbf{Define Basis}), to choose representative sample records for experimentation (\textbf{Define Sample Records}) and to identify the requirements for the preservation plan or the so called objective tree, which summarised high-level goals of the plan (\textbf{Identify Requirements}). 
+
+In the second phase, \textit{``Evaluate Alternatives''}, another 5 steps have to be followed. Starting with the definition of alternatives (\textbf{Define Alternatives}), the responsible preservation expert has to choose a set of potential actions, with all related informations, such as environment, tool invocation parameters, etc. In the following (\textbf{GO/NO-GO}) step a decisions is made whether to proceed or not based on each preservation action, the estimated resources and the defined requirements. After that the planner has to create suitable experiments (\textbf{Develop Experiment}), which are well-documented, repeatable set of actions with their environment and the capability to capture their results. In the following (\textbf{Run Experiment}) step, each preservation action is executed against the chosen sample records in order to obtain different results. In the last step of this phase (\textbf{Evaluate Results}) the results of the experiment output is evaluated against the objective tree in order to check if the identified requirements were met or not.
+
+The third phase, \textit{``Consider Results''}, is responsible for the objective analysis of the results. In its first step (\textbf{Transformed Measured Value}) all experiment results are transformed into the same scale (0-5) making use of special transformation tables and utility function. The following (\textbf{Set Importance Factor}) step provides the ability to equal the weight of different parts of the requirement objective tree as not all goals are equally important. In the last step (\textbf{Analyse Results}) all measures are aggregated per objective and provide the planner with a preservation action recommendation and the necessary basis for a decision.
+
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[width=5in]{figures/contentprofiling/planningworkflow.png}
+\caption{Overview of PLANETS Preservation Planning workflow \cite{Becker:2008:PSO:1378889.1378954}.}
+\label{fig:planningworkflow}
+\end{center}
+\end{figure}
+
+The workflow is depicted in figure \ref{fig:planningworkflow} and provides the current state of the art in preservation planning matters. Although it provides a very solid theoretical ground and a complete specification that is working in practice, there is one part of the concept, which might be the cause of errors caused by human incompetence or lack of knowledge and understanding of the collection.
+
+As one can see from the workflow all the results strongly depend on the defined goals and the analysis of the experiments output. We assume that a preservation expert will understand the objectives of his organisation. Since the identification of requirements and the setting of the goals and objectives are very important steps that are also strongly dependent on the organisational background of the preservation expert, we also assume that it is unlikely they will cause errors and misunderstandings in later steps. Also if the planner happens to choose wrong preservation action alternatives, the result will be in the worst case scenario a 'Do Nothing' alternative, which will not solve the problem at hand, but will also not do any damages.
+However, there is one step that could have serious implications and even cause damage or resource loss if taken lightly. Consider the following example, where the chosen sample records are picked up at random from a medium sized collection with several thousands of objects. Then the experiments show a particular preservation action is very feasible and the planner chooses to execute this action over the whole content, due to the experiments output and the consequent analysis. Although the analysis, and the decision are perfectly valid (in their implementation and execution), it could turn out that the result of the preservation operation does not meet the requirements defined. This could happen, due to many different aspects in the format and content profile of the collection at hand. To summarise, the defined requirements and objectives are ok, the experiments are valid, the analysis is correct, but the overall results are not feasible due to the false premise, that the random chosen set of sample records is representative. Damage could be done, if there is no reasonable and thorough quality assurance process afterwards. This work addresses this problem and tries to prevent it by reducing the bias of the experiments. This ought to be achieved by thorough analysis and automatic representative selection in the early steps of the workflow.
+
+One can argue, that no real preservation expert will choose representatives at random. Although this might be true, there are numerous other factors that have to be considered when choosing the representatives and since the collections that are worth preserving are often big enough, the overhead for the preservation expert is just not feasible to select them by hand. Thus the representatives are usually chosen by format and format version in combination with their size (minimum, maximum and average).
+
+The planning tool PLATO, developed at the University of Technology in Vienna, implements this process and appends a fourth phase, where the user/planning expert can create an executable plan, which can be deployed within a repository. 
+This fourth phase, (\textit{``Build preservation plan``}) adds an important part to the workflow and results in an applicable real world preservation plan artefact. The preservation action plan is a well defined specification that serves the purpose of documentation of the decision and contains the executable part, which specifies the tools, environment and parameters to use during the preservation operation.
+
+However, in its current release, the planning tool supports only manual sample records definition. Although it assists the planner with integrated characterisation tools, it cannot provide higher certainty in the validity of the chosen representatives. Integration with another tool that provides a complete content profile (generated in an automatic fashion) would provide a huge benefit to preservation planners.
+
 \section{Content}
-%A collection here is defined as a set of digital objects that was created by some process or a user for some specific reason. Whether all digital objects are stored on the same physical location, how they are managed is irrelevant in this context. It is important to keep in mind that a set of digital objects exists and all of its objects are related for some reason.
-As seen in the previous section, understanding the objects in a collection is a key part of the requirements for preservation planning. In order, to create and analyse a collection or a set of digital objects the meta data for each object has to be examined. Meta data is structured information about the data (objects) itself. It is usually stored within a file, that provides further information about the content and format of the file as well as other important characteristics. In general, there are three main types of meta data: descriptive meta data for discovery and identification (e.g. title, author, etc.), structural meta data (page ordering, image width and height, etc.), and administrative meta data that helps management of the resource (e.g. creation date, type, etc.). The National Information Standards Organisation - NISO\footnote{http://niso.org} has provided a series of articles and reports in order to help people, archivists and experts understand meta data and its importance \cite{citeulike:6387279}.
+As seen in the previous section, understanding the objects in a collection is a key part of the requirements for preservation planning. In order to create and analyse a collection or a set of digital objects, the meta data for each object has to be examined. Meta data is structured information about the data (objects) itself. It is usually stored within a file, that provides further information about the content and format of the file as well as other important characteristics. In general, there are three main types of meta data: descriptive meta data for discovery and identification (e.g. title, author, etc.), structural meta data (page ordering, image width and height, etc.), and administrative meta data that helps management of the resource (e.g. creation date, type, etc.). The National Information Standards Organisation - NISO\footnote{http://niso.org} has provided a series of articles and reports in order to help people, archivists and experts understand meta data and its importance \cite{citeulike:6387279}.
 
 Today, analysis of such huge content often is done in a manual fashion, which can be a very time-consuming and cumbersome task. If there would be tools at hand that support identification and characterisation, data aggregation, filtering, collection splitting, etc., then the analysis process will be automated to a certain degree, hence analysis will be handled much faster and potentially much more efficient. 
 
 It is noteworthy, that content here neither refers to the semantics of the information stored within the digital objects, nor to their visual representation characteristics or anything similar, but solely to the definition of the collection in terms of meta data, such as formats and format-related characteristics.
 
-Consider a collection of digital scans of old newspapers. Its content here does not refer to the content of the newspaper articles, but to the meta data characteristics of the images that comprise the collection. For example, these may include, but are not necessarily restricted to the resolution of the scanned documents, their colour profiles, the scanning software, etc. All these measurements play a huge role in the decision making process of preservation planning.
+Consider a collection of digital scans of old newspapers. Its content here does not refer to the content of the newspaper articles, but to the meta data characteristics of the images that comprise the collection. For example, these may include, but are not necessarily restricted to the resolution of the scanned documents, their colour profiles, the size of the images or the number of pages. All these measurements play a huge role in the decision making process of preservation planning.
 
 The following paragraphs provide more details on metadata and how this refers to content profiling for preservation planning.
 
@@ -106,11 +142,11 @@ Identification is the process of determining the format of certain sequence of b
 
 A trivial and popular approach is based on the extension of a file, or in other words the end of the file name. Many (early) versions of different main stream operating systems use this approach. Unfortunately, it is rather flawed and unfit for DP for a number of reasons. For one, the extension is easily manipulated by software or user clients. Also, many files do not have an extension. Another problem is, that sometimes file formats produced by different software applications have the same extension.
 
-More sophisticated method for identifying a format of a file is by using its internal meta data. For example, this can be done by examining the File header (the beginning of the byte stream of a file). Many formats start with a few special bytes (called magic numbers) which define the following format. Some tools make use of magic number tables and identify the format by comparing its magic number and table. Magic Numbers are a better solution than file name extensions, as they are harder to manipulate. The problem is that often magic numbers are not well documented and are easily lost. Furthermore, the tables used for comparison have to be maintained.
+A more sophisticated method for identifying a format of a file is by using its internal meta data. For example, this can be done by examining the file header (the beginning of the byte stream of a file) information. Many formats start with a few special bytes (called magic numbers) which define the following format. Some tools make use of magic number tables and identify the format by comparing its magic number and table. Magic Numbers are a better solution than file name extensions, as they are harder to manipulate. The problem is that often magic numbers are not well documented and are easily lost. Furthermore, the tables used for comparison have to be maintained.
 
-Characterisation, on the other hand, is the process of extracting more meta data out of the file, that can help explain the file, provide related information, such as the language, author, creating date, etc. Based on the different measurements of properties/characteristics a collection can be dubbed homogeneous or heterogeneous. Usually to a user a homogeneous collection would be a set of files that consists only or mostly of objects having the same format or even the same type (audio, video, text, etc.). This however, is an oversimplification, which has enormous side effects for preservation planning.
+Characterisation, on the other hand, is the process of extracting more meta data out of the file, that can help explain the file, provide related information, such as the language, author, creating date, etc. Based on the different measurements of properties/characteristics a collection can be dubbed homogeneous or heterogeneous. Usually to a user a homogeneous collection would be a set of files that consists only or mostly of objects having the same format or even the same type (audio, video, text, etc.). This, however, is an oversimplification, which has enormous side effects for preservation planning.
 
-Consider the following example where a collection consists of N digital objects, which share the same extension, e.g. 'pdf'. To a normal user, this would be a homogeneous collection. An advanced user, however, would know that the extension of a file does not really specify the format of the file and thus could assume that there are differences.
+Consider a collection of N digital objects, which share the same extension, e.g. 'pdf'. To a normal user, this would be a homogeneous collection. An advanced user, however, would know that the extension of a file does not really specify the format of the file and thus could assume that there are differences.
 One step further would be to conduct an identification process that looks for the specific file format and format version. Assume that in our example 95\% of all files have the same pdf format and format version.  Then this could be considered a homogeneous collection with respect to the format.  In a next step, however, characterisation is conducted and now there are many more properties, such as \textit{creating applications}, \textit{encryption}, \textit{password protection}, \textit{tags}, etc.
 Regarding these characteristics, the same collection can be considered to be heterogeneous.
 Clearly, all of this is very important to preservation planning, since different preservation actions produce different results exactly because of big differences in the values of such characteristics.
@@ -122,27 +158,27 @@ As collections in DP are often just too large for a human being to comprehend, t
 
 Once the bigger picture gets clearer, the collection can be divided into different (more) homogeneous parts, which will ease the decisions that have to be made regarding their future with respect to DP and PP. In order to achieve this stratification, filtering or so called slicing and dicing has to be applied on the data. This would include the traversal of the raw data and splitting the content into sets.
 
-Another important part would be finding representative sets within the homogeneous content. These are very small sized sub collection (usually in the order of tens of objects) that are somehow representative to the selected collection or part of it. The representativeness can be determined based on the distribution of different characteristics or combinations thereof. These representative samples form a better suited common ground for the experimentation phase of the preservation planning process. Finding such small subsets within homogeneous collections is potentially much easier than in heterogeneous context. This problem will be investigated in later parts of this thesis.
+Another important part would be finding representatives within the homogeneous content. These are very small sized subsets (usually in the order of tens of objects) that are somehow representative to the selected content or part of it. The representativeness can be determined based on the distribution of different characteristics or combinations thereof. These representative samples form a better suited common ground for the experimentation phase of the preservation planning process. Finding such small subsets within homogeneous collections is potentially much easier than in heterogeneous context. This problem will be investigated in later parts of this thesis.
 
 \subsection{Scalability}
-As discussed in chapter \ref{ch:content_and_digital_preservation} content growth nowadays has a tremendous pace. This fact has some serious implications on how information systems have to deal with it. Scalability does not only pose a problem related to volume and performance, but also to usability and presentation, automation and costs.
+As discussed in Section \ref{ch:content_and_digital_preservation}, content growth nowadays has a tremendous pace. This fact has some serious implications on how information systems have to deal with it. Scalability does not only pose a problem related to volume and performance, but also to usability and presentation, automation and costs.
 
 Looking at the growth of content within web archives, for example, and their projection the problem of vertical scalability becomes clear. Vertical scalability (i.e. installing machines with better performance) will not be able to solve the problem of storage and data management, not to mention the effective analysis of data.
 
 Since this is a problem not only related to digital preservation but to information systems in general, there are many studies for algorithms, technologies and architectures that enable horizontal scalability, i.e. attaching more commodity machines and distributing the payload among them.
 
-Driven by economies of scale Cloud Computing has played an enormous role in this area by providing a large set of easy to use and access resources, such as hardware, development platforms and services \cite{Vaquero:2008, 4738445}. Distributed Platforms as a Service (PaaS), such as Amazon AWS\footnote{http://aws.amazon.com} and Amazon S3\footnote{http://aws.amazon.com/s3/}, Google App Engine\footnote{https://developers.google.com/appengine/}, Heroku\footnote{http://www.heroku.com}, etc. have proven to be very performance- and cost-effective. Distributed approaches and algorithms, such as Googles Map Reduce \cite{Dean:2008:MSD:1327452.1327492} have found many applications in various fields of computer science. 
+Driven by economies of scale, Cloud Computing has played an enormous role in this area by providing a large set of easy to use and access resources, such as hardware, development platforms and services \cite{Vaquero:2008, 4738445}. Distributed Platforms as a Service (PaaS), such as Amazon AWS\footnote{http://aws.amazon.com} and Amazon S3\footnote{http://aws.amazon.com/s3/}, Google App Engine\footnote{https://developers.google.com/appengine/}, Heroku\footnote{http://www.heroku.com}, etc. have proven to be very performance- and cost-effective. Distributed approaches and algorithms, such as Googles Map Reduce \cite{Dean:2008:MSD:1327452.1327492} have found many applications in various fields of computer science. 
 
 Map Reduce is a fairly modern parallelisation algorithm for processing large data sets on certain kind of distributable problems. The framework can make use of a large amount of nodes for the computation. It takes as input a set of key/value pairs and produces a set of output key/value pairs. It typically consists of only two functions: map and reduce. In some cases a third finalize function can be used to do some further computation that needs all the results of the reduce steps.
 
-The Map function takes a set of pairs of keys and values in the form of (k1, v1) ant transforms them to a set of intermediate key/value pairs. The framework groups the intermediate values associated to the same key together and passes them for further processing to the Reduce function.
+The Map function takes a set of pairs of keys and values in the form of (k1, v1) and transforms them to a set of intermediate key/value pairs. The framework groups the intermediate values associated to the same key together and passes them for further processing to the Reduce function.
 
 The Reduce function accepts an intermediate key and a list of values associated with that key and is responsible for computing the (partial) final result. The reduce function can be invoked many times by the framework and there is no guarantee that it will be run on the same node as the Map function. This means it has to be idempotent and agnostic to external knowledge about the distribution.
 
 This rather simple approach has been widely accepted by the OpenSource community and was implemented by the Apache Software Foundation in a library called Hadoop\footnote{http://hadoop.apache.org}. The possibility for integration with a BigTable-like Store \cite{Chang:2008:BDS:1365815.1365816} (HBase\footnote{http://hbase.apache.org}) and a distributed file system (HDFS\footnote{http://hadoop.apache.org/docs/hdfs/r0.22.0/hdfs\_design.html}) has enabled many companies to handle the big volumes of data they have. Google was using a similar architecture for its index construction, article clustering and statistical machine translation. Yahoo uses it for spam detection in its mail service and other big corporations use it for data mining, ad optimisation and more.
 
 \subsection{State of the Art}
-All this implies that analysis of preservation related data should be feasible and cost-effective. Nonetheless, preservation analysis tools nowadays often lack the ability to analyse content on a larger scale, or if they support it, there is a trade off in the analysis depth. This fact is due to two common world views. On the one hand, there is the popular belief that the format is the one property that matters for digital preservation \cite{citeulike:8904907} and that there is no real need to look at many different aspects. On the other hand, the volume of the data is so high, that even the deep characterisation meta data volume can be considerably large, which impends large-scale analysis. These observations of the current state of the art of preservation analysis are sketched in figure \ref{fig:sota_analysis}.
+All this implies that analysis of preservation related data should be feasible and cost-effective. Nonetheless, preservation analysis tools nowadays often lack the ability to analyse content on a larger scale, or if they support it, there is a trade off in the analysis depth. This fact is due to two common world views. On the one hand, there is the popular belief that the format is the one property that matters for digital preservation \cite{citeulike:8904907} and that there is no real need to look at many different aspects. On the other hand, the volume of the data is so high, that even the deep characterisation meta data volume can be considerably large, which impends large-scale analysis. These observations of the current state of the art of preservation analysis are sketched in Figure \ref{fig:sota_analysis}.
 
 \begin{figure}[th]
 \begin{center}
@@ -184,25 +220,80 @@ FIDO is another identification tool that is a clone of Droid and also uses the P
 File is a CLI utility application included in every Unix distribution and first released in 1973. The tool has stood the test of time and has proven to be very stable, which also makes it widely adopted in the DP community. It makes use of magic numbers to identify files and has been used in DP activities for a long time. It has a very good computational performance and supports large number of formats.
 
 \item \textbf{FITS} \newline
-The File Information Tool Set is developed by the Harvard University Library. It wraps common identification and characterisation tools as the ones described here and tries to consolidate them and provide a normalised output. By providing basic provenance information for each extracted record it combines the consolidation result and provides a very basic confidence status for the extracted value of each property. This proves to be helpful for cases where there are uncertainties. The framework is designed to be extended, so that other tools can be also added. The tool seems very helpful, although there are some instabilities and problematic cases.
+The File Information Tool Set is developed by the Harvard University Library. It wraps common identification and characterisation tools as the ones described here and tries to consolidate them and provide a normalised output. By providing basic provenance information for each extracted record, it combines the consolidation result and provides a very basic confidence status for the extracted value of each property. This proves to be helpful for cases where there are uncertainties. The framework is designed to be extended, so that other tools can be also added. The tool seems very helpful, although there are some instabilities and problematic cases. An example FITS output file is provided in Listing \ref{lst:fits_example}.
 
 \item \textbf{JHOVE}\newline
-JHOVE is one of the most well-known identification and characterisation tools used by the DP community. It is also developed by the Harvard University Library and is able to extract meta data from various formats based on different modules. Probably one of the most valuable features of JHOVE is the ability the check a file for wellformedness and validity against the format specification.
+JHOVE is one of the most well-known identification and characterisation tools used by the DP community. It is also developed by the Harvard University Library and is able to extract meta data from various formats based on different modules. Probably one of the most valuable features of JHOVE is the ability the check a file for wellformedness and validity against the format specification. Figure \ref{fig:jhove_screenshot} shows a screenshot of JHove and the output of an example PDF file.
 
 \item \textbf{JHOVE 2}\newline
 JHOVE 2 is a successor project for the JHOVE tool and also provides an extensible architecture for characterisation tools and modules. It is developed as an open source tool by the California Digital Library, Portico and Stanford University. Currently it produces helpful output only for a few types of documents as the different modules are not yet developed.
-
 \end{itemize}
+
+\vspace{-1em}
+\lstset{
+language=XML,
+basicstyle=\tiny\ttfamily,
+label=lst:fits_example,
+caption=An example FITS output file}
+\begin{lstlisting}
+<?xml version="1.0" encoding="UTF-8"?>
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.6.0" timestamp="12/14/11 12:39 PM">
+  <identification>
+    <identity format="Portable Document Format" mimetype="application/pdf" toolname="FITS" toolversion="0.6.0">
+      <tool toolname="Jhove" toolversion="1.5" />
+      <tool toolname="file utility" toolversion="5.03" />
+      <tool toolname="Exiftool" toolversion="7.74" />
+      <tool toolname="Droid" toolversion="3.0" />
+      <tool toolname="NLNZ Metadata Extractor" toolversion="3.4GA" />
+      <tool toolname="ffident" toolversion="0.2" />
+      <version toolname="Jhove" toolversion="1.5">1.5</version>
+      <externalIdentifier toolname="Droid" toolversion="3.0" type="puid">fmt/19</externalIdentifier>
+    </identity>
+  </identification>
+  <fileinfo>
+    <size toolname="Jhove" toolversion="1.5">880359</size>
+    <creatingApplicationName toolname="Jhove" toolversion="1.5">QuarkXPress(tm) 6.0/QuarkXPress(tm) 6.0</creatingApplicationName>
+    <lastmodified toolname="Exiftool" toolversion="7.74" status="SINGLE_RESULT">2011:12:14 12:37:56+01:00</lastmodified>
+    <created toolname="Exiftool" toolversion="7.74" status="SINGLE_RESULT">2004:02:03 11:20:36Z</created>
+    <filepath toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">/home/xxx/fitstemp/235/235062.pdf</filepath>
+    <filename toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">235062.pdf</filename>
+    <md5checksum toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">f284c2925668f9189726b41e051e710a</md5checksum>
+    <fslastmodified toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">1323862676000</fslastmodified>
+  </fileinfo>
+  <filestatus>
+    <well-formed toolname="Jhove" toolversion="1.5" status="SINGLE_RESULT">true</well-formed>
+    <valid toolname="Jhove" toolversion="1.5" status="SINGLE_RESULT">true</valid>
+  </filestatus>
+  <metadata>
+    <document>
+      <title toolname="Jhove" toolversion="1.5">7393.14.02 DAWN_Bprofiles</title>
+      <language toolname="Jhove" toolversion="1.5">en-US</language>
+      <pageCount toolname="Jhove" toolversion="1.5">64</pageCount>
+      <isTagged toolname="Jhove" toolversion="1.5" status="CONFLICT">no</isTagged>
+      <isTagged toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="CONFLICT">yes</isTagged>
+      <hasOutline toolname="Jhove" toolversion="1.5">no</hasOutline>
+      <hasAnnotations toolname="Jhove" toolversion="1.5" status="SINGLE_RESULT">yes</hasAnnotations>
+      <isRightsManaged toolname="Exiftool" toolversion="7.74" status="SINGLE_RESULT">no</isRightsManaged>
+      <isProtected toolname="Exiftool" toolversion="7.74">no</isProtected>
+      <hasForms toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="SINGLE_RESULT">yes</hasForms>
+    </document>
+  </metadata>
+</fits>
+\end{lstlisting}
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=3in]{figures/related/jhove_example.png}
+\caption{A screenshot of JHove showing part of the output for an example PDF file.}
+\label{fig:jhove_screenshot}
+\end{center}
+\end{figure}
 
 Although this list is not complete, and there are many other tools that are able to extract meta data as well, it shows that the current state of the art is able to provide enough meta data that could be used as input for various preservation activities. The tools have their downsides in terms of format coverage and/or performance, but still provide very valuable information.
 Currently there are only a few tools however, that are able to analyse collections. PRONOM ROAR, for example, is able to create a format profile within a repository interface with the help of DROID.
 Various repositories provide basic information as the formats and size of objects, however no further stratification is possible, although the characterisation data is present.
 PLATO provides excellent decision making support by utilising different means, but still handles the content profiling step as a high-level non-automated task, which increases the risk of bias during experimentation and analysis.
 Nonetheless, the means for in-depth analysis on larger-scale are present and seem to be feasible, although there are various issues that still have to be overcome.
-% what is present.
-% explain that the tools for different types of contents are there, but no tool does
-% collection profiling
-% scape evaluation of characterisation...
 
 \section{Quality Assurance of Measures}
 One of the biggest downsides of all identification and characterisation tools is the lack of quality assurance processes. Often there is no way to verify if an extracted measurement value is really representing the truth. This is a huge problem, as it is hard to make assumptions about correctness without having a ground truth in the first place.
@@ -210,18 +301,11 @@ Some tools such as FITS try to tackle this problem on a very basic level by stat
 A big problem here is the consolidation. Often tools provide the same measurement for a specific property but the output format is slightly different. This makes it hard for an automatic consolidator to decide if the values are equal or not. Thus the problem of quality assurance depends on external information provided by other processes or even by manual verification. 
 Clearly, this is a hard, tedious and long running process and thus it is (partially) neglected.
 Nonetheless, it is an essential precondition in order to assure correct input data for the analysis.
-% despite the tools there is a big gap
-% tools extract some measures, but there is almost no way, to assure that
-% a measurement is correct
-% often tools extract the same information and represent it in different way, thus providing a conflict - verification is hard...
-% JHove validation, verification
 
-\section{Observations}
+\section{Scenario}
 The following figures provide an example scenario of the interactions between different components in a simplified swim lane diagram. This example helps us illustrate the responsibilities of each component in the preservation environment and also the usual sequence of events that will occur in such a use case. Following we provide some observations about the current state of the art according to this example.
 
-In this example an image collection that is TIFF formatted examined and a potential migration to the JP2 format is considered during planning. The different components that take part in this scenario are the repository, which manages the collections and provides a profile, the preservation manager, who is a human actor that has the expertise to create valid preservation decisions, a planning tool, which supports the preservation manager in his activities, a watch component, which is a monitor of internal and external activities and the world, which represents all preservation related information internal and external to the planning environment.
-
-\begin{figure}[bh]
+\begin{figure}[th]
 \begin{center}
 \includegraphics[width=6in]{figures/related/swimlane_step1.png}
 \caption{The first step of an example preservation planning use case and the interaction between the different components through time.}
@@ -229,19 +313,17 @@ In this example an image collection that is TIFF formatted examined and a potent
 \end{center}
 \end{figure}
 
-In a first step (figure \ref{fig:swimlane_step1}) the collection is ingested within the repository and a content profile is created.
+In this example an image collection that is TIFF formatted is examined and a potential migration to the JP2 format is considered during planning. The different components that take part in this scenario are the repository, which manages the collections and provides a profile, the preservation manager, who is a human actor that has the expertise to take valid preservation decisions, a planning tool, which supports the preservation manager in his activities, a watch component, which is a monitor of internal and external activities and the world, which represents all preservation related information internal and external to the planning environment.
+
+Figure \ref{fig:swimlane_step1} shows that the collection is ingested within the repository and a content profile is created.
 
 Afterwards the monitoring component catches the new ingest event and collects the aggregated content profile. The monitor detects that this new collection does not have an associated plan and notifies the responsible planner.
 
-The preservation expert creates a new plan checks the requirements and policies of the organisation. Assume that one of the objectives is to use only formats that have widespread tool support. In this case the JP2 format still has a limited support, which results in a plan recommendation to keep the status quo. The preservation manager then installs some triggers to the monitoring component that starts observing its sources for changes in the tool support of the JP2 format.
+The preservation expert creates a new plan and checks the requirements and policies of the organisation. Assume that one of the objectives is to use only formats that have widespread tool support. In this case the JP2 format still has a limited support, which results in a plan recommendation to keep the status quo. The preservation manager then installs some triggers to the monitoring component that starts observing its sources for changes in the tool support of the JP2 format.
 
 The monitor continues its work and periodically checks for changes in the JP2 format tool support.
 
-Assume for the sake of the example that at some future point in time (figure \ref{fig:swimlane_step2}) the JP2 format becomes more popular and thus the number of tools that can produce and render it grows. The monitor component will catch this change and will notify the planner, that there is a plan about a certain TIFF collection which needs to be reevaluated.
-
-The preservation manager will conduct experiments and will create a preservation action plan that will be deployed within the repository. Before execution starts, additional triggers are installed within the monitoring component, that keep track of the execution of the migration within the repository.
-
-Once the repository executes the migration from TIFF to JP2, the new collection is profiled again and the monitor obtains its new information and continues its work. Thus the whole lifecycle is completed.
+Assume for the sake of the example that at some future point in time (Figure \ref{fig:swimlane_step2}) the JP2 format becomes more popular and thus the number of tools that can produce and render it grows. The monitor component will catch this change and will notify the planner, that there is a plan about a certain TIFF collection which needs to be reevaluated.
 
 \begin{figure}[th]
 \begin{center}
@@ -250,6 +332,10 @@ Once the repository executes the migration from TIFF to JP2, the new collection 
 \label{fig:swimlane_step2}
 \end{center}
 \end{figure}
+
+The preservation manager will conduct experiments and will create a preservation action plan that will be deployed within the repository. Before execution starts, additional triggers are installed within the monitoring component, that keep track of the execution of the migration within the repository.
+
+Once the repository executes the migration from TIFF to JP2, the new collection is profiled again and the monitor obtains its new information and continues its work. Thus the whole lifecycle is completed.
 
 This realistic example is summarised in the following simple list of more general steps, which usually apply to many real-world scenarios in the following order:
 
@@ -274,9 +360,4 @@ The planning tool PLATO provides the needed facilities to create an action plan 
 
 However, a couple of components are missing. A preservation monitor, that scans relevant properties of the world and evaluates their values for changes, eventually notifying users or other agents of interesting events. Such a monitor is currently developed within the SCAPE Project \cite{becker-ipres2012}.
 
-Another crucial part that is missing is a method able to profile a massive content set and stratify it into smaller homogeneous and manageable partitions. It can run within the repository or even external to it, but has to provide external interfaces for integration with planning and monitoring. Such a framework would provide two main benefits. First, analysis and content stratification and thus better foundation for planning experiments with reduced bias. And second input to a preservation monitor that will be able to create a global profile of content, which would be of great benefit to the DP community.
-
-% summarize, what is going on,
-% what is missing
-% what is the problem of the current state of the art
-% based on the research you made.
+Another crucial part that is missing is a method able to profile a massive content set and stratify it into smaller homogeneous and manageable partitions. It can run within the repository or even external to it, but has to provide external interfaces for integration with planning and monitoring. Such a framework would provide two main benefits. Firstly, it will support analysis and content stratification and thus provide better foundation for planning experiments with reduced bias. And secondly, preservation monitoring system can use its output to create a global profile of content, which would be of great benefit to the DP community.
