@@ -1,15 +1,18 @@
-\section{Summary \& Contributions}
+\section{Summary \& Contribution}
+This chapter offers a brief summary of this work. It outlines the contributions of this thesis and discusses some open issues and future work.
+
+\subsection{Summary}
 With the rapid increase rates of digital data production, the problem of preserving digital content becomes more pressing than ever.
 All our personal and social information, cultural heritage and scientific findings are stored and managed in a digital form.
 Much of this content is born digital and there are no other copies.
 
-Although there is an increasing awareness in research and business communities about the problem, there are still many people and organisations, that do not act accordingly.
+Although there is an increasing awareness in research and business communities about the problem, there are still many people and organisations that do not act accordingly.
 Ignorance, misunderstanding of the problem or financial costs are just a few of the causes for digital disasters and data loss.
 
 Digital Preservation tries to keep digital content findable, accessible, readable and understandable through time.
-And since preserving content is not a one time single-step process, but rather an ongoing effort, there are many aspects that have to be considered.
+And since preserving content is not a one-time single-step process, but rather an on going effort, there are many aspects that have to be considered.
 The community aims to find ways to preserve already existing content by making use of different strategies and tools, but also considers prevention as a valid strategy.
-In the future, so called preservation-ready systems should try to keep our content safe from the minute it is born, until it is no longer needed. The problem is that every software that produces or manipulates information and is used within an organisation or a preservation-worthy scenario should cope with these problems.
+In the future, so called preservation-ready systems should try to keep our content safe from the minute it is born, until it is no longer needed. The problem is that all software that produces or manipulates information and is used within an organisation or a preservation-worthy scenario should cope with these problems.
 
 The current state of the art in preservation processes usually follows the OAIS model as a guideline and recommendation, due to the lack of a more specific framework for the domain.
 Although it has issues, it has been widely used and adopted by the community.
@@ -32,9 +35,10 @@ Thus, planners usually rely on random selection or consider only one or two char
 
 % TODO describe content profiling more
 
-This thesis contributes by proposing an approach of the content profiling process that can aid the preservation planning environment and ultimately digital preservation. As part of it, we also provide a prototype implementation of a tool that enables the creation of a content profile.
+\subsection{Contribution}
+This thesis contributes by proposing an approach of the content profiling process that can aid the preservation planning environment and ultimately digital preservation. As part of it, we also provide a prototype implementation of a tool that enables the creation of a content profile for collections of significant size in a reasonable time frame.
 
-We define a content profile as a machine readable aggregation of all important characteristics of a collection of digital objects. It includes relevant information, such as the size and volume of a collection, aggregated identification data, but also any other preservation related characteristic. The profile usually also contains a small set of representative samples and their identifiers within the source.
+We define a content profile as a machine-readable aggregation of all important characteristics of a collection of digital objects. It includes relevant information, such as the size and volume of a collection, aggregated identification data, but also any other preservation related characteristic. The profile usually also contains a small set of representative samples and their identifiers within the source.
 
 The approach consists of three simple steps that gather and process the characterisation data, aggregate it and provide
 interfaces for analysis and filtering. 
@@ -42,19 +46,19 @@ interfaces for analysis and filtering.
 By exposing an aggregation of the content containing, some significant data and overview of a collection of digital objects, other software components can make use of the data and provide feedback to a stakeholder in an automatic fashion. 
 These may include violations of organisational policies, fluctuations in expected growth, unexpected formats, and more.
 
-The prototype implemented as part of this thesis is divided into two logical components because of scalability issues.
-First, a command line application that processes meta data files and allows near data processing, and a web application for analysis. By separating the processing component off of the analysis component, the implemented framework provides
-better flexibility for integration in real-world scenarios and systems. For example, the command line can be integrated within a repository or even executed regularly (e.g. by a cron job) on the system near the data. This will allow the effective utilisation of resources in the usually more powerful backend.
-Through the a web application, a user can filter and analyse the content based on different criteria, browse the raw meta data, make use of different representative sample algorithms and export the data. The web application can be deployed in any (other) environment. It connects to the backend and makes use of its resources. By exposing a simple REST API, other components, can communicate with the tool and obtain a machine readable content profile.
+The prototype implemented as part of this thesis is divided into two logical components because of scalability issues. It consists of a command line application that processes meta data files and allows near data processing, and a web application for analysis.
+By separating the processing component off of the analysis component, the implemented framework provides
+better flexibility for integration in real-world scenarios and systems. For example, the command line can be integrated within a repository or even executed regularly (e.g. by a CRON job) on the system near the data. This will allow the effective utilisation of resources in the usually more powerful backend.
+Through the a web application, a user can filter and analyse the content based on different criteria, browse the raw meta data, make use of different representative sample algorithms and export the data. The web application can be deployed in any (other) environment. It connects to the backend and makes use of its resources. By exposing a simple REST API, other components, can communicate with the tool and obtain a machine-readable content profile.
  
 In the backend, a widely used document store is used that supports native map reduce jobs. These provide the needed capabilities for handling large amounts of data and provide results in feasible time spans.
 
-The current implementation works well on collections of sizes up to million on one commodity machine. The backend could handle even more data on common hardware, however, the front-end seems to be the bottleneck in such cases. In order to overcome this hurdle, better caching mechanisms have to be implemented and some of the data transfer could be optimised.
+The current implementation works well on collections of sizes up to million digital objects on one commodity machine. The backend could handle even more data on common hardware. However, the front-end seems to be the bottleneck in such cases. In order to overcome this hurdle, better caching mechanisms have to be implemented and some of the data transfer could be optimised.
 Nonetheless, the handling of collections of such sizes is still valuable to many organisations and practitioners.
 
-The prototype was disseminated to the community during the 9th international conference on preserving digital objects \cite{petrov-ipres2012} and through the Open Planets Foundation Blog\footnote{http://openplanetsfoundation.org/blogs/2012-11-19-c3po-content-profiling-tool-preservation-analysis}, which generated quite a lot of interest. It was also presented on a special training event carried out by the SCAPE project. The responses of the community thus far have been rather positive and the tool starts to take up.  
+The prototype was disseminated to the community during the 9th international conference on preserving digital objects \cite{petrov-ipres2012} and through the Open Planets Foundation Blog\footnote{http://openplanetsfoundation.org/blogs/2012-11-19-C3PO-content-profiling-tool-preservation-analysis}, which generated quite a lot of interest. It was also presented on a special training event carried out by the SCAPE project. The responses of the community thus far have been rather positive and the tool starts to take up.  
 
-In the near future c3po will be presented at developer events\footnote{http://wiki.opf-labs.org/display/SPR/SPRUCE+Hackathon+Leeds\%2C+Unified+Characterisation} as part of other EU funded digital preservation projects and will be given away to the community for further development if enough interest is expressed.
+In the near future C3PO will be presented at developer events\footnote{http://wiki.opf-labs.org/display/SPR/SPRUCE+Hackathon+Leeds\%2C+Unified+Characterisation} as part of other EU funded digital preservation projects and will be given away to the community for further development if enough interest is expressed.
 
 % Contributions
 % proposal for a framework of content profiling
@@ -70,14 +74,14 @@ It leaves space for optimisation but sets the foundation of a solid framework fo
 
 Starting with trivial things such as more visualisation types, in order to give an even better overview to the planner. Adding support for scatterplots and bubble charts, will allow the visualisation of two different characteristics, which will be rather helpful to a planner.
 
-Filtering can be enhanced by providing more options, such as the negation of a condition and the logical OR operator. However, this can make the usage more complex and has to be considered carefully. During this optimisation, caching of some filter results has to be built into c3po. This will make it faster and much more responsive.
-Other issues related to filtering are the switch between different filters, without removing the old one.
+Filtering can be enhanced by providing more options, such as the negation of a condition and the logical OR operator. However, this can make the usage more complex and has to be considered carefully. During this optimisation, caching of some filter results has to be built into C3PO. This will make it faster and much more responsive.
+Other issues related to filtering is the exchange between different filters, without removing the old one.
 
-One important part, that is currently completely skipped, due to the focus of this work is user management. As content profiling deals with rather sensitive information, user management and support for user groups and anonymisation is very important.
+One important part that is currently completely skipped, due to the focus of this work is user management. As content profiling deals with rather sensitive information, user management and support for user groups and anonymisation is very important.
 
-Better and thorough integration with other tools will enable planners to do their work faster and more effectively. As part of this work and within the SCAPE project, c3po was integrated with Plato - the planning tool and Scout - the monitoring component. The interface between these components is the exported machine readable profile. This integration can be enhanced by making the profile format more expressive and by analysing which characteristics can be omitted and which can be presented in a more verbose fashion.
+Better and thorough integration with other tools will enable planners to do their work faster and more effectively. As part of this work and within the SCAPE project, C3PO was integrated with Plato - the planning tool and Scout - the monitoring component. The interface between these components is the exported machine-readable profile. Making the profile format more expressive and analysing which characteristics can be omitted and which can be presented in a more verbose fashion can enhance the integration.
 
-Connecting c3po with repositories will greatly benefit the whole preservation lifecycle as the content profile will be generated directly within the repository interface. c3po provides some interfaces for extension, which have to be validated and enhanced if necessary. Integration with repositories, such as RODA\footnote{http://roda.keep.pt} will be a great benefit to preservation experts.
+Connecting C3PO with repositories will greatly benefit the whole preservation lifecycle, as the content profile will be generated directly within the repository interface. C3PO provides some interfaces for extension, which have to be validated and enhanced if necessary. Integration with repositories, such as RODA\footnote{http://roda.keep.pt} will be a great benefit to preservation experts.
 
 By conducting special planning case studies on larger scale, the different sampling algorithms can be tested and evaluated for their effectiveness.
 
