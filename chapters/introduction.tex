@@ -4,7 +4,7 @@ This chapter introduces the problem of preserving digital information and gives 
 \label{ch:content_and_digital_preservation}
 The information age enables us to produce, transfer and share massive volumes of data freely in an easy fashion. Scientists all over the world conduct complex research experiments and simulations that produce such an enormous amount of information that was unimaginable just a couple of decades ago. Jim Gray gives a simple example of the order of magnitude of data volume growth in the near future. The Large Synoptic Survey Telescope\footnote{http://www.lsst.org/lsst/about} will take snapshots of the entire night sky every few nights. Its construction start is scheduled for 2014 and full operations will start in 2022. It will produce around 1.3 petabytes of information only in its first year of operation, which is far more data than any other telescope in history has produced \cite{Gray:2009:fourthparadigm}. This particular example demonstrates how technology influences digital data production in scales that become harder and harder to manage.
 
-The World Wide Web has certainly played an important role as a catalyst of this data growth. In order to put this fact into perspective, Intel\textsuperscript{\copyright}\footnote{http://www.intel.com/} has created a famous Infographic presented in figure \ref{fig:intel_oneminute_internet}. One breathtaking example is that in 2015 it will take you 5 years to watch all video materials that cross the IP networks each second.
+The World Wide Web has certainly played an important role as a catalyst of this data growth. In order to put this fact into perspective, Intel\textsuperscript{\textregistered}\footnote{http://www.intel.com/} has created a famous Infographic presented in figure \ref{fig:intel_oneminute_internet}. One breathtaking example is that in 2015 it will take you 5 years to watch all video materials that cross the IP networks each second.
 As it becomes easier and cheaper to create, edit, manipulate, store and share large amounts of digital objects, people often grow unaware of the problems that arise with the digital content they create.
 
 \begin{figure}[th]
@@ -17,34 +17,34 @@ As it becomes easier and cheaper to create, edit, manipulate, store and share la
 
 A single sheet of paper, put in a normal environment, can easily endure a number of decades and will most likely still be readable and accessible and even semantically understandable. A digital object, a file that contains the exact same content, often does not stand a chance of living through the next decade. Hardware failures, software obsolescence, changed environments, lack of backup copies are just a small set of examples of what may occur to digital objects and render a user unable to access them again.
 
-Digital Preservation is aiming to preserve digital content through the years and make it findable, accessible, readable and understandable for periods of time which often surpass the lifetime of hardware and software components \cite{DBLP:journals/dlib/RosenthalRLRM05}. It refers to the series of managed activities necessary to ensure continued access to digital materials for as long as necessary \cite{dpchandbook}.
+\begin{quotation}
+\textit{Digital preservation refers to the series of managed activities necessary to ensure continued access to digital materials for as long as necessary. Digital preservation \ldots  refers to all of the actions required to maintain access to digital materials beyond the limits of media failure or technological change. Those materials may be records created during the day-to-day business of an organisation; ``born-digital'' materials created for a specific purpose (e.g. teaching resources); or the products of digitisation projects} \cite{dpchandbook}.
+\end{quotation}
+
+It is aiming to preserve digital content through the years and make it findable, accessible, readable and understandable for periods of time which often surpass the lifetime of hardware and software components \cite{DBLP:journals/dlib/RosenthalRLRM05}. 
 
 In the last years, a growing awareness of digital preservation problems is seen throughout scientific communities, memory institutions and business enterprises. These create solutions and follow different approaches and apply specific workflows on content in order to tackle many problems on different levels.
 
-Currently, content holding institutions possess huge amounts of data. Web Archives for example crawl and store web sites and related content, such as images, video, style sheet files, etc. National and state archives use digital repositories to preserve their content. However, crawling and storing the bits and bytes represents only one step towards preserving all this content.
+Currently, content holding institutions possess huge amounts of data. Web Archives, for example, crawl and store web sites and related content, such as images, video, style sheet files, etc. National and state archives use digital repositories to preserve their content. However, crawling and storing the bits and bytes represents only one step towards preserving all this content.
 
 Regardless of the origin of the content (web archive, scientific data, personal audio and video collections, etc.), preservation planning has to be done in order to be able to identify and apply the most meaningful course of action and thus ensure the long-term safety and accessibility of each object that was stored. And since content and the environments that we use to manage it are continuously evolving, this process has to be repeated on a regular basis.
 
 \section{Motivation}
 \label{sec:motivation}
-% automation and its importance.
-% concetrate on collection profiling
-% why is it important to know what do we have
-% in the collections.
-Due to the fast growth and scale of data, the need of automation support in digital preservation processes arises. In order to conduct preservation planning effectively, one has to undertake a well-defined process consisting of numerous steps. First, a detailed definition of the requirements is created. Here the scope of the plan is defined by creating a description of the content and the requirements, as well as by selecting a small subset of sample objects. In the next step, different experiments are conducted over the samples and the results are evaluated. Finally, the results get analysed objectively and a preservation recommendation is created \cite{Becker:2009fk}. As the description of the collection and the selection of representative sample objects form the foundation of the plan these parts of the process are considered to be very important.
+Due to the fast growth and scale of data, the need of automation support in digital preservation processes arises. In order to conduct preservation planning effectively, one has to undertake a well-defined process consisting of numerous steps. First, a detailed definition of the requirements is created. Here the scope of the plan is defined by creating a description of the content and the requirements, as well as by selecting a small subset of sample objects. In the next step, different experiments are conducted over the samples and the results are evaluated. Finally, the results get analysed objectively and a preservation recommendation is created \cite{Becker:2009fk}. As the description of the collection and the selection of representative sample objects form the foundation of the plan, these parts of the process are considered to be very important.
 
 The validity and effectiveness of the planning process is highly dependent on some analysis steps conducted by the planner.
 A definition of the content in terms of its meta data and properties is crucial.
-This meta data plays an important role when preserving digital objects as it not only carries important information about the objects themselves, but also about their structure.
+This meta data plays an important role when preserving digital objects, as it not only carries important information about the objects themselves, but also about their structure.
 The analysis of such information provides hints about the digital objects and their type and helps experts decide the best course of action regarding the long-term accessibility and preservation of data.
 Then a planner has to select a set of sample objects that are representative to the whole collection of objects.
 The careful and systematical selection of such objects forms the foundation of the experiments with reduced bias.
-Based on the results of the conducted experiments, a planner can decide which potential courses of action, called preservation alternatives, should be evaluated.
-All this means that enough valid meta information and knowledge about the content has to be obtained so that only proper alternatives can be chosen.
+A planner then decides the course of action by evaluating different options, called preservation alternatives. This is done with the help of experiments conducted over the chosen sample objects. Based on the results of these evaluation experiments, a planner chooses one of the alternatives.
+All this means that enough valid meta information and knowledge about the content has to be obtained, so that only proper alternatives can be chosen.
 In order to achieve this goal, some very important and necessary steps that provide valuable input to planning have to be taken.
 These are currently not always done efficiently, if done at all. 
 For example, the content has to be characterised and all the meta data that is extracted has to be aggregated and analysed before all potential preservation action alternatives can be found and evaluated.
-Based on this analysis the content that is to be preserved can be split up into homogeneous sub-collections with similar characteristics and significant properties.
+Based on this analysis, the content that is to be preserved can be split up into homogeneous sub-collections with similar characteristics and significant properties.
 Furthermore, such an aggregation of the similarities between different parts of the content can enable more efficient stratification of representative samples in an automatic fashion.
 
 The preservation planning process is currently done semi-automatically and needs much input regarding the content profile from a preservation expert.
@@ -53,7 +53,7 @@ It seems that many parts of this process, from characterisation to plan deployme
 Having an automated approach to create a machine-readable content profile, as well as support for scalable in-depth analysis of meta data will highly influence the performance and efficiency of planners.
 Becker, et al. identify scalability as one of the current challenges in a digital preservation environment. In order to achieve the desired scalability all involved processes have to scale up and make use of distributed architectures and state of the art algorithms \cite{Becker:2011:PDT:1998076.1998089}. If this is accomplished, the effect will be much more valuable than the sum of its parts for the Digital Preservation community.
 
-Nonetheless, the current state of the art does not specify a concrete and well-defined way of how content profiling should be done and what information it should aggregate. What is more, there are almost no evaluation possibilities of the results that characterisation tools offer. Some tools try to give confidence level, which is a first step towards such a validation, however it is not enough. In order to illustrate the problem, consider the ''character set encoding'' of html files. Many files specify a UTF-8 encoding, however the real encoding used in the file is different. Some tools are able to detect this, whereas others just report the declared encoding. This is only one of many examples of such uncertainties that arise due to missing quality assurance steps during the characterisation process. Such seemingly minor peculiarities can cause huge impact on the chosen preservation alternative and thus on the final result of the preserved content. The ability to detect them on a larger scale, to find out subtleties and nuances between different objects in a collection and to select valid representative objects will greatly enhance the preservation planning process.
+Nonetheless, the current state of the art does not specify a concrete and well-defined way of how content profiling should be done and what information it should aggregate. What is more, there are almost no evaluation possibilities of the results that characterisation tools offer. Some tools try to give a confidence level, which is a first step towards such a validation, however it is not enough. In order to illustrate the problem, consider the ''character set encoding'' of html files. Many files specify a UTF-8 encoding, however the real encoding used in the file is different. Some tools are able to detect this, whereas others just report the declared encoding. This is only one of many examples of such uncertainties that arise due to missing quality assurance steps during the characterisation process. Such seemingly minor peculiarities can cause huge impact on the chosen preservation alternative and thus on the final result of the preserved content. The ability to detect them on a larger scale, to find out subtleties and nuances between different objects in a collection and to select valid representative objects, will greatly enhance the preservation planning process.
 
 Thus, a specific way of aggregating large amounts of meta data and its multi-dimensional representation would be of great value. Only with such a content profile can efficient preservation planning be achieved.
 
@@ -68,26 +68,26 @@ Very often content profiling is done on a very high level that is often insuffic
 The current state of the art of content profiling in preservation plans is creating a short description, written by a preservation expert.
 These descriptions are usually very high-level assertions, such as: ``The collection contains about 2 million TIFF files''. 
 The profile also contains simple metrics, such as (approximate) collection size, and number of elements as well as the formats identified in the collection. 
-These measurements are important but are not the only ones needed for the creation of an efficient preservation plan.
+These measurements are important, but are not the only ones needed for the creation of an efficient preservation plan.
 For example, the information about the size of the whole collection is not enough.
-Other size related measures, such as the overall size of all files in a collection that have a specific format, or the average size of files with a mime type 'text/plain' can be much more significant and helpful in a preservation planning process.
+Other size related measures, such as the overall size of all files in a collection that have a specific format, or the average size of files with mime-type 'text/plain', can be much more significant and helpful in a preservation planning process.
 The formats within a collection are another example where simple measures are not enough.
 In cases of heterogeneous content, the distribution of the formats in combination of some other property can turn out to be very helpful for analysis and comprehension of the content.
-Moreover, in cases of format-homogeneous collections the file format alone will play only a minor role.
+On the other hand, in cases of format-homogeneous collections the file format alone will play only a minor role.
 Combining the format with other properties such as the creation date or the creating application could however give deeper insight into the collection.
 These are only a few of the examples of multi-dimensional characteristics that could turn out to be important in content profiling.
-However, there are many more that will play different role from case to case.
+However, there are many more that will play a different role from case to case.
 
 Furthermore, the creation of a plan has very specific requirements.
 For example, it needs a small subset of the collection in order to conduct some experiments over it.
 Based on the results, recommendations and decisions about the preservation actions of the whole collection are produced.
-Thus the choice of a representative collection subset is a very important process, that is unfortunately often taken lightly, e.g. done randomly or done based on a very shallow analysis.
-Besides of the manual and random choice of samples in current preservation practices their integration within the planning process is also done manually (either by file upload or manual filling of the related sample information).
+Thus the choice of a representative collection subset is a very important process that is unfortunately often taken lightly, e.g. done randomly or done based on a very shallow analysis.
+Besides of the manual and random choice of samples in current preservation practices, their integration within the planning process is also done manually (either by file upload or manual filling of the related sample information).
 
 Currently, there is no tool that meets these planning requirements and tries to tackle and solve problems arising from the large volume of content, the sparse meta data, the conflicts in the measurements and many other.
 
 The rapid data growth introduces even more problems.
-In the case of web archives for example, much work has to be done in capturing the significant properties of such dynamic content as the World Wide Web, since the harvested content gets outdated almost immediately after the crawl has been done.
+In the case of web archives, for example, much work has to be done in capturing the significant properties of such dynamic content as the World Wide Web, since the harvested content gets outdated almost immediately after the crawl has been done.
 
 \section{Aim Of The Work}
 \label{sec:aim_of_the_work}
@@ -102,14 +102,14 @@ This is expected to create much value to preservation experts.
 
 \section{Methodical Approach}
 \label{sec:methodical_approach}
-In a first step a research of the current methods in scientific projects and institutional practices regarding content profiling will be done.
-Based on this, a short analysis of the existing gap between the idea of content profiling and the actual steps done will be carried out. 
+In a first step a research of the current methods in scientific projects and institutional practices regarding content profiling is done.
+Based on this, a short analysis of the existing gap between the idea of content profiling and the actual steps done is carried out. 
 
-The main part of the thesis will be the creation of a specification and the architecture of a software tool that is able to profile larger amounts of data and produce output conforming to that specification. In the next step, research about applicable algorithms able to find a (representative) subset of a given collection of characterised digital objects will be performed, and a prototype implementation will be created for the content profiling tool. 
+The main part of the thesis is the creation of a specification and the architecture of a software tool that is able to profile larger amounts of data and produce output conforming to that specification. In the next step, research about applicable algorithms able to find a (representative) subset of a given collection of characterised digital objects is performed, and a prototype implementation is created for the presented content profiling approach.
 
-Afterwards two case study will be conducted, where the produced prototype will be applied on a the Open GovDocs1 collection provided by the Digital Corpora for scientific experiments, which consists of nearly one million files and has a total of almost half a terabyte and on real web archive data with similar volume, provided by the Danish State University Library. 
+Afterwards two case studies are conducted, where the produced prototype is applied on a the Open GovDocs1 collection provided by the Digital Corpora for scientific experiments, which consists of nearly one million files and has a total of almost half a terabyte, and on real web archive data with a similar volume, provided by the Danish State University Library. 
 
-In the last step an evaluation of the tool and the methods applied will be done and based on it a conclusion will be drawn.
+In the last step an evaluation of the tool and the methods applied is done and based on it a conclusion is drawn.
 
 \section{Structure Of The Work}
 \label{sec:structure_of_the_work}

@@ -1,31 +1,24 @@
 \chapter*{Abstract}
 \vspace{-1cm}
-Information Technology enables us to organize our digital content into collections of objects in an easy fashion and thus massive volumes of data are produced each day.
-However, it creates a huge set of technical and social issues regarding its safety and long-term accessibility.
-%\cite{Lorie:2001:LTP:379437.379726}.
+Information Technology enables us to organise and manage our digital content into collections in an easy fashion. As a result, massive volumes of data are produced each day. However, it creates a huge set of technical and social issues regarding its safety and long-term accessibility.
 
-Digital Preservation copes with such issues related to hardware and software obsolescence and tries to keep our digital content accessible in the long term.
-Among its various options are concepts like physical and logical preservation that have many different shapes.
+Digital Preservation copes with issues related to hardware and software obsolescence and tries to keep our digital content accessible in the long term.
 
-In order to make a meaningful decision about the potential alternatives or preservation actions that should or should not be executed on a digital collection, preservation planning is conducted.
-This is a rather complex and time-consuming process which results in a preservation plan.
-A preservation plan specifies a concrete action plan for the preservation of a certain set of objects or a collection and includes potential alternatives and reasons for the decision-making.
-%  \cite{Becker:2009fk}. 
-Since collections that have to be preserved in practice are often huge (in the order of tera- and even petabytes consisting of millions of objects), it is not feasible to create a plan based on experiments over the entire collection. 
-For this reason, inarguably one of the most important parts of planning is the description of the collection, or in other words, the content profile.
+In order to make a meaningful decision about the course of action that should be chosen for a digital collection, preservation planning is conducted. 
+The result of this rather complex and time-consuming process is a preservation plan.
+A preservation plan is an artefact that specifies a concrete action for the preservation of a set of objects and includes potential alternative actions and the reasons for the decision-making. The decision is based on knowledge about the content and the evaluation results of experiments conducted over sample objects of the collection.
+Inarguably, a content profile which is a thourough description of the collection and a small set of representative sample objects is crucial for effective planning.
 
 In general, the content profiling process consists of three parts; characterisation, aggregation and analysis.
 Characterisation is responsible for the extraction of meta data and the identification of digital objects, while aggregation offers a compressed view on them.
 In the last step of analysis, relevant aspects of the content are found and presented for further processing by preservation planning.
-Thus the process of content profiling shall give a more detailed description about a collection, as a profile consists not only of simple measures such as size, count of objects and format, but also provides a deeper view based on any other feature, and its distribution, that is of interest for preservation planning.
-% \cite{Becker:2011:PDT:1998076.1998089, Pan05findingrepresentative}. 
-Because of the volume of data, the selection of representative sample objects is a crucial task which provides a planner with the needed basis to conduct experiments and back up her decisions when choosing the best preservation action alternative.
-These subsets provide evidence for the validity and effectiveness of the considered actions.
 
-The current state of the art does not offer a solution that is able to automatically create an in-depth profile of a significantly large set of digital objects, select representative samples and expose them in a semi-structured format.
+Because of the large volume of data, planners face many technical challenges. On the one hand, characterising millions of digital objects is a cumbersome and error prone process. On the other hand, aggregating output of various characterisation tools with complex output schemas is a highly tedious task that requires the expertise of preservation experts and is almost impossible on large scales. The lack of a thorough description and overview of the data often forces planners to select sample objects at random or based on a single property of the data. This results in subsets that are not representative and could lead to biased experiments.
+
+The current state of the art does not offer solutions that are able to automatically create an in-depth profile of a significantly large set of digital objects, select representative samples and expose them in a semi-structured format.	
 
 In this thesis we observe the existing gaps in terms of content profiling and its importance within preservation
 planning.
-The contribution of this work is a conceptual solution of the content profiling problem and how it could be approached as well as a software prototype implementing the process.
-The presented prototype can operate on collections of a reasonable scale and helps to conduct an in-depth analysis at the same time, as well as select sample objects based on different algorithms.
-In the end we evaluate the prototype with the help of data collections of significant size in two case studies.
+The contribution of this work is a conceptual solution of the content profiling problem, how it could be approached and a software prototype implementing the process.
+The presented prototype can operate on collections of about a million objects in scale. It helps to conduct an in-depth analysis, as well as select sample objects based on different algorithms.
+We evaluate the prototype using data collections of significant size in two case studies.
